@@ -12,7 +12,7 @@ interface VisualizarOperacaoProps {
   onVoltar: () => void;
 }
 
-export default function VisualizarOperacao({ operacao, onVoltar }: VisualizarOperacaoProps) {
+export function VisualizarOperacao({ operacao, onVoltar }: VisualizarOperacaoProps) {
   const [isGenerating, setIsGenerating] = useState(false);
 
 

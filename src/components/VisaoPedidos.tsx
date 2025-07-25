@@ -10,7 +10,7 @@ interface VisaoPedidosProps {
   pedidos: Pedido[];
 }
 
-export default function VisaoPedidos({ pedidos }: VisaoPedidosProps) {
+export function VisaoPedidos({ pedidos }: VisaoPedidosProps) {
   useScrollToTop();
   const { navigate } = useNavigation()
 

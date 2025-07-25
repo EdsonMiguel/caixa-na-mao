@@ -12,7 +12,7 @@ interface TelaConfiguracoesProps {
   onLimparTodosDados: () => void;
 }
 
-export default function TelaConfiguracoes({
+export function TelaConfiguracoes({
   configuracoes,
   onSalvarConfiguracoes,
   onLimparTodosDados

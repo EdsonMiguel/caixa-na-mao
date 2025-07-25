@@ -10,7 +10,7 @@ import {
   Package,
   ArrowLeft,
 } from "lucide-react";
-import Modal from "./Modal";
+import {Modal} from "./Modal";
 import { useScrollToTop } from "../hooks/useScrollToTop";
 import { useState } from "react";
 import { Espetinho } from "../types/Espetinho";
@@ -57,7 +57,7 @@ interface PainelPrincipalProps {
   onIniciarPreparo: (pedidoId: string) => void;
 }
 
-export default function PainelPrincipal({
+export function PainelPrincipal({
   saldoAtual,
   espetinhos,
   clientes,

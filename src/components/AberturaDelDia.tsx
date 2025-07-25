@@ -47,7 +47,7 @@ interface NovoEspetinho {
   observacao: string;
 }
 
-export default function AberturaDoDia({
+export function AberturaDoDia({
   espetinhosPersistentes,
   clientesPersistentes,
   permitirIniciarSemSaldo,

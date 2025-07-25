@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, ReactNode } from 'react';
-import AlertModal from '../components/AlertModal';
+import {AlertModal} from '../components/AlertModal';
 
 type AlertType = 'success' | 'error' | 'warning' | 'info';
 

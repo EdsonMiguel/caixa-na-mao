@@ -15,7 +15,7 @@ interface FechamentoDiaProps {
   onConfirmarFechamento: () => void;
 }
 
-export default function FechamentoDia({ 
+export function FechamentoDia({ 
   saldoInicial, 
   saldoAtual, 
   vendas, 

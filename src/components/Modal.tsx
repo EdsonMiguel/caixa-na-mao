@@ -8,7 +8,7 @@ interface ModalProps {
   onClose: () => void;
 }
 
-export default function Modal({ isOpen, onClose, title, children }: ModalProps) {
+export function Modal({ isOpen, onClose, title, children }: ModalProps) {
   if (!isOpen) return null;
 
   return (

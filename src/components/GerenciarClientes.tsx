@@ -9,7 +9,7 @@ import {
   ShoppingBag,
   Edit2,
 } from "lucide-react";
-import Modal from "./Modal";
+import {Modal} from "./Modal";
 import { useScrollToTop } from "../hooks/useScrollToTop";
 import { Cliente } from "../types/Cliente";
 import { Venda } from "../types/Venda";
@@ -24,7 +24,7 @@ interface GerenciarClientesProps {
   onEditarCliente: (id: string, nome: string, telefone?: string) => void;
 }
 
-export default function GerenciarClientes({
+export function GerenciarClientes({
   clientes,
   vendas,
   onAdicionarCliente,

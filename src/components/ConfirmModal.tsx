@@ -11,7 +11,7 @@ interface ConfirmModalProps {
   type?: 'danger' | 'warning' | 'info';
 }
 
-export default function ConfirmModal({
+export function ConfirmModal({
   isOpen,
   onClose,
   onConfirm,

@@ -1,6 +1,6 @@
 import  { useState } from 'react';
 import { ArrowLeft, DollarSign, CreditCard, Smartphone, Banknote, User, Clock, CheckCircle } from 'lucide-react';
-import Modal from './Modal';
+import {Modal} from './Modal';
 import { useScrollToTop } from '../hooks/useScrollToTop';
 import { Pedido } from '../types/Pedido';
 import { Pagamento } from '../types/Pagamento';
@@ -17,7 +17,7 @@ interface GerenciarPagamentosProps {
   onProcessarPagamento: (pedidosIds: string[], metodoPagamento: 'dinheiro' | 'pix' | 'cartao-debito' | 'cartao-credito') => void;
 }
 
-export default function GerenciarPagamentos({ 
+export function GerenciarPagamentos({ 
   pedidos, 
   pagamentos,
   onProcessarPagamento 

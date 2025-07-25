@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ArrowLeft, Users, Package, Plus, Edit2, Trash2, Phone, Calendar, DollarSign, ShoppingBag } from 'lucide-react';
 
-import Modal from './Modal';
+import {Modal} from "./Modal";
 import { useScrollToTop } from '../hooks/useScrollToTop';
 import { Cliente } from '../types/Cliente';
 import { Espetinho } from '../types/Espetinho';
@@ -21,7 +21,7 @@ interface TelaCadastrosProps {
   onEditarEspetinho: (id: string, dados: Omit<Espetinho, 'id' | 'quantidadeDisponivel' | 'quantidadeEmPreparo' | 'quantidadeFinalizada'>) => void;
 }
 
-export default function TelaCadastros({
+export function TelaCadastros({
   clientes,
   espetinhos,
   vendas,

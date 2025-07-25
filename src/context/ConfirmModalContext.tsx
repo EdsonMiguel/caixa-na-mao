@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, ReactNode } from 'react';
-import ConfirmModal from '../components/ConfirmModal';
+import {ConfirmModal} from '../components/ConfirmModal';
 
 type ModalType = 'danger' | 'warning' | 'info';
 

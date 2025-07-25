@@ -1,13 +1,6 @@
 import { limparTodosSistema } from "./db/database";
-import TelaInicial from "./components/TelaInicial";
-import AberturaDelDia from "./components/AberturaDelDia";
-import PainelPrincipal from "./components/PainelPrincipal";
-import HistoricoVendas from "./components/HistoricoVendas";
-import FechamentoDia from "./components/FechamentoDia";
-import VisaoPedidos from "./components/VisaoPedidos";
-import GerenciarPagamentos from "./components/GerenciarPagamentos";
-import TelaCadastros from "./components/TelaCadastros";
-import TelaConfiguracoes from "./components/TelaConfiguracoes";
+import {TelaInicial} from "./components/TelaInicial";
+
 import { useEstadoDia } from "./hooks/useEstadoDia";
 import { useEspetinhos } from "./hooks/useEspetinho";
 import { useClientes } from "./hooks/useCliente";
@@ -29,6 +22,14 @@ import { useAlert } from "./context/AlertModalContext";
 import { useConfirm } from "./context/ConfirmModalContext";
 import _ from "lodash";
 import { Loading } from "./components/Loading";
+import { AberturaDoDia } from "./components/AberturaDelDia";
+import { PainelPrincipal } from "./components/PainelPrincipal";
+import { HistoricoVendas } from "./components/HistoricoVendas";
+import { FechamentoDia } from "./components/FechamentoDia";
+import { VisaoPedidos } from "./components/VisaoPedidos";
+import { GerenciarPagamentos } from "./components/GerenciarPagamentos";
+import { TelaCadastros } from "./components/TelaCadastros";
+import { TelaConfiguracoes } from "./components/TelaConfiguracoes";
 
 const estadoInicialDia: EstadoDia = {
   saldoInicial: 0,
@@ -602,7 +603,7 @@ function App() {
         />
       </Route>
       <Route tela="abertura">
-        <AberturaDelDia
+        <AberturaDoDia
           espetinhosPersistentes={espetinhosPersistentes}
           clientesPersistentes={clientesPersistentes}
           permitirIniciarSemSaldo={configuracoes.permitirIniciarSemSaldo}
@@ -674,15 +675,8 @@ function App() {
           onLimparTodosDados={limparTodosDados}
         />
       </Route>
-      <Route tela="home">
-        <TelaInicial
-          diaIniciado={estadoDia.diaIniciado}
-          onVisualizarOperacao={visualizarOperacao}
-          operacoes={operacoesAnteriores}
-        />
-      </Route>
     </div>
   );
 }
 
-export default App;
+export {App};

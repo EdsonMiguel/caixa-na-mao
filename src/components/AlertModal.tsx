@@ -9,7 +9,7 @@ interface AlertModalProps {
   buttonText?: string;
 }
 
-export default function AlertModal({
+export function AlertModal({
   isOpen,
   onClose,
   title,

@@ -4,6 +4,7 @@ import { useScrollToTop } from '../hooks/useScrollToTop';
 import { formatarDiaSemana } from '../functions/formatar-dia-semana';
 import { useNavigation } from '../hooks/useNavigation';
 import { formatarData } from '../functions/formatar-data';
+import { BotaoInstalarPWA } from './InstallPwaButton';
 
 interface TelaInicialProps {
   operacoes: ResumoOperacao[];
@@ -12,7 +13,7 @@ interface TelaInicialProps {
   onVisualizarOperacao: (operacaoId: string) => void;
 }
 
-export default function TelaInicial({ 
+export function TelaInicial({ 
   operacoes, 
   diaIniciado,
   dataOperacao,
@@ -38,6 +39,7 @@ export default function TelaInicial({
               <ShoppingBag className="text-white" size={28} />
             </div>
             <h1 className="text-2xl font-bold text-gray-900 mb-2">Controle de Vendas</h1>
+            <BotaoInstalarPWA />
             <p className="text-gray-600">Histórico de operações</p>
           </div>
           

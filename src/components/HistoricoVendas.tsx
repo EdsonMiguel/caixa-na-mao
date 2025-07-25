@@ -10,7 +10,7 @@ interface HistoricoVendasProps {
 
 }
 
-export default function HistoricoVendas({ vendas,  }: HistoricoVendasProps) {
+export function HistoricoVendas({ vendas,  }: HistoricoVendasProps) {
   useScrollToTop();
 
   const { navigate } = useNavigation()
