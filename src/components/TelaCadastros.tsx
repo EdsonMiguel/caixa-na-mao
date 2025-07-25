@@ -1,7 +1,18 @@
 import { useState } from 'react';
-import { ArrowLeft, Users, Package, Plus, Edit2, Trash2, Phone, Calendar, DollarSign, ShoppingBag } from 'lucide-react';
+import {
+  ArrowLeft,
+  Users,
+  Package,
+  Plus,
+  Edit2,
+  Trash2,
+  Phone,
+  Calendar,
+  DollarSign,
+  ShoppingBag,
+} from 'lucide-react';
 
-import {Modal} from "./Modal";
+import { Modal } from './Modal';
 import { useScrollToTop } from '../hooks/useScrollToTop';
 import { Cliente } from '../types/Cliente';
 import { Espetinho } from '../types/Espetinho';
@@ -16,9 +27,20 @@ interface TelaCadastrosProps {
   onAdicionarCliente: (nome: string, telefone?: string) => void;
   onEditarCliente: (id: string, nome: string, telefone?: string) => void;
   onRemoverCliente: (id: string) => void;
-  onSalvarEspetinho: (espetinho: Omit<Espetinho, 'id' | 'quantidadeDisponivel' | 'quantidadeEmPreparo' | 'quantidadeFinalizada'>) => void;
+  onSalvarEspetinho: (
+    espetinho: Omit<
+      Espetinho,
+      'id' | 'quantidadeDisponivel' | 'quantidadeEmPreparo' | 'quantidadeFinalizada'
+    >,
+  ) => void;
   onRemoverEspetinho: (id: string) => void;
-  onEditarEspetinho: (id: string, dados: Omit<Espetinho, 'id' | 'quantidadeDisponivel' | 'quantidadeEmPreparo' | 'quantidadeFinalizada'>) => void;
+  onEditarEspetinho: (
+    id: string,
+    dados: Omit<
+      Espetinho,
+      'id' | 'quantidadeDisponivel' | 'quantidadeEmPreparo' | 'quantidadeFinalizada'
+    >,
+  ) => void;
 }
 
 export function TelaCadastros({
@@ -30,42 +52,63 @@ export function TelaCadastros({
   onRemoverCliente,
   onSalvarEspetinho,
   onRemoverEspetinho,
-  onEditarEspetinho
+  onEditarEspetinho,
 }: TelaCadastrosProps) {
   useScrollToTop();
 
   const [abaAtiva, setAbaAtiva] = useState<'clientes' | 'produtos'>('clientes');
-  
+
   // Estados para Cliente
   const [modalNovoCliente, setModalNovoCliente] = useState(false);
-  const [modalEditarCliente, setModalEditarCliente] = useState<{ isOpen: boolean; cliente: Cliente | null }>({
+  const [modalEditarCliente, setModalEditarCliente] = useState<{
+    isOpen: boolean;
+    cliente: Cliente | null;
+  }>({
     isOpen: false,
-    cliente: null
+    cliente: null,
   });
-  const [modalDetalhesCliente, setModalDetalhesCliente] = useState<{ isOpen: boolean; cliente: Cliente | null }>({
+  const [modalDetalhesCliente, setModalDetalhesCliente] = useState<{
+    isOpen: boolean;
+    cliente: Cliente | null;
+  }>({
     isOpen: false,
-    cliente: null
+    cliente: null,
   });
   const [novoClienteForm, setNovoClienteForm] = useState({ nome: '', telefone: '' });
   const [clienteEditando, setClienteEditando] = useState({ nome: '', telefone: '' });
 
   // Estados para Produto
   const [modalNovoProduto, setModalNovoProduto] = useState(false);
-  const [modalEditarProduto, setModalEditarProduto] = useState<{ isOpen: boolean; produto: Espetinho | null }>({
+  const [modalEditarProduto, setModalEditarProduto] = useState<{
+    isOpen: boolean;
+    produto: Espetinho | null;
+  }>({
     isOpen: false,
-    produto: null
+    produto: null,
   });
-  const [novoProdutoForm, setNovoProdutoForm] = useState({ nome: '', preco: '', quantidade: '', observacao: '' });
-  const [produtoEditando, setProdutoEditando] = useState({ nome: '', preco: '', quantidade: '', observacao: '' });
+  const [novoProdutoForm, setNovoProdutoForm] = useState({
+    nome: '',
+    preco: '',
+    quantidade: '',
+    observacao: '',
+  });
+  const [produtoEditando, setProdutoEditando] = useState({
+    nome: '',
+    preco: '',
+    quantidade: '',
+    observacao: '',
+  });
 
   // Estados para confirmação de remoção
-  const [confirmRemoveClient, setConfirmRemoveClient] = useState<{ isOpen: boolean; cliente: Cliente | null }>({
+  const [confirmRemoveClient, setConfirmRemoveClient] = useState<{
+    isOpen: boolean;
+    cliente: Cliente | null;
+  }>({
     isOpen: false,
-    cliente: null
+    cliente: null,
   });
 
-
-  const { navigate } = useNavigation()
+  const { navigate } = useNavigation();
 
   // Funções para Cliente
   function adicionarNovoCliente() {
@@ -74,48 +117,50 @@ export function TelaCadastros({
       setNovoClienteForm({ nome: '', telefone: '' });
       setModalNovoCliente(false);
     }
-  };
+  }
 
   function abrirEdicaoCliente(cliente: Cliente) {
     setClienteEditando({ nome: cliente.nome, telefone: cliente.telefone || '' });
     setModalEditarCliente({ isOpen: true, cliente });
-  };
+  }
 
   function salvarEdicaoCliente() {
     if (modalEditarCliente.cliente && clienteEditando.nome.trim()) {
       onEditarCliente(
         modalEditarCliente.cliente.id,
         clienteEditando.nome.trim(),
-        clienteEditando.telefone.trim() || undefined
+        clienteEditando.telefone.trim() || undefined,
       );
       setModalEditarCliente({ isOpen: false, cliente: null });
       setClienteEditando({ nome: '', telefone: '' });
     }
-  };
+  }
 
   function verDetalhesCliente(cliente: Cliente) {
     setModalDetalhesCliente({ isOpen: true, cliente });
-  };
+  }
 
   function getVendasCliente(clienteId: string) {
-    return vendas.filter(venda => venda.clienteId === clienteId);
-  };
+    return vendas.filter((venda) => venda.clienteId === clienteId);
+  }
 
   function confirmarRemocaoCliente(cliente: Cliente) {
     const vendasCliente = getVendasCliente(cliente.id);
     if (vendasCliente.length > 0) {
-      alert(`Não é possível remover este cliente pois ele possui ${vendasCliente.length} compra(s) registrada(s).`);
+      alert(
+        `Não é possível remover este cliente pois ele possui ${vendasCliente.length} compra(s) registrada(s).`,
+      );
       return;
     }
     setConfirmRemoveClient({ isOpen: true, cliente });
-  };
+  }
 
   function removerCliente() {
     if (confirmRemoveClient.cliente) {
       onRemoverCliente(confirmRemoveClient.cliente.id);
       setConfirmRemoveClient({ isOpen: false, cliente: null });
     }
-  };
+  }
   // Funções para Produto
   function adicionarNovoProduto() {
     if (novoProdutoForm.nome && novoProdutoForm.preco) {
@@ -123,22 +168,22 @@ export function TelaCadastros({
         nome: novoProdutoForm.nome,
         preco: parseFloat(novoProdutoForm.preco),
         quantidadeInicial: parseInt(novoProdutoForm.quantidade) || 0,
-        observacao: novoProdutoForm.observacao || undefined
+        observacao: novoProdutoForm.observacao || undefined,
       });
       setNovoProdutoForm({ nome: '', preco: '', quantidade: '', observacao: '' });
       setModalNovoProduto(false);
     }
-  };
+  }
 
   function abrirEdicaoProduto(produto: Espetinho) {
     setProdutoEditando({
       nome: produto.nome,
       preco: produto.preco.toString(),
       quantidade: (produto.quantidadeInicial || 0).toString(),
-      observacao: produto.observacao || ''
+      observacao: produto.observacao || '',
     });
     setModalEditarProduto({ isOpen: true, produto });
-  };
+  }
 
   function salvarEdicaoProduto() {
     if (modalEditarProduto.produto && produtoEditando.nome && produtoEditando.preco) {
@@ -146,13 +191,12 @@ export function TelaCadastros({
         nome: produtoEditando.nome,
         preco: parseFloat(produtoEditando.preco),
         quantidadeInicial: parseInt(produtoEditando.quantidade) || 0,
-        observacao: produtoEditando.observacao || undefined
+        observacao: produtoEditando.observacao || undefined,
       });
       setModalEditarProduto({ isOpen: false, produto: null });
       setProdutoEditando({ nome: '', preco: '', quantidade: '', observacao: '' });
     }
-  };
-
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -171,7 +215,7 @@ export function TelaCadastros({
               <p className="text-sm text-gray-600">Gerenciar clientes e produtos</p>
             </div>
           </div>
-          
+
           {/* Navegação das Abas */}
           <div className="flex bg-gray-100 rounded-lg p-1 mb-4">
             <button
@@ -185,14 +229,18 @@ export function TelaCadastros({
               <Users size={18} />
               <span>Clientes</span>
               {clientes.length > 0 && (
-                <span className={`ml-1 px-2 py-1 rounded-full text-xs font-bold ${
-                  abaAtiva === 'clientes' ? 'bg-blue-100 text-blue-800' : 'bg-gray-200 text-gray-700'
-                }`}>
+                <span
+                  className={`ml-1 px-2 py-1 rounded-full text-xs font-bold ${
+                    abaAtiva === 'clientes'
+                      ? 'bg-blue-100 text-blue-800'
+                      : 'bg-gray-200 text-gray-700'
+                  }`}
+                >
                   {clientes.length}
                 </span>
               )}
             </button>
-            
+
             <button
               onClick={() => setAbaAtiva('produtos')}
               className={`flex-1 py-3 px-4 rounded-md font-medium transition-colors flex items-center justify-center gap-2 ${
@@ -204,9 +252,13 @@ export function TelaCadastros({
               <Package size={18} />
               <span>Produtos</span>
               {espetinhos.length > 0 && (
-                <span className={`ml-1 px-2 py-1 rounded-full text-xs font-bold ${
-                  abaAtiva === 'produtos' ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-700'
-                }`}>
+                <span
+                  className={`ml-1 px-2 py-1 rounded-full text-xs font-bold ${
+                    abaAtiva === 'produtos'
+                      ? 'bg-green-100 text-green-800'
+                      : 'bg-gray-200 text-gray-700'
+                  }`}
+                >
                   {espetinhos.length}
                 </span>
               )}
@@ -215,10 +267,12 @@ export function TelaCadastros({
 
           {/* Botão Adicionar */}
           <button
-            onClick={() => abaAtiva === 'clientes' ? setModalNovoCliente(true) : setModalNovoProduto(true)}
+            onClick={() =>
+              abaAtiva === 'clientes' ? setModalNovoCliente(true) : setModalNovoProduto(true)
+            }
             className={`w-full py-3 px-4 rounded-xl font-semibold hover:opacity-90 transition-colors flex items-center justify-center gap-2 ${
-              abaAtiva === 'clientes' 
-                ? 'bg-blue-500 text-white hover:bg-blue-600' 
+              abaAtiva === 'clientes'
+                ? 'bg-blue-500 text-white hover:bg-blue-600'
                 : 'bg-green-500 text-white hover:bg-green-600'
             }`}
           >
@@ -234,17 +288,25 @@ export function TelaCadastros({
               {clientes.length === 0 ? (
                 <div className="bg-white rounded-xl border border-gray-200 p-8 text-center">
                   <Users size={48} className="text-gray-300 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-gray-600 mb-2">Nenhum cliente cadastrado</h3>
+                  <h3 className="text-lg font-semibold text-gray-600 mb-2">
+                    Nenhum cliente cadastrado
+                  </h3>
                   <p className="text-gray-500">Adicione clientes para acompanhar suas compras</p>
                 </div>
               ) : (
                 <div className="space-y-3">
                   {clientes.map((cliente) => {
                     const vendasCliente = getVendasCliente(cliente.id);
-                    const totalGasto = vendasCliente.reduce((total, venda) => total + venda.valorTotal, 0);
-                    
+                    const totalGasto = vendasCliente.reduce(
+                      (total, venda) => total + venda.valorTotal,
+                      0,
+                    );
+
                     return (
-                      <div key={cliente.id} className="bg-white rounded-xl border border-gray-200 p-4">
+                      <div
+                        key={cliente.id}
+                        className="bg-white rounded-xl border border-gray-200 p-4"
+                      >
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex-1">
                             <h3 className="font-semibold text-gray-900 mb-2">{cliente.nome}</h3>
@@ -268,7 +330,7 @@ export function TelaCadastros({
                             <p className="text-xs text-gray-500">total gasto</p>
                           </div>
                         </div>
-                        
+
                         <div className="flex gap-2">
                           <button
                             onClick={() => verDetalhesCliente(cliente)}
@@ -303,18 +365,25 @@ export function TelaCadastros({
               {espetinhos.length === 0 ? (
                 <div className="bg-white rounded-xl border border-gray-200 p-8 text-center">
                   <Package size={48} className="text-gray-300 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-gray-600 mb-2">Nenhum produto cadastrado</h3>
+                  <h3 className="text-lg font-semibold text-gray-600 mb-2">
+                    Nenhum produto cadastrado
+                  </h3>
                   <p className="text-gray-500">Adicione produtos para começar as vendas</p>
                 </div>
               ) : (
                 <div className="space-y-3">
                   {espetinhos.map((produto) => (
-                    <div key={produto.id} className="bg-white rounded-xl border border-gray-200 p-4">
+                    <div
+                      key={produto.id}
+                      className="bg-white rounded-xl border border-gray-200 p-4"
+                    >
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex-1">
                           <h3 className="font-semibold text-gray-900 mb-2">{produto.nome}</h3>
                           <div className="flex items-center gap-4 text-sm text-gray-600 mb-2">
-                            <span className="font-medium text-green-600">R$ {produto.preco.toFixed(2)}</span>
+                            <span className="font-medium text-green-600">
+                              R$ {produto.preco.toFixed(2)}
+                            </span>
                             <span>Padrão: {produto.quantidadeInicial || 0} unidades</span>
                           </div>
                           {produto.observacao && (
@@ -328,7 +397,7 @@ export function TelaCadastros({
                           <p className="text-xs text-gray-500">preço unitário</p>
                         </div>
                       </div>
-                      
+
                       <div className="flex gap-2">
                         <button
                           onClick={() => abrirEdicaoProduto(produto)}
@@ -372,7 +441,7 @@ export function TelaCadastros({
               placeholder="Digite o nome"
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Telefone (opcional)
@@ -385,7 +454,7 @@ export function TelaCadastros({
               placeholder="(11) 99999-9999"
             />
           </div>
-          
+
           <div className="flex gap-3 pt-4">
             <button
               onClick={() => setModalNovoCliente(false)}
@@ -423,7 +492,7 @@ export function TelaCadastros({
               placeholder="Digite o nome"
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Telefone (opcional)
@@ -436,7 +505,7 @@ export function TelaCadastros({
               placeholder="(11) 99999-9999"
             />
           </div>
-          
+
           <div className="flex gap-3 pt-4">
             <button
               onClick={() => setModalEditarCliente({ isOpen: false, cliente: null })}
@@ -467,7 +536,7 @@ export function TelaCadastros({
               <h3 className="text-lg font-semibold text-gray-900 mb-3">
                 {modalDetalhesCliente.cliente.nome}
               </h3>
-              
+
               <div className="space-y-3 text-sm text-gray-600">
                 {modalDetalhesCliente.cliente.telefone && (
                   <div className="flex items-center gap-2">
@@ -475,14 +544,14 @@ export function TelaCadastros({
                     <span>{modalDetalhesCliente.cliente.telefone}</span>
                   </div>
                 )}
-                
+
                 <div className="flex items-center gap-2">
                   <Calendar size={16} />
                   <span>
                     Cliente desde {formatarDataHora(modalDetalhesCliente.cliente.dataCadastro)}
                   </span>
                 </div>
-                
+
                 <div className="flex items-center gap-2">
                   <DollarSign size={16} />
                   <span>
@@ -494,18 +563,16 @@ export function TelaCadastros({
 
             <div>
               <h4 className="font-semibold text-gray-900 mb-3">Histórico de Compras</h4>
-              
+
               {(() => {
                 const vendasCliente = getVendasCliente(modalDetalhesCliente.cliente.id);
-                
+
                 if (vendasCliente.length === 0) {
                   return (
-                    <p className="text-gray-500 text-center py-4">
-                      Nenhuma compra realizada ainda
-                    </p>
+                    <p className="text-gray-500 text-center py-4">Nenhuma compra realizada ainda</p>
                   );
                 }
-                
+
                 return (
                   <div className="space-y-2 max-h-60 overflow-y-auto">
                     {vendasCliente.map((venda) => (
@@ -550,11 +617,9 @@ export function TelaCadastros({
               placeholder="Ex: Espetinho de Frango"
             />
           </div>
-          
+
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Preço Unitário *
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Preço Unitário *</label>
             <input
               type="number"
               step="0.01"
@@ -564,7 +629,7 @@ export function TelaCadastros({
               placeholder="0,00"
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Quantidade Padrão
@@ -573,25 +638,29 @@ export function TelaCadastros({
               type="number"
               min="0"
               value={novoProdutoForm.quantidade}
-              onChange={(e) => setNovoProdutoForm({ ...novoProdutoForm, quantidade: e.target.value })}
+              onChange={(e) =>
+                setNovoProdutoForm({ ...novoProdutoForm, quantidade: e.target.value })
+              }
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
               placeholder="Quantidade inicial padrão (deixe vazio para 0)"
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Observações (opcional)
             </label>
             <textarea
               value={novoProdutoForm.observacao}
-              onChange={(e) => setNovoProdutoForm({ ...novoProdutoForm, observacao: e.target.value })}
+              onChange={(e) =>
+                setNovoProdutoForm({ ...novoProdutoForm, observacao: e.target.value })
+              }
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 resize-none"
               placeholder="Observações sobre o produto"
               rows={2}
             />
           </div>
-          
+
           <div className="flex gap-3 pt-4">
             <button
               onClick={() => setModalNovoProduto(false)}
@@ -629,11 +698,9 @@ export function TelaCadastros({
               placeholder="Nome do produto"
             />
           </div>
-          
+
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Preço Unitário *
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Preço Unitário *</label>
             <input
               type="number"
               step="0.01"
@@ -643,7 +710,7 @@ export function TelaCadastros({
               placeholder="Preço unitário (R$)"
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Quantidade Padrão
@@ -652,25 +719,27 @@ export function TelaCadastros({
               type="number"
               min="0"
               value={produtoEditando.quantidade}
-              onChange={(e) => setProdutoEditando({ ...produtoEditando, quantidade: e.target.value })}
+              onChange={(e) =>
+                setProdutoEditando({ ...produtoEditando, quantidade: e.target.value })
+              }
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
               placeholder="Quantidade inicial padrão"
             />
           </div>
-          
+
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Observações
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Observações</label>
             <textarea
               value={produtoEditando.observacao}
-              onChange={(e) => setProdutoEditando({ ...produtoEditando, observacao: e.target.value })}
+              onChange={(e) =>
+                setProdutoEditando({ ...produtoEditando, observacao: e.target.value })
+              }
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 resize-none"
               placeholder="Observações sobre o produto"
               rows={2}
             />
           </div>
-          
+
           <div className="flex gap-3 pt-4">
             <button
               onClick={() => setModalEditarProduto({ isOpen: false, produto: null })}
@@ -699,26 +768,24 @@ export function TelaCadastros({
                 onClick={() => setConfirmRemoveClient({ isOpen: false, cliente: null })}
                 className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
               >
-                <span className="sr-only">Fechar</span>
-                ✕
+                <span className="sr-only">Fechar</span>✕
               </button>
             </div>
-            
+
             <div className="p-6">
               <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
                 <div className="flex items-start gap-3">
                   <Trash2 size={24} className="text-red-600" />
                   <div className="flex-1">
                     <p className="text-red-800">
-                      Tem certeza que deseja remover o cliente <strong>{confirmRemoveClient.cliente?.nome}</strong>?
+                      Tem certeza que deseja remover o cliente{' '}
+                      <strong>{confirmRemoveClient.cliente?.nome}</strong>?
                     </p>
-                    <p className="text-red-700 text-sm mt-2">
-                      Esta ação não pode ser desfeita.
-                    </p>
+                    <p className="text-red-700 text-sm mt-2">Esta ação não pode ser desfeita.</p>
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex gap-3">
                 <button
                   onClick={() => setConfirmRemoveClient({ isOpen: false, cliente: null })}

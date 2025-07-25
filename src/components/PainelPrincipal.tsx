@@ -9,16 +9,16 @@ import {
   Minus,
   Package,
   ArrowLeft,
-} from "lucide-react";
-import {Modal} from "./Modal";
-import { useScrollToTop } from "../hooks/useScrollToTop";
-import { useState } from "react";
-import { Espetinho } from "../types/Espetinho";
-import { Cliente } from "../types/Cliente";
-import { Pedido } from "../types/Pedido";
-import { formatarDataHora } from "../functions/formatar-data-hora";
-import { useNavigation } from "../hooks/useNavigation";
-import _ from "lodash";
+} from 'lucide-react';
+import { Modal } from './Modal';
+import { useScrollToTop } from '../hooks/useScrollToTop';
+import { useState } from 'react';
+import { Espetinho } from '../types/Espetinho';
+import { Cliente } from '../types/Cliente';
+import { Pedido } from '../types/Pedido';
+import { formatarDataHora } from '../functions/formatar-data-hora';
+import { useNavigation } from '../hooks/useNavigation';
+import _ from 'lodash';
 
 interface PainelPrincipalProps {
   saldoAtual: number;
@@ -26,11 +26,7 @@ interface PainelPrincipalProps {
   clientes: Cliente[];
   pedidos: Pedido[];
   controlarEstoque: boolean;
-  onAdicionarAoPedidoAberto: (
-    espetinhoId: string,
-    quantidade: number,
-    clienteId?: string
-  ) => void;
+  onAdicionarAoPedidoAberto: (espetinhoId: string, quantidade: number, clienteId?: string) => void;
   onCancelarPedidoAguardando: (pedidoId: string) => void;
   onEntregarPedido: (pedidoId: string) => void;
   onAdicionarMaisEspetinhos: (espetinhoId: string, quantidade: number) => void;
@@ -38,21 +34,15 @@ interface PainelPrincipalProps {
   onSalvarEspetinho: (
     espetinho: Omit<
       Espetinho,
-      | "id"
-      | "quantidadeDisponivel"
-      | "quantidadeEmPreparo"
-      | "quantidadeFinalizada"
-    >
+      'id' | 'quantidadeDisponivel' | 'quantidadeEmPreparo' | 'quantidadeFinalizada'
+    >,
   ) => void;
   onEditarEspetinho: (
     id: string,
     dados: Omit<
       Espetinho,
-      | "id"
-      | "quantidadeDisponivel"
-      | "quantidadeEmPreparo"
-      | "quantidadeFinalizada"
-    >
+      'id' | 'quantidadeDisponivel' | 'quantidadeEmPreparo' | 'quantidadeFinalizada'
+    >,
   ) => void;
   onIniciarPreparo: (pedidoId: string) => void;
 }
@@ -75,92 +65,71 @@ export function PainelPrincipal({
 
   const [modalNovoPedido, setModalNovoPedido] = useState(false);
   const [modalMaisEspetinhos, setModalMaisEspetinhos] = useState(false);
-  const [clienteSelecionado, setClienteSelecionado] = useState("");
-  const [quantidadesPedido, setQuantidadesPedido] = useState<
-    Record<string, number>
-  >({});
-  const [quantidadesAdicionar, setQuantidadesAdicionar] = useState<
-    Record<string, number>
-  >({});
-  const [novoClienteNome, setNovoClienteNome] = useState("");
+  const [clienteSelecionado, setClienteSelecionado] = useState('');
+  const [quantidadesPedido, setQuantidadesPedido] = useState<Record<string, number>>({});
+  const [quantidadesAdicionar, setQuantidadesAdicionar] = useState<Record<string, number>>({});
+  const [novoClienteNome, setNovoClienteNome] = useState('');
   const [modalNovoCliente, setModalNovoCliente] = useState(false);
   const [modalNovoProduto, setModalNovoProduto] = useState(false);
-  const [abaAtiva, setAbaAtiva] = useState<"aguardando" | "preparo">(
-    "aguardando"
-  );
-  const [observacaoPedido, setObservacaoPedido] = useState("");
+  const [abaAtiva, setAbaAtiva] = useState<'aguardando' | 'preparo'>('aguardando');
+  const [observacaoPedido, setObservacaoPedido] = useState('');
   const [novoClienteForm, setNovoClienteForm] = useState({
-    nome: "",
-    telefone: "",
+    nome: '',
+    telefone: '',
   });
   const [novoProdutoForm, setNovoProdutoForm] = useState({
-    nome: "",
-    preco: "",
-    quantidade: "",
-    observacao: "",
+    nome: '',
+    preco: '',
+    quantidade: '',
+    observacao: '',
   });
 
-  const pedidosEmPreparo = _.filter(pedidos, ["status", "em-preparo"]);
-  const pedidosAguardandoPreparo = _.filter(pedidos, [
-    "status",
-    "aguardando-preparo",
-  ]);
-  const pedidosEntregues = _.filter(pedidos, ["status", "entregue"]);
+  const pedidosEmPreparo = _.filter(pedidos, ['status', 'em-preparo']);
+  const pedidosAguardandoPreparo = _.filter(pedidos, ['status', 'aguardando-preparo']);
+  const pedidosEntregues = _.filter(pedidos, ['status', 'entregue']);
 
   const { navigate } = useNavigation();
 
   function abrirModalNovoPedido() {
     setModalNovoPedido(true);
-    setClienteSelecionado("");
+    setClienteSelecionado('');
     setQuantidadesPedido({});
-  };
+  }
 
   function alterarQuantidade(espetinhoId: string, delta: number) {
     const espetinho = espetinhos.find((e) => e.id === espetinhoId);
     if (!espetinho) return;
 
     const quantidadeAtual = quantidadesPedido[espetinhoId] || 0;
-    const limiteMaximo = controlarEstoque
-      ? espetinho.quantidadeDisponivel
-      : 999;
-    const novaQuantidade = Math.max(
-      0,
-      Math.min(quantidadeAtual + delta, limiteMaximo)
-    );
+    const limiteMaximo = controlarEstoque ? espetinho.quantidadeDisponivel : 999;
+    const novaQuantidade = Math.max(0, Math.min(quantidadeAtual + delta, limiteMaximo));
 
     setQuantidadesPedido((prev) => ({
       ...prev,
       [espetinhoId]: novaQuantidade,
     }));
-  };
+  }
 
   function adicionarItensPedido() {
     // Criar novo pedido com todos os itens
     Object.entries(quantidadesPedido).forEach(([espetinhoId, quantidade]) => {
       if (quantidade > 0) {
-        onAdicionarAoPedidoAberto(
-          espetinhoId,
-          quantidade,
-          clienteSelecionado || undefined
-        );
+        onAdicionarAoPedidoAberto(espetinhoId, quantidade, clienteSelecionado || undefined);
       }
     });
 
     setModalNovoPedido(false);
     setQuantidadesPedido({});
-    setClienteSelecionado("");
-    setObservacaoPedido("");
-  };
+    setClienteSelecionado('');
+    setObservacaoPedido('');
+  }
 
   function calcularTotalPedido() {
-    return Object.entries(quantidadesPedido).reduce(
-      (total, [espetinhoId, quantidade]) => {
-        const espetinho = espetinhos.find((e) => e.id === espetinhoId);
-        return total + (espetinho ? espetinho.preco * quantidade : 0);
-      },
-      0
-    );
-  };
+    return Object.entries(quantidadesPedido).reduce((total, [espetinhoId, quantidade]) => {
+      const espetinho = espetinhos.find((e) => e.id === espetinhoId);
+      return total + (espetinho ? espetinho.preco * quantidade : 0);
+    }, 0);
+  }
 
   const temItensNoPedido = Object.values(quantidadesPedido).some((q) => q > 0);
 
@@ -172,37 +141,32 @@ export function PainelPrincipal({
       ...prev,
       [espetinhoId]: novaQuantidade,
     }));
-  };
+  }
 
   function adicionarMaisEspetinhos() {
-    Object.entries(quantidadesAdicionar).forEach(
-      ([espetinhoId, quantidade]) => {
-        if (quantidade > 0) {
-          onAdicionarMaisEspetinhos(espetinhoId, quantidade);
-        }
+    Object.entries(quantidadesAdicionar).forEach(([espetinhoId, quantidade]) => {
+      if (quantidade > 0) {
+        onAdicionarMaisEspetinhos(espetinhoId, quantidade);
       }
-    );
+    });
     setModalMaisEspetinhos(false);
     setQuantidadesAdicionar({});
-  };
+  }
 
   function adicionarClienteRapido() {
     if (novoClienteNome.trim()) {
       onAdicionarCliente(novoClienteNome.trim());
-      setNovoClienteNome("");
+      setNovoClienteNome('');
     }
-  };
+  }
 
   function adicionarNovoCliente() {
     if (novoClienteForm.nome.trim()) {
-      onAdicionarCliente(
-        novoClienteForm.nome.trim(),
-        novoClienteForm.telefone || undefined
-      );
-      setNovoClienteForm({ nome: "", telefone: "" });
+      onAdicionarCliente(novoClienteForm.nome.trim(), novoClienteForm.telefone || undefined);
+      setNovoClienteForm({ nome: '', telefone: '' });
       setModalNovoCliente(false);
     }
-  };
+  }
 
   function adicionarNovoProduto() {
     if (novoProdutoForm.nome && novoProdutoForm.preco) {
@@ -218,9 +182,7 @@ export function PainelPrincipal({
       if (quantidade > 0) {
         // Add to stock after creating
         setTimeout(() => {
-          const novoEspetinho = espetinhos.find(
-            (e) => e.nome === novoProdutoForm.nome
-          );
+          const novoEspetinho = espetinhos.find((e) => e.nome === novoProdutoForm.nome);
           if (novoEspetinho) {
             onAdicionarMaisEspetinhos(novoEspetinho.id, quantidade);
           }
@@ -228,18 +190,16 @@ export function PainelPrincipal({
       }
 
       setNovoProdutoForm({
-        nome: "",
-        preco: "",
-        quantidade: "",
-        observacao: "",
+        nome: '',
+        preco: '',
+        quantidade: '',
+        observacao: '',
       });
       setModalNovoProduto(false);
     }
-  };
+  }
 
-  const temItensParaAdicionar = Object.values(quantidadesAdicionar).some(
-    (q) => q > 0
-  );
+  const temItensParaAdicionar = Object.values(quantidadesAdicionar).some((q) => q > 0);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -248,20 +208,18 @@ export function PainelPrincipal({
         <div className="bg-white border-b border-gray-200 px-4 md:px-6 py-6 sticky top-0 z-10">
           <div className="flex items-center justify-between mb-4">
             <button
-              onClick={() => navigate("home")}
+              onClick={() => navigate('home')}
               className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
             >
               <ArrowLeft size={20} className="text-gray-600" />
             </button>
             <div>
               <h1 className="text-xl font-bold text-gray-900">Caixa Diário</h1>
-              <p className="text-sm text-gray-600">
-                Gestão de pedidos e vendas
-              </p>
+              <p className="text-sm text-gray-600">Gestão de pedidos e vendas</p>
             </div>
             <button
               onClick={() => {
-                navigate("fechamento");
+                navigate('fechamento');
               }}
               className="bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors"
             >
@@ -273,9 +231,7 @@ export function PainelPrincipal({
             <div className="flex items-center gap-3">
               <DollarSign size={24} />
               <div>
-                <p className="text-orange-100 text-sm font-medium">
-                  Saldo em Caixa
-                </p>
+                <p className="text-orange-100 text-sm font-medium">Saldo em Caixa</p>
                 <p className="text-2xl font-bold">R$ {saldoAtual.toFixed(2)}</p>
               </div>
             </div>
@@ -286,25 +242,25 @@ export function PainelPrincipal({
         <div className="bg-white border-b border-gray-200 px-4 md:px-6 py-4 sticky top-[120px] z-10">
           <div className="grid grid-cols-3 gap-2 mb-4">
             <button
-              onClick={() => navigate("historico")}
+              onClick={() => navigate('historico')}
               className="bg-gray-100 text-gray-700 py-2 px-2 rounded-lg font-medium hover:bg-gray-200 transition-colors flex flex-col items-center gap-1"
             >
               <History size={16} />
               <span className="text-xs">Histórico</span>
             </button>
             <button
-              onClick={() => navigate("pedidos")}
+              onClick={() => navigate('pedidos')}
               className="bg-gray-100 text-gray-700 py-2 px-2 rounded-lg font-medium hover:bg-gray-200 transition-colors flex flex-col items-center gap-1"
             >
               <ShoppingCart size={16} />
               <span className="text-xs">Pedidos</span>
             </button>
             <button
-              onClick={() => navigate("pagamentos")}
+              onClick={() => navigate('pagamentos')}
               className={`py-2 px-2 rounded-lg font-medium transition-colors flex flex-col items-center gap-1 ${
                 pedidosEntregues.length > 0
-                  ? "bg-red-100 text-red-700 hover:bg-red-200"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  ? 'bg-red-100 text-red-700 hover:bg-red-200'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
               <DollarSign size={16} />
@@ -314,7 +270,7 @@ export function PainelPrincipal({
               )}
             </button>
             <button
-              onClick={() => navigate("cadastros")}
+              onClick={() => navigate('cadastros')}
               className="bg-gray-100 text-gray-700 py-2 px-2 rounded-lg font-medium hover:bg-gray-200 transition-colors flex flex-col items-center gap-1"
             >
               <Users size={16} />
@@ -335,7 +291,7 @@ export function PainelPrincipal({
             <button
               onClick={abrirModalNovoPedido}
               className={`bg-orange-500 text-white py-3 px-4 rounded-lg font-medium hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 ${
-                controlarEstoque ? "" : "col-span-2"
+                controlarEstoque ? '' : 'col-span-2'
               }`}
             >
               <Plus size={18} />
@@ -353,11 +309,11 @@ export function PainelPrincipal({
             {/* Navegação das Abas */}
             <div className="flex bg-gray-100 rounded-lg p-1 mb-6">
               <button
-                onClick={() => setAbaAtiva("aguardando")}
+                onClick={() => setAbaAtiva('aguardando')}
                 className={`flex-1 py-3 px-4 rounded-md font-medium transition-colors flex items-center justify-center gap-2 ${
-                  abaAtiva === "aguardando"
-                    ? "bg-white text-orange-600 shadow-sm"
-                    : "text-gray-600 hover:text-gray-900"
+                  abaAtiva === 'aguardando'
+                    ? 'bg-white text-orange-600 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
                 <Clock size={18} />
@@ -365,9 +321,9 @@ export function PainelPrincipal({
                 {pedidosAguardandoPreparo.length > 0 && (
                   <span
                     className={`ml-1 px-2 py-1 rounded-full text-xs font-bold ${
-                      abaAtiva === "aguardando"
-                        ? "bg-orange-100 text-orange-800"
-                        : "bg-gray-200 text-gray-700"
+                      abaAtiva === 'aguardando'
+                        ? 'bg-orange-100 text-orange-800'
+                        : 'bg-gray-200 text-gray-700'
                     }`}
                   >
                     {pedidosAguardandoPreparo.length}
@@ -376,11 +332,11 @@ export function PainelPrincipal({
               </button>
 
               <button
-                onClick={() => setAbaAtiva("preparo")}
+                onClick={() => setAbaAtiva('preparo')}
                 className={`flex-1 py-3 px-4 rounded-md font-medium transition-colors flex items-center justify-center gap-2 ${
-                  abaAtiva === "preparo"
-                    ? "bg-white text-yellow-600 shadow-sm"
-                    : "text-gray-600 hover:text-gray-900"
+                  abaAtiva === 'preparo'
+                    ? 'bg-white text-yellow-600 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
                 <ShoppingCart size={18} />
@@ -388,9 +344,9 @@ export function PainelPrincipal({
                 {pedidosEmPreparo.length > 0 && (
                   <span
                     className={`ml-1 px-2 py-1 rounded-full text-xs font-bold ${
-                      abaAtiva === "preparo"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : "bg-gray-200 text-gray-700"
+                      abaAtiva === 'preparo'
+                        ? 'bg-yellow-100 text-yellow-800'
+                        : 'bg-gray-200 text-gray-700'
                     }`}
                   >
                     {pedidosEmPreparo.length}
@@ -401,7 +357,7 @@ export function PainelPrincipal({
 
             {/* Conteúdo das Abas */}
             <div className="min-h-[400px]">
-              {abaAtiva === "aguardando" && (
+              {abaAtiva === 'aguardando' && (
                 <div>
                   {pedidosAguardandoPreparo.length === 0 ? (
                     <div className="bg-white rounded-xl border border-gray-200 p-8 text-center">
@@ -409,9 +365,7 @@ export function PainelPrincipal({
                       <h3 className="text-lg font-semibold text-gray-600 mb-2">
                         Nenhum pedido aguardando
                       </h3>
-                      <p className="text-gray-500">
-                        Crie um novo pedido para começar
-                      </p>
+                      <p className="text-gray-500">Crie um novo pedido para começar</p>
                     </div>
                   ) : (
                     <div className="space-y-4">
@@ -425,7 +379,7 @@ export function PainelPrincipal({
                               <div className="flex items-center gap-2 mb-2">
                                 <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
                                 <h3 className="font-semibold text-gray-900">
-                                  {pedido.nomeCliente || "Pedido Balcão"}
+                                  {pedido.nomeCliente || 'Pedido Balcão'}
                                 </h3>
                               </div>
                               <p className="text-xs text-gray-500 mb-3">
@@ -443,10 +397,7 @@ export function PainelPrincipal({
                               <div className="bg-orange-50 rounded-lg p-3 mb-4">
                                 <div className="space-y-2">
                                   {pedido.itens.map((item, index) => (
-                                    <div
-                                      key={index}
-                                      className="flex justify-between text-sm"
-                                    >
+                                    <div key={index} className="flex justify-between text-sm">
                                       <span className="text-gray-700">
                                         {item.quantidade}x {item.nomeEspetinho}
                                       </span>
@@ -460,10 +411,7 @@ export function PainelPrincipal({
 
                               <div className="flex justify-between items-center text-sm mb-4">
                                 <span className="text-gray-600">
-                                  {pedido.itens.reduce(
-                                    (total, item) => total + item.quantidade,
-                                    0
-                                  )}{" "}
+                                  {pedido.itens.reduce((total, item) => total + item.quantidade, 0)}{' '}
                                   itens
                                 </span>
                                 <span className="font-bold text-gray-900">
@@ -482,9 +430,7 @@ export function PainelPrincipal({
                               Iniciar Preparo
                             </button>
                             <button
-                              onClick={() =>
-                                onCancelarPedidoAguardando(pedido.id)
-                              }
+                              onClick={() => onCancelarPedidoAguardando(pedido.id)}
                               className="px-4 py-3 bg-red-500 text-white rounded-lg font-semibold hover:bg-red-600 transition-colors"
                               title="Cancelar Pedido"
                             >
@@ -498,21 +444,18 @@ export function PainelPrincipal({
                 </div>
               )}
 
-              {abaAtiva === "preparo" && (
+              {abaAtiva === 'preparo' && (
                 <div>
                   {pedidosEmPreparo.length === 0 ? (
                     <div className="bg-white rounded-xl border border-gray-200 p-8 text-center">
-                      <ShoppingCart
-                        size={48}
-                        className="text-gray-300 mx-auto mb-4"
-                      />
+                      <ShoppingCart size={48} className="text-gray-300 mx-auto mb-4" />
                       <h3 className="text-lg font-semibold text-gray-600 mb-2">
                         Nenhum pedido em preparo
                       </h3>
                       <p className="text-gray-500">
                         {pedidosAguardandoPreparo.length > 0
                           ? `Há ${pedidosAguardandoPreparo.length} pedido(s) aguardando preparo`
-                          : "Crie um novo pedido para começar"}
+                          : 'Crie um novo pedido para começar'}
                       </p>
                     </div>
                   ) : (
@@ -527,7 +470,7 @@ export function PainelPrincipal({
                               <div className="flex items-center gap-2 mb-2">
                                 <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                                 <h3 className="font-semibold text-gray-900">
-                                  {pedido.nomeCliente || "Pedido Balcão"}
+                                  {pedido.nomeCliente || 'Pedido Balcão'}
                                 </h3>
                               </div>
                               <p className="text-xs text-gray-500 mb-3">
@@ -545,10 +488,7 @@ export function PainelPrincipal({
                               <div className="bg-yellow-50 rounded-lg p-3 mb-4">
                                 <div className="space-y-2">
                                   {pedido.itens.map((item, index) => (
-                                    <div
-                                      key={index}
-                                      className="flex justify-between text-sm"
-                                    >
+                                    <div key={index} className="flex justify-between text-sm">
                                       <span className="text-gray-700">
                                         {item.quantidade}x {item.nomeEspetinho}
                                       </span>
@@ -562,10 +502,7 @@ export function PainelPrincipal({
 
                               <div className="flex justify-between items-center text-sm mb-4">
                                 <span className="text-gray-600">
-                                  {pedido.itens.reduce(
-                                    (total, item) => total + item.quantidade,
-                                    0
-                                  )}{" "}
+                                  {pedido.itens.reduce((total, item) => total + item.quantidade, 0)}{' '}
                                   itens
                                 </span>
                                 <span className="font-bold text-gray-900">
@@ -577,7 +514,7 @@ export function PainelPrincipal({
 
                           <button
                             onClick={() => onEntregarPedido(pedido.id)}
-                            disabled={pedido.status !== "em-preparo"}
+                            disabled={pedido.status !== 'em-preparo'}
                             className="w-full bg-green-500 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
                           >
                             <CheckCircle size={18} />
@@ -602,7 +539,7 @@ export function PainelPrincipal({
                 Aguardando Pagamento ({pedidosEntregues.length})
               </h2>
               <button
-                onClick={() => navigate("pagamentos")}
+                onClick={() => navigate('pagamentos')}
                 className="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-700 transition-colors"
               >
                 Gerenciar Pagamentos
@@ -611,27 +548,19 @@ export function PainelPrincipal({
 
             <div className="space-y-3 max-h-32 overflow-y-auto">
               {pedidosEntregues.slice(0, 3).map((pedido) => (
-                <div
-                  key={pedido.id}
-                  className="bg-white rounded-lg border border-red-200 p-3"
-                >
+                <div key={pedido.id} className="bg-white rounded-lg border border-red-200 p-3">
                   <div className="flex justify-between items-center">
                     <div>
                       <h3 className="font-medium text-gray-900">
-                        {pedido.nomeCliente || "Pedido Balcão"}
+                        {pedido.nomeCliente || 'Pedido Balcão'}
                       </h3>
                       <p className="text-sm text-gray-600">
-                        {pedido.itens.reduce(
-                          (total, item) => total + item.quantidade,
-                          0
-                        )}{" "}
-                        itens • Entregue {formatarDataHora(pedido.dataEntrega!)}
+                        {pedido.itens.reduce((total, item) => total + item.quantidade, 0)} itens •
+                        Entregue {formatarDataHora(pedido.dataEntrega!)}
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="font-bold text-red-600">
-                        R$ {pedido.valorTotal.toFixed(2)}
-                      </p>
+                      <p className="font-bold text-red-600">R$ {pedido.valorTotal.toFixed(2)}</p>
                       <p className="text-xs text-red-500">Pendente</p>
                     </div>
                   </div>
@@ -648,11 +577,7 @@ export function PainelPrincipal({
       )}
 
       {/* Modal Novo Pedido */}
-      <Modal
-        isOpen={modalNovoPedido}
-        onClose={() => setModalNovoPedido(false)}
-        title="Novo Pedido"
-      >
+      <Modal isOpen={modalNovoPedido} onClose={() => setModalNovoPedido(false)} title="Novo Pedido">
         <div className="space-y-6">
           {/* Seleção de Cliente */}
           <div>
@@ -694,35 +619,24 @@ export function PainelPrincipal({
 
           {/* Lista de Espetinhos */}
           <div>
-            <h3 className="text-sm font-medium text-gray-700 mb-3">
-              Selecionar Produtos
-            </h3>
+            <h3 className="text-sm font-medium text-gray-700 mb-3">Selecionar Produtos</h3>
             <div className="space-y-3 max-h-80 overflow-y-auto">
               {espetinhos
-                .filter((esp) =>
-                  controlarEstoque ? esp.quantidadeDisponivel > 0 : true
-                )
+                .filter((esp) => (controlarEstoque ? esp.quantidadeDisponivel > 0 : true))
                 .map((espetinho) => {
                   const quantidade = quantidadesPedido[espetinho.id] || 0;
                   const subtotal = quantidade * espetinho.preco;
 
                   return (
-                    <div
-                      key={espetinho.id}
-                      className="border border-gray-200 rounded-lg p-4"
-                    >
+                    <div key={espetinho.id} className="border border-gray-200 rounded-lg p-4">
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex-1">
-                          <h4 className="font-medium text-gray-900">
-                            {espetinho.nome}
-                          </h4>
+                          <h4 className="font-medium text-gray-900">{espetinho.nome}</h4>
                           <p className="text-sm text-gray-600">
                             R$ {espetinho.preco.toFixed(2)} cada
                           </p>
                           {espetinho.observacao && (
-                            <p className="text-xs text-gray-500 mt-1">
-                              {espetinho.observacao}
-                            </p>
+                            <p className="text-xs text-gray-500 mt-1">{espetinho.observacao}</p>
                           )}
                           {controlarEstoque && (
                             <p className="text-xs text-gray-500">
@@ -747,8 +661,7 @@ export function PainelPrincipal({
                           <button
                             onClick={() => alterarQuantidade(espetinho.id, 1)}
                             disabled={
-                              controlarEstoque &&
-                              quantidade >= espetinho.quantidadeDisponivel
+                              controlarEstoque && quantidade >= espetinho.quantidadeDisponivel
                             }
                             className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center hover:bg-orange-600 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"
                           >
@@ -788,17 +701,14 @@ export function PainelPrincipal({
           {temItensNoPedido && (
             <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
               <div className="flex justify-between items-center">
-                <span className="font-semibold text-gray-900">
-                  Total do Pedido:
-                </span>
+                <span className="font-semibold text-gray-900">Total do Pedido:</span>
                 <span className="text-xl font-bold text-orange-600">
                   R$ {calcularTotalPedido().toFixed(2)}
                 </span>
               </div>
               {clienteSelecionado && (
                 <p className="text-sm text-gray-600 mt-1">
-                  Cliente:{" "}
-                  {clientes.find((c) => c.id === clienteSelecionado)?.nome}
+                  Cliente: {clientes.find((c) => c.id === clienteSelecionado)?.nome}
                 </p>
               )}
             </div>
@@ -837,9 +747,7 @@ export function PainelPrincipal({
             <input
               type="text"
               value={novoClienteForm.nome}
-              onChange={(e) =>
-                setNovoClienteForm({ ...novoClienteForm, nome: e.target.value })
-              }
+              onChange={(e) => setNovoClienteForm({ ...novoClienteForm, nome: e.target.value })}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="Digite o nome"
             />
@@ -895,18 +803,14 @@ export function PainelPrincipal({
             <input
               type="text"
               value={novoProdutoForm.nome}
-              onChange={(e) =>
-                setNovoProdutoForm({ ...novoProdutoForm, nome: e.target.value })
-              }
+              onChange={(e) => setNovoProdutoForm({ ...novoProdutoForm, nome: e.target.value })}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
               placeholder="Ex: Espetinho de Frango"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Preço Unitário *
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Preço Unitário *</label>
             <input
               type="number"
               step="0.01"
@@ -994,31 +898,22 @@ export function PainelPrincipal({
               const quantidade = quantidadesAdicionar[espetinho.id] || 0;
 
               return (
-                <div
-                  key={espetinho.id}
-                  className="border border-gray-200 rounded-lg p-4"
-                >
+                <div key={espetinho.id} className="border border-gray-200 rounded-lg p-4">
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex-1">
-                      <h4 className="font-medium text-gray-900">
-                        {espetinho.nome}
-                      </h4>
-                      <p className="text-sm text-gray-600">
-                        R$ {espetinho.preco.toFixed(2)} cada
-                      </p>
+                      <h4 className="font-medium text-gray-900">{espetinho.nome}</h4>
+                      <p className="text-sm text-gray-600">R$ {espetinho.preco.toFixed(2)} cada</p>
                       {espetinho.observacao && (
-                        <p className="text-xs text-gray-500 mt-1">
-                          {espetinho.observacao}
-                        </p>
+                        <p className="text-xs text-gray-500 mt-1">{espetinho.observacao}</p>
                       )}
                       <div className="flex items-center gap-4 text-xs mt-1">
                         <span
                           className={`font-medium ${
                             espetinho.quantidadeDisponivel === 0
-                              ? "text-red-600"
+                              ? 'text-red-600'
                               : espetinho.quantidadeDisponivel <= 5
-                              ? "text-yellow-600"
-                              : "text-green-600"
+                                ? 'text-yellow-600'
+                                : 'text-green-600'
                           }`}
                         >
                           Disponível: {espetinho.quantidadeDisponivel}
@@ -1033,9 +928,7 @@ export function PainelPrincipal({
 
                     <div className="flex items-center gap-3">
                       <button
-                        onClick={() =>
-                          alterarQuantidadeAdicionar(espetinho.id, -1)
-                        }
+                        onClick={() => alterarQuantidadeAdicionar(espetinho.id, -1)}
                         disabled={quantidade === 0}
                         className="w-8 h-8 bg-gray-200 text-gray-700 rounded-full flex items-center justify-center hover:bg-gray-300 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"
                       >
@@ -1047,9 +940,7 @@ export function PainelPrincipal({
                       </span>
 
                       <button
-                        onClick={() =>
-                          alterarQuantidadeAdicionar(espetinho.id, 1)
-                        }
+                        onClick={() => alterarQuantidadeAdicionar(espetinho.id, 1)}
                         className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center hover:bg-orange-600 transition-colors"
                       >
                         <Plus size={16} />

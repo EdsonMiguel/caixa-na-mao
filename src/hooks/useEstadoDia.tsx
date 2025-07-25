@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { estadoDiaManager } from "../db/database";
-import { EstadoDia } from "../types/EstadoDia";
+import { useEffect, useState } from 'react';
+import { estadoDiaManager } from '../db/database';
+import { EstadoDia } from '../types/EstadoDia';
 
 export function useEstadoDia(initialValue: EstadoDia) {
   const [estado, setEstado] = useState<EstadoDia>(initialValue);
@@ -18,12 +18,12 @@ export function useEstadoDia(initialValue: EstadoDia) {
       } finally {
         setIsLoading(false);
       }
-    };
+    }
 
     loadEstado();
   }, []);
 
-  const updateEstado = async (novoEstado: EstadoDia | ((prev: EstadoDia) => EstadoDia)) => {
+  async function updateEstado(novoEstado: EstadoDia | ((prev: EstadoDia) => EstadoDia)) {
     try {
       const estadoAtualizado = typeof novoEstado === 'function' ? novoEstado(estado) : novoEstado;
       await estadoDiaManager.set(estadoAtualizado);
@@ -31,7 +31,7 @@ export function useEstadoDia(initialValue: EstadoDia) {
     } catch (error) {
       console.error('Erro ao salvar estado do dia:', error);
     }
-  };
+  }
 
   async function clearEstado() {
     try {
@@ -40,7 +40,7 @@ export function useEstadoDia(initialValue: EstadoDia) {
     } catch (error) {
       console.error('Erro ao limpar estado do dia:', error);
     }
-  };
+  }
 
   return [estado, updateEstado, clearEstado, isLoading] as const;
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   ArrowLeft,
   Users,
@@ -8,14 +8,14 @@ import {
   DollarSign,
   ShoppingBag,
   Edit2,
-} from "lucide-react";
-import {Modal} from "./Modal";
-import { useScrollToTop } from "../hooks/useScrollToTop";
-import { Cliente } from "../types/Cliente";
-import { Venda } from "../types/Venda";
-import { formatarDataHora } from "../functions/formatar-data-hora";
-import { useNavigation } from "../hooks/useNavigation";
-import { TextField } from "./TextField";
+} from 'lucide-react';
+import { Modal } from './Modal';
+import { useScrollToTop } from '../hooks/useScrollToTop';
+import { Cliente } from '../types/Cliente';
+import { Venda } from '../types/Venda';
+import { formatarDataHora } from '../functions/formatar-data-hora';
+import { useNavigation } from '../hooks/useNavigation';
+import { TextField } from './TextField';
 
 interface GerenciarClientesProps {
   clientes: Cliente[];
@@ -47,54 +47,51 @@ export function GerenciarClientes({
     isOpen: false,
     cliente: null,
   });
-  const [nomeCliente, setNomeCliente] = useState("");
-  const [telefoneCliente, setTelefoneCliente] = useState("");
+  const [nomeCliente, setNomeCliente] = useState('');
+  const [telefoneCliente, setTelefoneCliente] = useState('');
   const [clienteEditando, setClienteEditando] = useState({
-    nome: "",
-    telefone: "",
+    nome: '',
+    telefone: '',
   });
 
   const { navigate } = useNavigation();
 
   function adicionarCliente() {
     if (nomeCliente.trim()) {
-      onAdicionarCliente(
-        nomeCliente.trim(),
-        telefoneCliente.trim() || undefined
-      );
-      setNomeCliente("");
-      setTelefoneCliente("");
+      onAdicionarCliente(nomeCliente.trim(), telefoneCliente.trim() || undefined);
+      setNomeCliente('');
+      setTelefoneCliente('');
       setModalNovoCliente(false);
     }
-  };
+  }
 
   function verDetalhesCliente(cliente: Cliente) {
     setModalDetalhesCliente({ isOpen: true, cliente });
-  };
+  }
 
   function abrirEdicaoCliente(cliente: Cliente) {
     setClienteEditando({
       nome: cliente.nome,
-      telefone: cliente.telefone || "",
+      telefone: cliente.telefone || '',
     });
     setModalEditarCliente({ isOpen: true, cliente });
-  };
+  }
 
   function salvarEdicaoCliente() {
     if (modalEditarCliente.cliente && clienteEditando.nome.trim()) {
       onEditarCliente(
         modalEditarCliente.cliente.id,
         clienteEditando.nome.trim(),
-        clienteEditando.telefone.trim() || undefined
+        clienteEditando.telefone.trim() || undefined,
       );
       setModalEditarCliente({ isOpen: false, cliente: null });
-      setClienteEditando({ nome: "", telefone: "" });
+      setClienteEditando({ nome: '', telefone: '' });
     }
-  };
+  }
 
   function getVendasCliente(clienteId: string) {
     return vendas.filter((venda) => venda.clienteId === clienteId);
-  };
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -103,18 +100,14 @@ export function GerenciarClientes({
         <div className="bg-white border-b border-gray-200 px-6 py-6 sticky top-0 z-10">
           <div className="flex items-center gap-3 mb-4">
             <button
-              onClick={() => navigate("painel")}
+              onClick={() => navigate('painel')}
               className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
             >
               <ArrowLeft size={20} className="text-gray-600" />
             </button>
             <div>
-              <h1 className="text-xl font-bold text-gray-900">
-                Gerenciar Clientes
-              </h1>
-              <p className="text-sm text-gray-600">
-                Cadastro e histórico de clientes
-              </p>
+              <h1 className="text-xl font-bold text-gray-900">Gerenciar Clientes</h1>
+              <p className="text-sm text-gray-600">Cadastro e histórico de clientes</p>
             </div>
           </div>
 
@@ -135,9 +128,7 @@ export function GerenciarClientes({
               <h3 className="text-lg font-semibold text-gray-600 mb-2">
                 Nenhum cliente cadastrado
               </h3>
-              <p className="text-gray-500">
-                Adicione clientes para acompanhar suas compras
-              </p>
+              <p className="text-gray-500">Adicione clientes para acompanhar suas compras</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -145,19 +136,14 @@ export function GerenciarClientes({
                 const vendasCliente = getVendasCliente(cliente.id);
                 const totalGasto = vendasCliente.reduce(
                   (total, venda) => total + venda.valorTotal,
-                  0
+                  0,
                 );
 
                 return (
-                  <div
-                    key={cliente.id}
-                    className="bg-white rounded-xl border border-gray-200 p-4"
-                  >
+                  <div key={cliente.id} className="bg-white rounded-xl border border-gray-200 p-4">
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex-1">
-                        <h3 className="font-semibold text-gray-900 mb-2">
-                          {cliente.nome}
-                        </h3>
+                        <h3 className="font-semibold text-gray-900 mb-2">{cliente.nome}</h3>
                         <div className="space-y-1">
                           {cliente.telefone && (
                             <div className="flex items-center gap-2 text-sm text-gray-600">
@@ -256,9 +242,7 @@ export function GerenciarClientes({
       {/* Modal Detalhes do Cliente */}
       <Modal
         isOpen={modalDetalhesCliente.isOpen}
-        onClose={() =>
-          setModalDetalhesCliente({ isOpen: false, cliente: null })
-        }
+        onClose={() => setModalDetalhesCliente({ isOpen: false, cliente: null })}
         title="Detalhes do Cliente"
       >
         {modalDetalhesCliente.cliente && (
@@ -279,38 +263,28 @@ export function GerenciarClientes({
                 <div className="flex items-center gap-2">
                   <Calendar size={16} />
                   <span>
-                    Cliente desde{" "}
-                    {formatarDataHora(
-                      modalDetalhesCliente.cliente.dataCadastro
-                    )}
+                    Cliente desde {formatarDataHora(modalDetalhesCliente.cliente.dataCadastro)}
                   </span>
                 </div>
 
                 <div className="flex items-center gap-2">
                   <DollarSign size={16} />
                   <span>
-                    Total gasto: R${" "}
-                    {modalDetalhesCliente.cliente.totalCompras.toFixed(2)}
+                    Total gasto: R$ {modalDetalhesCliente.cliente.totalCompras.toFixed(2)}
                   </span>
                 </div>
               </div>
             </div>
 
             <div>
-              <h4 className="font-semibold text-gray-900 mb-3">
-                Histórico de Compras
-              </h4>
+              <h4 className="font-semibold text-gray-900 mb-3">Histórico de Compras</h4>
 
               {(() => {
-                const vendasCliente = getVendasCliente(
-                  modalDetalhesCliente.cliente.id
-                );
+                const vendasCliente = getVendasCliente(modalDetalhesCliente.cliente.id);
 
                 if (vendasCliente.length === 0) {
                   return (
-                    <p className="text-gray-500 text-center py-4">
-                      Nenhuma compra realizada ainda
-                    </p>
+                    <p className="text-gray-500 text-center py-4">Nenhuma compra realizada ainda</p>
                   );
                 }
 
@@ -320,12 +294,9 @@ export function GerenciarClientes({
                       <div key={venda.id} className="bg-gray-50 rounded-lg p-3">
                         <div className="flex justify-between items-start">
                           <div>
-                            <p className="font-medium text-gray-900">
-                              {venda.nomeEspetinho}
-                            </p>
+                            <p className="font-medium text-gray-900">{venda.nomeEspetinho}</p>
                             <p className="text-sm text-gray-600">
-                              {venda.quantidade} unidades •{" "}
-                              {formatarDataHora(venda.dataHora)}
+                              {venda.quantidade} unidades • {formatarDataHora(venda.dataHora)}
                             </p>
                           </div>
                           <p className="font-bold text-orange-600">
@@ -352,33 +323,27 @@ export function GerenciarClientes({
           <TextField
             type="text"
             value={clienteEditando.nome}
-            onChange={(e) =>
-              setClienteEditando({ ...clienteEditando, nome: e.target.value })
-            }
+            onChange={(e) => setClienteEditando({ ...clienteEditando, nome: e.target.value })}
             placeholder="Digite o nome"
             label="Nome do Cliente *"
           />
 
-            <TextField
-              type="tel"
-              label="Telefone (opcional)"
-              
-              value={clienteEditando.telefone}
-              onChange={(e) =>
-                setClienteEditando({
-                  ...clienteEditando,
-                  telefone: e.target.value,
-                })
-              }
-              placeholder="(11) 99999-9999"
-            />
-          
+          <TextField
+            type="tel"
+            label="Telefone (opcional)"
+            value={clienteEditando.telefone}
+            onChange={(e) =>
+              setClienteEditando({
+                ...clienteEditando,
+                telefone: e.target.value,
+              })
+            }
+            placeholder="(11) 99999-9999"
+          />
 
           <div className="flex gap-3 pt-4">
             <button
-              onClick={() =>
-                setModalEditarCliente({ isOpen: false, cliente: null })
-              }
+              onClick={() => setModalEditarCliente({ isOpen: false, cliente: null })}
               className="flex-1 py-3 px-4 border border-gray-300 rounded-lg text-gray-700 font-semibold hover:bg-gray-50 transition-colors"
             >
               Cancelar

@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { configuracoesManager } from "../db/database";
-import { Configuracoes } from "../types/Configuracoes";
+import { useEffect, useState } from 'react';
+import { configuracoesManager } from '../db/database';
+import { Configuracoes } from '../types/Configuracoes';
 
 export function useConfiguracoes() {
   const [configuracoes, setConfiguracoes] = useState<Configuracoes>({
@@ -8,7 +8,7 @@ export function useConfiguracoes() {
     controlarEstoque: true,
     nomeEmpresa: '',
     chavePix: '',
-    dataAtualizacao: new Date().toISOString()
+    dataAtualizacao: new Date().toISOString(),
   });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -22,7 +22,7 @@ export function useConfiguracoes() {
       } finally {
         setIsLoading(false);
       }
-    };
+    }
 
     loadConfiguracoes();
   }, []);
@@ -34,11 +34,11 @@ export function useConfiguracoes() {
     } catch (error) {
       console.error('Erro ao salvar configurações:', error);
     }
-  };
+  }
 
   return {
     configuracoes,
     updateConfiguracoes,
-    isLoading
+    isLoading,
   };
 }

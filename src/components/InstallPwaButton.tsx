@@ -17,7 +17,7 @@ export function BotaoInstalarPWA() {
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);
       setPodeInstalar(true);
-    };
+    }
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
@@ -37,13 +37,9 @@ export function BotaoInstalarPWA() {
     }
     setDeferredPrompt(null);
     setPodeInstalar(false);
-  };
+  }
 
-  if (!podeInstalar) return (
-    <div>
-      nao pode instalar
-    </div>
-  );
+  if (!podeInstalar) return <div>nao pode instalar</div>;
 
   return (
     <button

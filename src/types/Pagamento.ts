@@ -1,4 +1,4 @@
-export type MetodoPagamento = 'dinheiro' | 'pix' | 'cartao-debito' | 'cartao-credito'
+export type MetodoPagamento = 'dinheiro' | 'pix' | 'cartao-debito' | 'cartao-credito';
 
 export interface Pagamento {
   id: string;

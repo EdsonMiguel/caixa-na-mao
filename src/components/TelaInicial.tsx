@@ -13,20 +13,19 @@ interface TelaInicialProps {
   onVisualizarOperacao: (operacaoId: string) => void;
 }
 
-export function TelaInicial({ 
-  operacoes, 
+export function TelaInicial({
+  operacoes,
   diaIniciado,
   dataOperacao,
 
   onVisualizarOperacao,
 }: TelaInicialProps) {
-
   useScrollToTop();
-  const { navigate } = useNavigation()
+  const { navigate } = useNavigation();
 
   // Ordenar operações por data (mais recente primeiro)
-  const operacoesOrdenadas = [...operacoes].sort((a, b) => 
-    new Date(b.dataOperacao).getTime() - new Date(a.dataOperacao).getTime()
+  const operacoesOrdenadas = [...operacoes].sort(
+    (a, b) => new Date(b.dataOperacao).getTime() - new Date(a.dataOperacao).getTime(),
   );
 
   return (
@@ -42,7 +41,7 @@ export function TelaInicial({
             <BotaoInstalarPWA />
             <p className="text-gray-600">Histórico de operações</p>
           </div>
-          
+
           {diaIniciado ? (
             <div className="space-y-3 mt-6">
               <div className="bg-green-50 border border-green-200 rounded-xl p-4">
@@ -51,10 +50,11 @@ export function TelaInicial({
                   <h3 className="font-semibold text-green-900">Caixa em Andamento</h3>
                 </div>
                 <p className="text-green-700 text-sm">
-                  Você tem um caixa aberto desde {dataOperacao ? formatarData(dataOperacao) : 'hoje'}
+                  Você tem um caixa aberto desde{' '}
+                  {dataOperacao ? formatarData(dataOperacao) : 'hoje'}
                 </p>
               </div>
-              
+
               <div className="flex gap-3">
                 <button
                   onClick={() => navigate('painel')}
@@ -63,7 +63,7 @@ export function TelaInicial({
                   <ShoppingBag size={24} />
                   Continuar Caixa
                 </button>
-                
+
                 <button
                   onClick={() => navigate('abertura')}
                   className="flex-1 bg-orange-500 text-white py-4 px-6 rounded-xl font-semibold text-lg hover:bg-orange-600 transition-colors flex items-center justify-center gap-3"
@@ -72,7 +72,7 @@ export function TelaInicial({
                   Novo Dia
                 </button>
               </div>
-              
+
               <button
                 onClick={() => navigate('configuracoes')}
                 className="w-full bg-gray-600 text-white py-3 px-6 rounded-xl font-semibold hover:bg-gray-700 transition-colors flex items-center justify-center gap-3"
@@ -90,7 +90,7 @@ export function TelaInicial({
                 <Settings size={24} />
                 Configurações
               </button>
-              
+
               <button
                 onClick={() => navigate('abertura')}
                 className="flex-1 bg-orange-500 text-white py-4 px-6 rounded-xl font-semibold text-lg hover:bg-orange-600 transition-colors flex items-center justify-center gap-3"
@@ -108,7 +108,9 @@ export function TelaInicial({
             {operacoes.length === 0 ? (
               <div className="bg-white rounded-xl border border-gray-200 p-8 text-center">
                 <Calendar size={48} className="text-gray-300 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-gray-600 mb-2">Nenhuma operação registrada</h3>
+                <h3 className="text-lg font-semibold text-gray-600 mb-2">
+                  Nenhuma operação registrada
+                </h3>
                 <p className="text-gray-500">Inicie seu primeiro dia de vendas</p>
               </div>
             ) : (
@@ -116,7 +118,7 @@ export function TelaInicial({
                 <h2 className="text-lg font-semibold text-gray-900 mb-4">
                   Operações Anteriores ({operacoes.length})
                 </h2>
-                
+
                 {operacoesOrdenadas.map((operacao) => (
                   <div key={operacao.id} className="bg-white rounded-xl border border-gray-200 p-4">
                     <div className="flex items-start justify-between mb-4">
@@ -130,18 +132,20 @@ export function TelaInicial({
                         <p className="text-sm text-gray-600 capitalize mb-3">
                           {formatarDiaSemana(operacao.dataOperacao)}
                         </p>
-                        
+
                         <div className="grid grid-cols-2 gap-4">
                           <div className="bg-green-50 border border-green-200 rounded-lg p-3">
                             <div className="flex items-center gap-2 mb-1">
                               <DollarSign size={16} className="text-green-600" />
-                              <span className="text-sm font-medium text-green-800">Saldo Final</span>
+                              <span className="text-sm font-medium text-green-800">
+                                Saldo Final
+                              </span>
                             </div>
                             <p className="text-lg font-bold text-green-900">
                               R$ {operacao.saldoFinal.toFixed(2)}
                             </p>
                           </div>
-                          
+
                           <div className="bg-orange-50 border border-orange-200 rounded-lg p-3">
                             <div className="flex items-center gap-2 mb-1">
                               <ShoppingBag size={16} className="text-orange-600" />
@@ -154,7 +158,7 @@ export function TelaInicial({
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="flex gap-3">
                       <button
                         onClick={() => onVisualizarOperacao(operacao.id)}

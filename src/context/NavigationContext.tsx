@@ -1,5 +1,4 @@
-/* eslint-disable react-refresh/only-export-components */
-import { createContext,  useState, ReactNode } from 'react';
+import { createContext, useState, ReactNode } from 'react';
 import { TelasApp } from '../types/TelasApp';
 
 interface NavigationContextType {
@@ -18,4 +17,4 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
       {children}
     </NavigationContext.Provider>
   );
-};
+}

@@ -15,7 +15,7 @@ export function AlertModal({
   title,
   message,
   type = 'info',
-  buttonText = 'OK'
+  buttonText = 'OK',
 }: AlertModalProps) {
   if (!isOpen) return null;
 
@@ -27,7 +27,7 @@ export function AlertModal({
           iconColor: 'text-green-600',
           button: 'bg-green-500 hover:bg-green-600',
           border: 'border-green-200',
-          bg: 'bg-green-50'
+          bg: 'bg-green-50',
         };
       case 'error':
         return {
@@ -35,7 +35,7 @@ export function AlertModal({
           iconColor: 'text-red-600',
           button: 'bg-red-500 hover:bg-red-600',
           border: 'border-red-200',
-          bg: 'bg-red-50'
+          bg: 'bg-red-50',
         };
       case 'warning':
         return {
@@ -43,7 +43,7 @@ export function AlertModal({
           iconColor: 'text-yellow-600',
           button: 'bg-yellow-500 hover:bg-yellow-600',
           border: 'border-yellow-200',
-          bg: 'bg-yellow-50'
+          bg: 'bg-yellow-50',
         };
       case 'info':
         return {
@@ -51,7 +51,7 @@ export function AlertModal({
           iconColor: 'text-blue-600',
           button: 'bg-blue-500 hover:bg-blue-600',
           border: 'border-blue-200',
-          bg: 'bg-blue-50'
+          bg: 'bg-blue-50',
         };
       default:
         return {
@@ -59,10 +59,10 @@ export function AlertModal({
           iconColor: 'text-blue-600',
           button: 'bg-blue-500 hover:bg-blue-600',
           border: 'border-blue-200',
-          bg: 'bg-blue-50'
+          bg: 'bg-blue-50',
         };
     }
-  };
+  }
 
   const styles = getTypeStyles();
   const IconComponent = styles.icon;
@@ -72,14 +72,11 @@ export function AlertModal({
       <div className="bg-white rounded-xl w-full max-w-md shadow-2xl">
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
-          <button
-            onClick={onClose}
-            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-          >
+          <button onClick={onClose} className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
             <X size={20} className="text-gray-600" />
           </button>
         </div>
-        
+
         <div className="p-6">
           <div className={`${styles.bg} ${styles.border} border rounded-lg p-4 mb-6`}>
             <div className="flex items-start gap-3">
@@ -89,7 +86,7 @@ export function AlertModal({
               </div>
             </div>
           </div>
-          
+
           <button
             onClick={onClose}
             className={`w-full py-3 px-4 ${styles.button} text-white rounded-lg font-semibold transition-colors`}

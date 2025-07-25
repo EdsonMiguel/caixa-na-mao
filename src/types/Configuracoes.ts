@@ -1,4 +1,3 @@
-
 export interface Configuracoes {
   id?: number;
   permitirIniciarSemSaldo: boolean;

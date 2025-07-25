@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { ResumoOperacao } from "../types/ResumoOperacao";
-import { operacoesManager } from "../db/database";
+import { useEffect, useState } from 'react';
+import { ResumoOperacao } from '../types/ResumoOperacao';
+import { operacoesManager } from '../db/database';
 
 export function useOperacoes() {
   const [operacoes, setOperacoes] = useState<ResumoOperacao[]>([]);
@@ -16,7 +16,7 @@ export function useOperacoes() {
       } finally {
         setIsLoading(false);
       }
-    };
+    }
 
     loadOperacoes();
   }, []);
@@ -24,20 +24,20 @@ export function useOperacoes() {
   async function addOperacao(operacao: ResumoOperacao) {
     try {
       await operacoesManager.add(operacao);
-      setOperacoes(prev => [operacao, ...prev]);
+      setOperacoes((prev) => [operacao, ...prev]);
     } catch (error) {
       console.error('Erro ao adicionar operação:', error);
     }
-  };
+  }
 
   async function removeOperacao(id: string) {
     try {
       await operacoesManager.remove(id);
-      setOperacoes(prev => prev.filter(op => op.id !== id));
+      setOperacoes((prev) => prev.filter((op) => op.id !== id));
     } catch (error) {
       console.error('Erro ao remover operação:', error);
     }
-  };
+  }
 
   async function clearOperacoes() {
     try {
@@ -46,13 +46,13 @@ export function useOperacoes() {
     } catch (error) {
       console.error('Erro ao limpar operações:', error);
     }
-  };
+  }
 
   return {
     operacoes,
     addOperacao,
     removeOperacao,
     clearOperacoes,
-    isLoading
+    isLoading,
   };
 }

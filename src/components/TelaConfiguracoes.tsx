@@ -1,5 +1,15 @@
 import { useState } from 'react';
-import { ArrowLeft, Settings, Save, ToggleLeft, ToggleRight, Trash2, AlertTriangle, Building, CreditCard } from 'lucide-react';
+import {
+  ArrowLeft,
+  Settings,
+  Save,
+  ToggleLeft,
+  ToggleRight,
+  Trash2,
+  AlertTriangle,
+  Building,
+  CreditCard,
+} from 'lucide-react';
 import { Configuracoes } from '../types/Configuracoes';
 import { useScrollToTop } from '../hooks/useScrollToTop';
 import { useAlert } from '../context/AlertModalContext';
@@ -15,37 +25,37 @@ interface TelaConfiguracoesProps {
 export function TelaConfiguracoes({
   configuracoes,
   onSalvarConfiguracoes,
-  onLimparTodosDados
+  onLimparTodosDados,
 }: TelaConfiguracoesProps) {
   useScrollToTop();
 
   const [configLocal, setConfigLocal] = useState<Configuracoes>(configuracoes);
-  const { showAlert } = useAlert()
-  const { showConfirm } = useConfirm()
-  const { navigate } = useNavigation()
+  const { showAlert } = useAlert();
+  const { showConfirm } = useConfirm();
+  const { navigate } = useNavigation();
 
   function togglePermitirIniciarSemSaldo() {
-    setConfigLocal(prev => ({
+    setConfigLocal((prev) => ({
       ...prev,
-      permitirIniciarSemSaldo: !prev.permitirIniciarSemSaldo
+      permitirIniciarSemSaldo: !prev.permitirIniciarSemSaldo,
     }));
-  };
+  }
 
   function toggleControlarEstoque() {
-    setConfigLocal(prev => ({
+    setConfigLocal((prev) => ({
       ...prev,
-      controlarEstoque: !prev.controlarEstoque
+      controlarEstoque: !prev.controlarEstoque,
     }));
-  };
+  }
 
   function salvarConfiguracoes() {
     onSalvarConfiguracoes(configLocal);
     showAlert({
       title: 'Configurações Salvas',
       message: 'As configurações foram salvas com sucesso!',
-      type: 'success'
+      type: 'success',
     });
-  };
+  }
 
   function confirmarLimpezaDados() {
     showConfirm({
@@ -63,11 +73,11 @@ Tem certeza que deseja continuar?`,
       type: 'danger',
       onConfirm: () => {
         onLimparTodosDados();
-      }
+      },
     });
-  };
+  }
 
-  const temAlteracoes = 
+  const temAlteracoes =
     configLocal.permitirIniciarSemSaldo !== configuracoes.permitirIniciarSemSaldo ||
     configLocal.controlarEstoque !== configuracoes.controlarEstoque ||
     configLocal.nomeEmpresa !== configuracoes.nomeEmpresa ||
@@ -80,9 +90,9 @@ Tem certeza que deseja continuar?`,
       month: '2-digit',
       year: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     });
-  };
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -101,7 +111,7 @@ Tem certeza que deseja continuar?`,
               <p className="text-sm text-gray-600">Personalize o comportamento do sistema</p>
             </div>
           </div>
-          
+
           <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white p-4 rounded-xl">
             <div className="flex items-center gap-3">
               <Settings size={24} />
@@ -115,14 +125,13 @@ Tem certeza que deseja continuar?`,
 
         {/* Conteúdo com Scroll */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6" data-scroll-container>
-          
           {/* Informações da Empresa */}
           <div className="bg-white rounded-xl border border-gray-200 p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <Building size={20} className="text-blue-600" />
               Informações da Empresa
             </h3>
-            
+
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -131,7 +140,9 @@ Tem certeza que deseja continuar?`,
                 <input
                   type="text"
                   value={configLocal.nomeEmpresa}
-                  onChange={(e) => setConfigLocal(prev => ({ ...prev, nomeEmpresa: e.target.value }))}
+                  onChange={(e) =>
+                    setConfigLocal((prev) => ({ ...prev, nomeEmpresa: e.target.value }))
+                  }
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Digite o nome da sua empresa"
                 />
@@ -139,7 +150,7 @@ Tem certeza que deseja continuar?`,
                   Nome que aparecerá nos relatórios e documentos
                 </p>
               </div>
-              
+
               <div>
                 <label className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
                   <CreditCard size={16} />
@@ -148,7 +159,9 @@ Tem certeza que deseja continuar?`,
                 <input
                   type="text"
                   value={configLocal.chavePix}
-                  onChange={(e) => setConfigLocal(prev => ({ ...prev, chavePix: e.target.value }))}
+                  onChange={(e) =>
+                    setConfigLocal((prev) => ({ ...prev, chavePix: e.target.value }))
+                  }
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Digite sua chave PIX (CPF, CNPJ, e-mail ou telefone)"
                 />
@@ -167,18 +180,19 @@ Tem certeza que deseja continuar?`,
                   Permitir Iniciar Dia sem Saldo
                 </h3>
                 <p className="text-gray-600 text-sm mb-4">
-                  Quando ativado, permite iniciar o dia sem informar o saldo inicial. 
-                  O saldo será considerado como R$ 0,00.
+                  Quando ativado, permite iniciar o dia sem informar o saldo inicial. O saldo será
+                  considerado como R$ 0,00.
                 </p>
-                
+
                 <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
                   <p className="text-xs text-gray-600">
-                    <strong>Ativado:</strong> Não solicita saldo inicial<br/>
+                    <strong>Ativado:</strong> Não solicita saldo inicial
+                    <br />
                     <strong>Desativado:</strong> Obrigatório informar saldo inicial
                   </p>
                 </div>
               </div>
-              
+
               <button
                 onClick={togglePermitirIniciarSemSaldo}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
@@ -206,22 +220,21 @@ Tem certeza que deseja continuar?`,
           <div className="bg-white rounded-xl border border-gray-200 p-6">
             <div className="flex items-start justify-between">
               <div className="flex-1 pr-4">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  Controlar Estoque
-                </h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Controlar Estoque</h3>
                 <p className="text-gray-600 text-sm mb-4">
-                  Quando ativado, controla a quantidade disponível dos produtos. 
-                  Quando desativado, permite vendas ilimitadas.
+                  Quando ativado, controla a quantidade disponível dos produtos. Quando desativado,
+                  permite vendas ilimitadas.
                 </p>
-                
+
                 <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
                   <p className="text-xs text-gray-600">
-                    <strong>Ativado:</strong> Controla quantidade, exibe botão estoque<br/>
+                    <strong>Ativado:</strong> Controla quantidade, exibe botão estoque
+                    <br />
                     <strong>Desativado:</strong> Vendas ilimitadas, sem controle de quantidade
                   </p>
                 </div>
               </div>
-              
+
               <button
                 onClick={toggleControlarEstoque}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
@@ -247,10 +260,8 @@ Tem certeza que deseja continuar?`,
 
           {/* Informações do Sistema */}
           <div className="bg-white rounded-xl border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              Informações do Sistema
-            </h3>
-            
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Informações do Sistema</h3>
+
             <div className="space-y-3 text-sm">
               <div className="flex justify-between items-center py-2 border-b border-gray-100">
                 <span className="text-gray-600">Última Atualização:</span>
@@ -258,16 +269,14 @@ Tem certeza que deseja continuar?`,
                   {formatarData(configuracoes.dataAtualizacao)}
                 </span>
               </div>
-              
+
               {configuracoes.nomeEmpresa && (
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                   <span className="text-gray-600">Empresa:</span>
-                  <span className="font-medium text-gray-900">
-                    {configuracoes.nomeEmpresa}
-                  </span>
+                  <span className="font-medium text-gray-900">{configuracoes.nomeEmpresa}</span>
                 </div>
               )}
-              
+
               {configuracoes.chavePix && (
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                   <span className="text-gray-600">PIX Configurado:</span>
@@ -276,12 +285,12 @@ Tem certeza que deseja continuar?`,
                   </span>
                 </div>
               )}
-              
+
               <div className="flex justify-between items-center py-2 border-b border-gray-100">
                 <span className="text-gray-600">Versão do Sistema:</span>
                 <span className="font-medium text-gray-900">1.0.0</span>
               </div>
-              
+
               <div className="flex justify-between items-center py-2">
                 <span className="text-gray-600">Status:</span>
                 <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
@@ -297,15 +306,15 @@ Tem certeza que deseja continuar?`,
               <Trash2 size={20} className="text-red-600" />
               Zona de Perigo
             </h3>
-            
+
             <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
               <div className="flex items-start gap-3">
                 <AlertTriangle size={20} className="text-red-600 mt-0.5" />
                 <div>
                   <h4 className="font-semibold text-red-900 mb-2">Limpar Todos os Dados</h4>
                   <p className="text-red-800 text-sm mb-3">
-                    Remove permanentemente todos os dados do sistema: produtos, clientes, 
-                    histórico de operações e configurações.
+                    Remove permanentemente todos os dados do sistema: produtos, clientes, histórico
+                    de operações e configurações.
                   </p>
                   <p className="text-red-700 text-xs font-medium">
                     ⚠️ Esta ação não pode ser desfeita!
@@ -313,7 +322,7 @@ Tem certeza que deseja continuar?`,
                 </div>
               </div>
             </div>
-            
+
             <button
               onClick={confirmarLimpezaDados}
               className="w-full py-3 px-4 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition-colors flex items-center justify-center gap-2"
@@ -328,11 +337,12 @@ Tem certeza que deseja continuar?`,
             {temAlteracoes && (
               <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
                 <p className="text-yellow-800 text-sm">
-                  ⚠️ Você tem alterações não salvas. Clique em "Salvar Configurações" para aplicá-las.
+                  ⚠️ Você tem alterações não salvas. Clique em "Salvar Configurações" para
+                  aplicá-las.
                 </p>
               </div>
             )}
-            
+
             <div className="flex gap-3">
               <button
                 onClick={() => navigate('home')}

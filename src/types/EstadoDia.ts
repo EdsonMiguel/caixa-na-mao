@@ -1,8 +1,8 @@
-import { Cliente } from "./Cliente";
-import { Espetinho } from "./Espetinho";
-import { Pagamento } from "./Pagamento";
-import { Pedido } from "./Pedido";
-import { Venda } from "./Venda";
+import { Cliente } from './Cliente';
+import { Espetinho } from './Espetinho';
+import { Pagamento } from './Pagamento';
+import { Pedido } from './Pedido';
+import { Venda } from './Venda';
 
 export interface EstadoDia {
   saldoInicial: number;

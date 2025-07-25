@@ -5,7 +5,6 @@ import { Cliente } from '../types/Cliente';
 import { ResumoOperacao } from '../types/ResumoOperacao';
 import { Configuracoes } from '../types/Configuracoes';
 
-
 export interface StoredEstadoDia extends EstadoDia {
   id?: number;
 }
@@ -35,13 +34,13 @@ export class EspetinhosDatabase extends Dexie {
 
   constructor() {
     super('EspetinhosDatabase');
-    
+
     this.version(2).stores({
       estadoDia: '++id',
       espetinhos: 'id, nome, preco',
       clientes: 'id, nome, telefone, dataCadastro',
       operacoes: 'id, dataOperacao, saldoFinal, saldoInicial, totalReceita',
-      configuracoes: '++id, dataAtualizacao'
+      configuracoes: '++id, dataAtualizacao',
     });
   }
 }
@@ -62,7 +61,7 @@ export const estadoDiaManager = {
 
   async clear(): Promise<void> {
     await db.estadoDia.clear();
-  }
+  },
 };
 
 // Funções para gerenciar espetinhos persistentes
@@ -86,7 +85,7 @@ export const espetinhosManager = {
   async setAll(espetinhos: Espetinho[]): Promise<void> {
     await db.espetinhos.clear();
     await db.espetinhos.bulkAdd(espetinhos);
-  }
+  },
 };
 
 // Funções para gerenciar clientes persistentes
@@ -110,7 +109,7 @@ export const clientesManager = {
   async setAll(clientes: Cliente[]): Promise<void> {
     await db.clientes.clear();
     await db.clientes.bulkAdd(clientes);
-  }
+  },
 };
 
 // Funções para gerenciar operações anteriores
@@ -133,32 +132,32 @@ export const operacoesManager = {
 
   async clearAll(): Promise<void> {
     await db.operacoes.clear();
-  }
+  },
 };
 
 // Função para limpar todos os dados do sistema
-export const limparTodosSistema = async (): Promise<void> => {
+export async function limparTodosSistema() {
   try {
     await db.estadoDia.clear();
     await db.espetinhos.clear();
     await db.clientes.clear();
     await db.operacoes.clear();
     await db.configuracoes.clear();
-    
+
     // Recriar configurações padrão
     const configPadrao: StoredConfiguracoes = {
       permitirIniciarSemSaldo: false,
       controlarEstoque: true,
       nomeEmpresa: '',
       chavePix: '',
-      dataAtualizacao: new Date().toISOString()
+      dataAtualizacao: new Date().toISOString(),
     };
     await db.configuracoes.add(configPadrao);
   } catch (error) {
     console.error('Erro ao limpar todos os dados:', error);
     throw error;
   }
-};
+}
 
 // Funções para gerenciar configurações
 export const configuracoesManager = {
@@ -167,16 +166,16 @@ export const configuracoesManager = {
     if (configs.length > 0) {
       return configs[0];
     }
-    
+
     // Configurações padrão
     const configPadrao: Configuracoes = {
       permitirIniciarSemSaldo: false,
       controlarEstoque: true,
       nomeEmpresa: '',
       chavePix: '',
-      dataAtualizacao: new Date().toISOString()
+      dataAtualizacao: new Date().toISOString(),
     };
-    
+
     await db.configuracoes.add(configPadrao);
     return configPadrao;
   },
@@ -185,7 +184,7 @@ export const configuracoesManager = {
     await db.configuracoes.clear();
     await db.configuracoes.add({
       ...configuracoes,
-      dataAtualizacao: new Date().toISOString()
+      dataAtualizacao: new Date().toISOString(),
     });
-  }
+  },
 };

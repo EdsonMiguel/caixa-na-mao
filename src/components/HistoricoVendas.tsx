@@ -3,25 +3,24 @@ import { Venda } from '../types/Venda';
 import { useScrollToTop } from '../hooks/useScrollToTop';
 import { formatarDataHora } from '../functions/formatar-data-hora';
 import { useNavigation } from '../hooks/useNavigation';
-import _ from 'lodash'
+import _ from 'lodash';
 
 interface HistoricoVendasProps {
   vendas: Venda[];
-
 }
 
-export function HistoricoVendas({ vendas,  }: HistoricoVendasProps) {
+export function HistoricoVendas({ vendas }: HistoricoVendasProps) {
   useScrollToTop();
 
-  const { navigate } = useNavigation()
+  const { navigate } = useNavigation();
 
- const totalVendido = _.sumBy(vendas, 'valorTotal');
-const totalUnidades = _.sumBy(vendas, 'quantidade');
-
-
+  const totalVendido = _.sumBy(vendas, 'valorTotal');
+  const totalUnidades = _.sumBy(vendas, 'quantidade');
 
   // Ordenar vendas por data (mais recente primeiro)
-  const vendasOrdenadas = [...vendas].sort((a, b) => new Date(b.dataHora).getTime() - new Date(a.dataHora).getTime());
+  const vendasOrdenadas = [...vendas].sort(
+    (a, b) => new Date(b.dataHora).getTime() - new Date(a.dataHora).getTime(),
+  );
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -40,7 +39,7 @@ const totalUnidades = _.sumBy(vendas, 'quantidade');
               <p className="text-sm text-gray-600">Vendas realizadas hoje</p>
             </div>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white p-4 rounded-xl">
               <div className="flex items-center gap-3">
@@ -51,7 +50,7 @@ const totalUnidades = _.sumBy(vendas, 'quantidade');
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-4 rounded-xl">
               <div className="flex items-center gap-3">
                 <ShoppingCart size={24} />
@@ -61,7 +60,7 @@ const totalUnidades = _.sumBy(vendas, 'quantidade');
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-gradient-to-r from-green-500 to-green-600 text-white p-4 rounded-xl">
               <div className="flex items-center gap-3">
                 <User size={24} />
@@ -85,34 +84,38 @@ const totalUnidades = _.sumBy(vendas, 'quantidade');
           ) : (
             <div>
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-gray-900">
-                  Vendas do Dia ({vendas.length})
-                </h2>
-                <div className="text-sm text-gray-600">
-                  Ordenado por: Mais recente primeiro
-                </div>
+                <h2 className="text-xl font-bold text-gray-900">Vendas do Dia ({vendas.length})</h2>
+                <div className="text-sm text-gray-600">Ordenado por: Mais recente primeiro</div>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {vendasOrdenadas.map((venda) => (
-                  <div key={venda.id} className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow">
+                  <div
+                    key={venda.id}
+                    className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow"
+                  >
                     <div className="flex flex-col h-full">
                       <div className="flex-1">
                         <div className="flex items-start justify-between mb-3">
-                          <h3 className="font-semibold text-gray-900 text-lg leading-tight">{venda.nomeEspetinho}</h3>
+                          <h3 className="font-semibold text-gray-900 text-lg leading-tight">
+                            {venda.nomeEspetinho}
+                          </h3>
                           <div className="text-right ml-3">
                             <p className="text-xl font-bold text-orange-600">
                               R$ {venda.valorTotal.toFixed(2)}
                             </p>
                             <p className="text-xs text-gray-500">
-                              {venda.quantidade} unidades • R$ {venda.precoUnitario.toFixed(2)} cada • {formatarDataHora(venda.dataHora)}
+                              {venda.quantidade} unidades • R$ {venda.precoUnitario.toFixed(2)} cada
+                              • {formatarDataHora(venda.dataHora)}
                             </p>
                             {venda.observacaoEspetinho && (
-                              <p className="text-xs text-gray-500 italic mt-1">"{venda.observacaoEspetinho}"</p>
+                              <p className="text-xs text-gray-500 italic mt-1">
+                                "{venda.observacaoEspetinho}"
+                              </p>
                             )}
                           </div>
                         </div>
-                        
+
                         <div className="space-y-2 text-sm text-gray-600 mb-4">
                           <div className="flex items-center gap-2">
                             <ShoppingCart size={16} className="text-blue-500" />
@@ -130,15 +133,17 @@ const totalUnidades = _.sumBy(vendas, 'quantidade');
                           )}
                         </div>
                       </div>
-                      
+
                       <div className="pt-3 border-t border-gray-100">
                         <div className="flex items-center justify-between text-xs text-gray-500">
                           <span>Pedido #{venda.pedidoId.slice(-6)}</span>
-                          <span className={`px-2 py-1 rounded-full font-medium ${
-                            venda.nomeCliente 
-                              ? 'bg-purple-100 text-purple-700' 
-                              : 'bg-gray-100 text-gray-700'
-                          }`}>
+                          <span
+                            className={`px-2 py-1 rounded-full font-medium ${
+                              venda.nomeCliente
+                                ? 'bg-purple-100 text-purple-700'
+                                : 'bg-gray-100 text-gray-700'
+                            }`}
+                          >
                             {venda.nomeCliente ? 'Cliente' : 'Balcão'}
                           </span>
                         </div>

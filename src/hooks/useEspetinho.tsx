@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { espetinhosManager } from '../db/database'
+import { espetinhosManager } from '../db/database';
 import { Espetinho } from '../types/Espetinho';
 
 export function useEspetinhos() {
@@ -16,7 +16,7 @@ export function useEspetinhos() {
       } finally {
         setIsLoading(false);
       }
-    };
+    }
 
     loadEspetinhos();
   }, []);
@@ -24,29 +24,29 @@ export function useEspetinhos() {
   async function addEspetinho(espetinho: Espetinho) {
     try {
       await espetinhosManager.add(espetinho);
-      setEspetinhos(prev => [...prev, espetinho]);
+      setEspetinhos((prev) => [...prev, espetinho]);
     } catch (error) {
       console.error('Erro ao adicionar espetinho:', error);
     }
-  };
+  }
 
   async function updateEspetinho(id: string, dados: Partial<Espetinho>) {
     try {
       await espetinhosManager.update(id, dados);
-      setEspetinhos(prev => prev.map(esp => esp.id === id ? { ...esp, ...dados } : esp));
+      setEspetinhos((prev) => prev.map((esp) => (esp.id === id ? { ...esp, ...dados } : esp)));
     } catch (error) {
       console.error('Erro ao atualizar espetinho:', error);
     }
-  };
+  }
 
   async function removeEspetinho(id: string) {
     try {
       await espetinhosManager.remove(id);
-      setEspetinhos(prev => prev.filter(esp => esp.id !== id));
+      setEspetinhos((prev) => prev.filter((esp) => esp.id !== id));
     } catch (error) {
       console.error('Erro ao remover espetinho:', error);
     }
-  };
+  }
 
   async function setAllEspetinhos(novosEspetinhos: Espetinho[]) {
     try {
@@ -55,7 +55,7 @@ export function useEspetinhos() {
     } catch (error) {
       console.error('Erro ao definir todos os espetinhos:', error);
     }
-  };
+  }
 
   return {
     espetinhos,
@@ -63,6 +63,6 @@ export function useEspetinhos() {
     updateEspetinho,
     removeEspetinho,
     setAllEspetinhos,
-    isLoading
+    isLoading,
   };
 }

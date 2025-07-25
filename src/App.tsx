@@ -1,35 +1,35 @@
-import { limparTodosSistema } from "./db/database";
-import {TelaInicial} from "./components/TelaInicial";
+import { limparTodosSistema } from './db/database';
+import { TelaInicial } from './components/TelaInicial';
 
-import { useEstadoDia } from "./hooks/useEstadoDia";
-import { useEspetinhos } from "./hooks/useEspetinho";
-import { useClientes } from "./hooks/useCliente";
-import { useConfiguracoes } from "./hooks/useConfiguracoes";
-import { v4 as uuid } from "uuid";
-import { useOperacoes } from "./hooks/useOperacoes";
-import { formatarMoeda } from "./functions/formatar-moeda";
-import { EstadoDia } from "./types/EstadoDia";
-import { ResumoOperacao } from "./types/ResumoOperacao";
-import { Espetinho } from "./types/Espetinho";
-import { Venda } from "./types/Venda";
-import { Pedido } from "./types/Pedido";
-import { MetodoPagamento, Pagamento } from "./types/Pagamento";
-import { Cliente } from "./types/Cliente";
-import { Configuracoes } from "./types/Configuracoes";
-import { Route } from "./components/Route";
-import { useNavigation } from "./hooks/useNavigation";
-import { useAlert } from "./context/AlertModalContext";
-import { useConfirm } from "./context/ConfirmModalContext";
-import _ from "lodash";
-import { Loading } from "./components/Loading";
-import { AberturaDoDia } from "./components/AberturaDelDia";
-import { PainelPrincipal } from "./components/PainelPrincipal";
-import { HistoricoVendas } from "./components/HistoricoVendas";
-import { FechamentoDia } from "./components/FechamentoDia";
-import { VisaoPedidos } from "./components/VisaoPedidos";
-import { GerenciarPagamentos } from "./components/GerenciarPagamentos";
-import { TelaCadastros } from "./components/TelaCadastros";
-import { TelaConfiguracoes } from "./components/TelaConfiguracoes";
+import { useEstadoDia } from './hooks/useEstadoDia';
+import { useEspetinhos } from './hooks/useEspetinho';
+import { useClientes } from './hooks/useCliente';
+import { useConfiguracoes } from './hooks/useConfiguracoes';
+import { v4 as uuid } from 'uuid';
+import { useOperacoes } from './hooks/useOperacoes';
+import { formatarMoeda } from './functions/formatar-moeda';
+import { EstadoDia } from './types/EstadoDia';
+import { ResumoOperacao } from './types/ResumoOperacao';
+import { Espetinho } from './types/Espetinho';
+import { Venda } from './types/Venda';
+import { Pedido } from './types/Pedido';
+import { MetodoPagamento, Pagamento } from './types/Pagamento';
+import { Cliente } from './types/Cliente';
+import { Configuracoes } from './types/Configuracoes';
+import { Route } from './components/Route';
+import { useNavigation } from './hooks/useNavigation';
+import { useAlert } from './context/AlertModalContext';
+import { useConfirm } from './context/ConfirmModalContext';
+import _ from 'lodash';
+import { Loading } from './components/Loading';
+import { AberturaDoDia } from './components/AberturaDelDia';
+import { PainelPrincipal } from './components/PainelPrincipal';
+import { HistoricoVendas } from './components/HistoricoVendas';
+import { FechamentoDia } from './components/FechamentoDia';
+import { VisaoPedidos } from './components/VisaoPedidos';
+import { GerenciarPagamentos } from './components/GerenciarPagamentos';
+import { TelaCadastros } from './components/TelaCadastros';
+import { TelaConfiguracoes } from './components/TelaConfiguracoes';
 
 const estadoInicialDia: EstadoDia = {
   saldoInicial: 0,
@@ -40,7 +40,7 @@ const estadoInicialDia: EstadoDia = {
   pagamentos: [],
   clientes: [],
   diaIniciado: false,
-  dataOperacao: "",
+  dataOperacao: '',
 };
 
 function App() {
@@ -75,7 +75,6 @@ function App() {
   const { showAlert } = useAlert();
   const { showConfirm } = useConfirm();
 
-
   if (
     isLoadingEstado ||
     isLoadingEspetinhos ||
@@ -104,17 +103,14 @@ function App() {
       dataOperacao,
     };
     setEstadoDia(novoEstado);
-    navigate("painel");
-  };
+    navigate('painel');
+  }
 
   const salvarEspetinho = async (
     novoEspetinho: Omit<
       Espetinho,
-      | "id"
-      | "quantidadeDisponivel"
-      | "quantidadeEmPreparo"
-      | "quantidadeFinalizada"
-    >
+      'id' | 'quantidadeDisponivel' | 'quantidadeEmPreparo' | 'quantidadeFinalizada'
+    >,
   ) => {
     const espetinho: Espetinho = {
       id: uuid(),
@@ -128,17 +124,14 @@ function App() {
 
   async function removerEspetinho(id: string) {
     await removeEspetinho(id);
-  };
+  }
 
   const editarEspetinho = async (
     id: string,
     dados: Omit<
       Espetinho,
-      | "id"
-      | "quantidadeDisponivel"
-      | "quantidadeEmPreparo"
-      | "quantidadeFinalizada"
-    >
+      'id' | 'quantidadeDisponivel' | 'quantidadeEmPreparo' | 'quantidadeFinalizada'
+    >,
   ) => {
     await updateEspetinho(id, dados);
   };
@@ -147,13 +140,12 @@ function App() {
     espetinhoId: string,
     quantidade: number,
     clienteId?: string,
-    observacao?: string
+    observacao?: string,
   ) => {
     const espetinho = estadoDia.espetinhos.find((e) => e.id === espetinhoId);
     if (
       !espetinho ||
-      (configuracoes.controlarEstoque &&
-        quantidade > espetinho.quantidadeDisponivel)
+      (configuracoes.controlarEstoque && quantidade > espetinho.quantidadeDisponivel)
     )
       return;
 
@@ -180,9 +172,7 @@ function App() {
       }
     }
 
-    const clienteCompleto = clienteId
-      ? clientesPersistentes.find((c) => c.id === clienteId)
-      : null;
+    const clienteCompleto = clienteId ? clientesPersistentes.find((c) => c.id === clienteId) : null;
 
     const novoPedido: Pedido = {
       id: novoPedidoId,
@@ -195,7 +185,7 @@ function App() {
       itens: [novaVenda],
       valorTotal,
       dataHora: new Date().toISOString(),
-      status: "aguardando-preparo",
+      status: 'aguardando-preparo',
     };
 
     const espetinhosAtualizados = estadoDia.espetinhos.map((esp) =>
@@ -206,7 +196,7 @@ function App() {
               ? esp.quantidadeDisponivel - quantidade
               : esp.quantidadeDisponivel,
           }
-        : esp
+        : esp,
     );
 
     setEstadoDia({
@@ -220,25 +210,22 @@ function App() {
 
   async function cancelarPedidoAguardando(pedidoId: string) {
     const pedido = estadoDia.pedidos.find((p) => p.id === pedidoId);
-    if (!pedido || pedido.status !== "aguardando-preparo") return;
+    if (!pedido || pedido.status !== 'aguardando-preparo') return;
 
-    const nomeCliente = pedido.nomeCliente || "Cliente Balcão";
-    const totalItens = pedido.itens.reduce(
-      (total, item) => total + item.quantidade,
-      0
-    );
+    const nomeCliente = pedido.nomeCliente || 'Cliente Balcão';
+    const totalItens = pedido.itens.reduce((total, item) => total + item.quantidade, 0);
 
     showConfirm({
-      title: "Cancelar Pedido",
+      title: 'Cancelar Pedido',
       message: `Tem certeza que deseja cancelar este pedido?\n\nCliente: ${nomeCliente}\nItens: ${totalItens} unidades\nValor:  ${formatarMoeda(
-        pedido.valorTotal
+        pedido.valorTotal,
       )}\n\nEsta ação não pode ser desfeita e o valor será devolvido do caixa.`,
-      type: "danger",
+      type: 'danger',
       onConfirm: async () => {
         // Agrupa os itens do pedido por espetinhoId e soma as quantidades
         const quantidadePorEspetinho = _(pedido.itens)
-          .groupBy("espetinhoId")
-          .mapValues((items) => _.sumBy(items, "quantidade"))
+          .groupBy('espetinhoId')
+          .mapValues((items) => _.sumBy(items, 'quantidade'))
           .value();
 
         // Atualiza os espetinhos com base nas quantidades a serem devolvidas
@@ -251,14 +238,8 @@ function App() {
         });
 
         // Remove as vendas e pedidos relacionados
-        const vendasAtualizadas = _.filter(
-          estadoDia.vendas,
-          (v) => v.pedidoId !== pedidoId
-        );
-        const pedidosAtualizados = _.filter(
-          estadoDia.pedidos,
-          (p) => p.id !== pedidoId
-        );
+        const vendasAtualizadas = _.filter(estadoDia.vendas, (v) => v.pedidoId !== pedidoId);
+        const pedidosAtualizados = _.filter(estadoDia.pedidos, (p) => p.id !== pedidoId);
 
         // Atualiza total de compras do cliente (se existir)
         if (pedido.clienteId) {
@@ -267,10 +248,7 @@ function App() {
           });
           if (cliente) {
             await updateClientePersistente(pedido.clienteId, {
-              totalCompras: Math.max(
-                0,
-                cliente.totalCompras - pedido.valorTotal
-              ),
+              totalCompras: Math.max(0, cliente.totalCompras - pedido.valorTotal),
             });
           }
         }
@@ -285,20 +263,20 @@ function App() {
         });
       },
     });
-  };
+  }
 
   function entregarPedido(pedidoId: string) {
     const pedido = estadoDia.pedidos.find((p) => p.id === pedidoId);
-    if (!pedido || pedido.status !== "em-preparo") return;
+    if (!pedido || pedido.status !== 'em-preparo') return;
 
     const pedidosAtualizados = estadoDia.pedidos.map((p) =>
       p.id === pedidoId
         ? {
             ...p,
-            status: "entregue" as const,
+            status: 'entregue' as const,
             dataEntrega: new Date().toISOString(),
           }
-        : p
+        : p,
     );
 
     const espetinhosAtualizados = estadoDia.espetinhos.map((esp) => {
@@ -321,21 +299,18 @@ function App() {
       espetinhos: espetinhosAtualizados,
       pedidos: pedidosAtualizados,
     });
-  };
+  }
 
   const processarPagamento = (
     pedidosIds: string[],
-    metodoPagamento: "dinheiro" | "pix" | "cartao-debito" | "cartao-credito"
+    metodoPagamento: 'dinheiro' | 'pix' | 'cartao-debito' | 'cartao-credito',
   ) => {
     const pedidosParaPagar = estadoDia.pedidos.filter(
-      (p) => pedidosIds.includes(p.id) && p.status === "entregue"
+      (p) => pedidosIds.includes(p.id) && p.status === 'entregue',
     );
     if (pedidosParaPagar.length === 0) return;
 
-    const valorTotal = pedidosParaPagar.reduce(
-      (total, pedido) => total + pedido.valorTotal,
-      0
-    );
+    const valorTotal = pedidosParaPagar.reduce((total, pedido) => total + pedido.valorTotal, 0);
     const clienteId = pedidosParaPagar[0].clienteId;
     const nomeCliente = pedidosParaPagar[0].nomeCliente;
 
@@ -353,11 +328,11 @@ function App() {
       pedidosIds.includes(p.id)
         ? {
             ...p,
-            status: "pago" as const,
+            status: 'pago' as const,
             dataPagamento: new Date().toISOString(),
             metodoPagamento,
           }
-        : p
+        : p,
     );
 
     setEstadoDia({
@@ -377,15 +352,15 @@ function App() {
     };
 
     await addClientePersistente(novoCliente);
-  };
+  }
 
   async function editarCliente(id: string, nome: string, telefone?: string) {
     await updateClientePersistente(id, { nome, telefone });
-  };
+  }
 
   async function removerCliente(id: string) {
     await removeClientePersistente(id);
-  };
+  }
   function adicionarMaisEspetinhos(espetinhoId: string, quantidade: number) {
     const espetinhosAtualizados = estadoDia.espetinhos.map((esp) =>
       esp.id === espetinhoId
@@ -393,46 +368,44 @@ function App() {
             ...esp,
             quantidadeDisponivel: esp.quantidadeDisponivel + quantidade,
           }
-        : esp
+        : esp,
     );
 
     setEstadoDia({
       ...estadoDia,
       espetinhos: espetinhosAtualizados,
     });
-  };
+  }
 
   function iniciarPreparo(pedidoId: string) {
     const pedido = estadoDia.pedidos.find((p) => p.id === pedidoId);
-    if (!pedido || pedido.status !== "aguardando-preparo") return;
+    if (!pedido || pedido.status !== 'aguardando-preparo') return;
 
     const pedidosAtualizados = estadoDia.pedidos.map((p) =>
       p.id === pedidoId
         ? {
             ...p,
-            status: "em-preparo" as const,
+            status: 'em-preparo' as const,
             dataInicioPreparo: new Date().toISOString(),
           }
-        : p
+        : p,
     );
 
     setEstadoDia({
       ...estadoDia,
       pedidos: pedidosAtualizados,
     });
-  };
+  }
 
   function visualizarOperacao(operacaoId: string) {
     const operacao = operacoesAnteriores.find((op) => op.id === operacaoId);
     if (operacao) {
-      navigate("visualizar-operacao");
+      navigate('visualizar-operacao');
     }
-  };
+  }
 
   async function confirmarFechamento() {
-    const pedidosNaoPagos = estadoDia.pedidos.filter(
-      (p) => p.status !== "pago"
-    );
+    const pedidosNaoPagos = estadoDia.pedidos.filter((p) => p.status !== 'pago');
 
     if (pedidosNaoPagos.length > 0) {
       const mensagem = `Não é possível fechar o dia. Há ${
@@ -440,49 +413,36 @@ function App() {
       } pedido(s) pendente(s) de pagamento.\n\nPedidos pendentes:\n${pedidosNaoPagos
         .map(
           (p) =>
-            `• ${p.nomeCliente || "Cliente Balcão"} - ${formatarMoeda(
-              p.valorTotal
-            )} (${
-              p.status === "aguardando-preparo"
-                ? "Aguardando preparo"
-                : p.status === "em-preparo"
-                ? "Em preparo"
-                : "Entregue"
-            })`
+            `• ${p.nomeCliente || 'Cliente Balcão'} - ${formatarMoeda(p.valorTotal)} (${
+              p.status === 'aguardando-preparo'
+                ? 'Aguardando preparo'
+                : p.status === 'em-preparo'
+                  ? 'Em preparo'
+                  : 'Entregue'
+            })`,
         )
-        .join("\n")}`;
+        .join('\n')}`;
 
       showAlert({
-        title: "Não é possível fechar o dia",
+        title: 'Não é possível fechar o dia',
         message: mensagem,
-        type: "warning",
+        type: 'warning',
       });
       return;
     }
 
     const totalUnidadesVendidas = estadoDia.vendas.reduce(
       (total, venda) => total + venda.quantidade,
-      0
+      0,
     );
-    const totalReceita = estadoDia.vendas.reduce(
-      (total, venda) => total + venda.valorTotal,
-      0
-    );
+    const totalReceita = estadoDia.vendas.reduce((total, venda) => total + venda.valorTotal, 0);
 
     // Resumo detalhado por espetinho
     const resumoEspetinhos = estadoDia.espetinhos
       .map((esp) => {
-        const vendasEspetinho = estadoDia.vendas.filter(
-          (v) => v.espetinhoId === esp.id
-        );
-        const quantidadeVendida = vendasEspetinho.reduce(
-          (total, v) => total + v.quantidade,
-          0
-        );
-        const receitaGerada = vendasEspetinho.reduce(
-          (total, v) => total + v.valorTotal,
-          0
-        );
+        const vendasEspetinho = estadoDia.vendas.filter((v) => v.espetinhoId === esp.id);
+        const quantidadeVendida = vendasEspetinho.reduce((total, v) => total + v.quantidade, 0);
+        const receitaGerada = vendasEspetinho.reduce((total, v) => total + v.valorTotal, 0);
 
         return {
           id: esp.id,
@@ -498,16 +458,9 @@ function App() {
     // Resumo detalhado por cliente
     const resumoClientes = clientesPersistentes
       .map((cliente) => {
-        const vendasCliente = estadoDia.vendas.filter(
-          (v) => v.clienteId === cliente.id
-        );
-        const totalGasto = vendasCliente.reduce(
-          (total, v) => total + v.valorTotal,
-          0
-        );
-        const pedidosCliente = estadoDia.pedidos.filter(
-          (p) => p.clienteId === cliente.id
-        );
+        const vendasCliente = estadoDia.vendas.filter((v) => v.clienteId === cliente.id);
+        const totalGasto = vendasCliente.reduce((total, v) => total + v.valorTotal, 0);
+        const pedidosCliente = estadoDia.pedidos.filter((p) => p.clienteId === cliente.id);
 
         return {
           id: cliente.id,
@@ -520,23 +473,26 @@ function App() {
       .filter((cliente) => cliente.totalGasto > 0);
 
     // Resumo por método de pagamento
-    const resumoPagamentos = estadoDia.pagamentos.reduce((acc, pagamento) => {
-      const metodo = pagamento.metodoPagamento;
-      const existing = acc.find((item) => item.metodoPagamento === metodo);
+    const resumoPagamentos = estadoDia.pagamentos.reduce(
+      (acc, pagamento) => {
+        const metodo = pagamento.metodoPagamento;
+        const existing = acc.find((item) => item.metodoPagamento === metodo);
 
-      if (existing) {
-        existing.quantidade += 1;
-        existing.valorTotal += pagamento.valorTotal;
-      } else {
-        acc.push({
-          metodoPagamento: metodo,
-          quantidade: 1,
-          valorTotal: pagamento.valorTotal,
-        });
-      }
+        if (existing) {
+          existing.quantidade += 1;
+          existing.valorTotal += pagamento.valorTotal;
+        } else {
+          acc.push({
+            metodoPagamento: metodo,
+            quantidade: 1,
+            valorTotal: pagamento.valorTotal,
+          });
+        }
 
-      return acc;
-    }, [] as { metodoPagamento: MetodoPagamento; quantidade: number; valorTotal: number }[]);
+        return acc;
+      },
+      [] as { metodoPagamento: MetodoPagamento; quantidade: number; valorTotal: number }[],
+    );
 
     const novoResumo: ResumoOperacao = {
       id: uuid(),
@@ -553,8 +509,8 @@ function App() {
 
     await addOperacao(novoResumo);
     await limparEstadoDia();
-    navigate("home");
-  };
+    navigate('home');
+  }
 
   async function limparTodosDados() {
     try {
@@ -568,29 +524,28 @@ function App() {
       const configPadrao: Configuracoes = {
         permitirIniciarSemSaldo: false,
         controlarEstoque: true,
-        nomeEmpresa: "",
-        chavePix: "",
+        nomeEmpresa: '',
+        chavePix: '',
         dataAtualizacao: new Date().toISOString(),
       };
 
       await updateConfiguracoes(configPadrao);
 
       showAlert({
-        title: "Dados Limpos",
-        message: "Todos os dados do sistema foram removidos com sucesso.",
-        type: "success",
+        title: 'Dados Limpos',
+        message: 'Todos os dados do sistema foram removidos com sucesso.',
+        type: 'success',
       });
     } catch (e) {
-      const errorMessage =
-        e instanceof Error ? e.message : "Erro ao limpar dados do sistema.";
+      const errorMessage = e instanceof Error ? e.message : 'Erro ao limpar dados do sistema.';
 
       showAlert({
-        title: "Erro",
+        title: 'Erro',
         message: errorMessage,
-        type: "error",
+        type: 'error',
       });
     }
-  };
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -679,4 +634,4 @@ function App() {
   );
 }
 
-export {App};
+export { App };

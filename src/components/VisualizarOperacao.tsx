@@ -1,9 +1,17 @@
-import { ArrowLeft, TrendingUp, DollarSign, ShoppingBag, Calendar, User,  FileText } from 'lucide-react';
+import {
+  ArrowLeft,
+  TrendingUp,
+  DollarSign,
+  ShoppingBag,
+  Calendar,
+  User,
+  FileText,
+} from 'lucide-react';
 import { ResumoOperacao } from '../types/ResumoOperacao';
 import { useState } from 'react';
 import { formatarDiaSemana } from '../functions/formatar-dia-semana';
 import { copiarParaAreaDeTransferencia } from '../functions/copiar-area-transferencia';
-import { formataMetodoPagamento } from '../functions/formata-metodo-pagamento';
+import { formataMetodoPagamento } from '../functions/formatar-metodo-pagamento';
 import { gerarTextoRelatorio } from '../functions/gerar-texto-relatorio';
 import { formatarData } from '../functions/formatar-data';
 
@@ -15,22 +23,18 @@ interface VisualizarOperacaoProps {
 export function VisualizarOperacao({ operacao, onVoltar }: VisualizarOperacaoProps) {
   const [isGenerating, setIsGenerating] = useState(false);
 
-
-
-
   async function gerarPDF() {
     setIsGenerating(true);
     try {
       const textoRelatorio = gerarTextoRelatorio(operacao);
-      
+
       if (navigator.share) {
         try {
           await navigator.share({
             title: `Relatório de Vendas - ${formatarData(operacao.dataOperacao)}`,
-            text: textoRelatorio
+            text: textoRelatorio,
           });
         } catch (error) {
-          
           console.log('Compartilhamento cancelado ou erro:', error);
           // Fallback: copiar para clipboard
           copiarParaAreaDeTransferencia(textoRelatorio);
@@ -45,9 +49,7 @@ export function VisualizarOperacao({ operacao, onVoltar }: VisualizarOperacaoPro
     } finally {
       setIsGenerating(false);
     }
-  };
-
-
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -69,7 +71,6 @@ export function VisualizarOperacao({ operacao, onVoltar }: VisualizarOperacaoPro
 
           {/* Botões de Compartilhamento */}
           <div className="flex gap-2 mb-4">
-        
             <button
               onClick={gerarPDF}
               disabled={isGenerating}
@@ -79,7 +80,7 @@ export function VisualizarOperacao({ operacao, onVoltar }: VisualizarOperacaoPro
               Texto
             </button>
           </div>
-          
+
           <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-4 rounded-xl">
             <div className="flex items-center gap-3 mb-2">
               <Calendar size={24} />
@@ -95,29 +96,39 @@ export function VisualizarOperacao({ operacao, onVoltar }: VisualizarOperacaoPro
         </div>
 
         {/* Conteúdo com Scroll */}
-        <div id="relatorio-operacao" className="flex-1 overflow-y-auto p-6 space-y-6" data-scroll-container>
+        <div
+          id="relatorio-operacao"
+          className="flex-1 overflow-y-auto p-6 space-y-6"
+          data-scroll-container
+        >
           {/* Resumo Financeiro */}
           <div className="bg-white rounded-xl border border-gray-200 p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <DollarSign size={20} className="text-green-600" />
               Resumo Financeiro
             </h2>
-            
+
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Saldo Inicial:</span>
-                <span className="font-semibold text-gray-900">R$ {operacao.saldoInicial?.toFixed(2) || '0,00'}</span>
+                <span className="font-semibold text-gray-900">
+                  R$ {operacao.saldoInicial?.toFixed(2) || '0,00'}
+                </span>
               </div>
-              
+
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Total de Receita:</span>
-                <span className="font-semibold text-green-600">R$ {operacao.totalReceita?.toFixed(2) || '0,00'}</span>
+                <span className="font-semibold text-green-600">
+                  R$ {operacao.totalReceita?.toFixed(2) || '0,00'}
+                </span>
               </div>
-              
+
               <div className="border-t border-gray-200 pt-4">
                 <div className="flex justify-between items-center">
                   <span className="text-lg font-medium text-gray-900">Saldo Final:</span>
-                  <span className="text-xl font-bold text-green-600">R$ {operacao.saldoFinal.toFixed(2)}</span>
+                  <span className="text-xl font-bold text-green-600">
+                    R$ {operacao.saldoFinal.toFixed(2)}
+                  </span>
                 </div>
               </div>
             </div>
@@ -129,18 +140,20 @@ export function VisualizarOperacao({ operacao, onVoltar }: VisualizarOperacaoPro
               <TrendingUp size={20} className="text-orange-600" />
               Resumo de Vendas
             </h2>
-            
+
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 text-center">
                 <ShoppingBag className="text-orange-600 mx-auto mb-2" size={24} />
                 <p className="text-sm text-orange-600 font-medium">Total de Vendas</p>
                 <p className="text-2xl font-bold text-orange-800">{operacao.totalVendas}</p>
               </div>
-              
+
               <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 text-center">
                 <User className="text-orange-600 mx-auto mb-2" size={24} />
                 <p className="text-sm text-orange-600 font-medium">Unidades Vendidas</p>
-                <p className="text-2xl font-bold text-orange-800">{operacao.totalUnidadesVendidas}</p>
+                <p className="text-2xl font-bold text-orange-800">
+                  {operacao.totalUnidadesVendidas}
+                </p>
               </div>
             </div>
           </div>
@@ -148,26 +161,32 @@ export function VisualizarOperacao({ operacao, onVoltar }: VisualizarOperacaoPro
           {/* Informações Adicionais */}
           <div className="bg-white rounded-xl border border-gray-200 p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Informações da Operação</h2>
-            
+
             <div className="space-y-4">
               <div className="flex justify-between items-center py-3 border-b border-gray-100">
                 <span className="text-gray-600">Data de Operação:</span>
-                <span className="font-semibold text-gray-900">{formatarData(operacao.dataOperacao)}</span>
+                <span className="font-semibold text-gray-900">
+                  {formatarData(operacao.dataOperacao)}
+                </span>
               </div>
-              
+
               <div className="flex justify-between items-center py-3 border-b border-gray-100">
                 <span className="text-gray-600">Dia da Semana:</span>
-                <span className="font-semibold text-gray-900 capitalize">{formatarDiaSemana(operacao.dataOperacao)}</span>
+                <span className="font-semibold text-gray-900 capitalize">
+                  {formatarDiaSemana(operacao.dataOperacao)}
+                </span>
               </div>
-              
+
               <div className="flex justify-between items-center py-3 border-b border-gray-100">
                 <span className="text-gray-600">Total de Transações:</span>
                 <span className="font-semibold text-gray-900">{operacao.totalVendas}</span>
               </div>
-              
+
               <div className="flex justify-between items-center py-3">
                 <span className="text-gray-600">Unidades Comercializadas:</span>
-                <span className="font-semibold text-gray-900">{operacao.totalUnidadesVendidas}</span>
+                <span className="font-semibold text-gray-900">
+                  {operacao.totalUnidadesVendidas}
+                </span>
               </div>
             </div>
           </div>
@@ -175,16 +194,17 @@ export function VisualizarOperacao({ operacao, onVoltar }: VisualizarOperacaoPro
           {/* Ticket Médio */}
           <div className="bg-white rounded-xl border border-gray-200 p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Análise de Performance</h2>
-            
+
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
               <div className="text-center">
                 <p className="text-sm text-blue-600 font-medium mb-1">Ticket Médio por Venda</p>
                 <p className="text-2xl font-bold text-blue-800">
-                  R$ {operacao.totalVendas > 0 ? ((operacao.totalReceita || 0) / operacao.totalVendas).toFixed(2) : '0,00'}
+                  R${' '}
+                  {operacao.totalVendas > 0
+                    ? ((operacao.totalReceita || 0) / operacao.totalVendas).toFixed(2)
+                    : '0,00'}
                 </p>
-                <p className="text-xs text-blue-600 mt-1">
-                  Valor médio por transação realizada
-                </p>
+                <p className="text-xs text-blue-600 mt-1">Valor médio por transação realizada</p>
               </div>
             </div>
           </div>
@@ -193,20 +213,20 @@ export function VisualizarOperacao({ operacao, onVoltar }: VisualizarOperacaoPro
           {operacao.resumoEspetinhos && operacao.resumoEspetinhos.length > 0 && (
             <div className="bg-white rounded-xl border border-gray-200 p-6">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Vendas por Produto</h2>
-              
+
               <div className="space-y-3">
                 {operacao.resumoEspetinhos.map((esp, index) => (
                   <div key={index} className="bg-gray-50 rounded-lg p-4">
                     <div className="flex justify-between items-start mb-2">
                       <h3 className="font-medium text-gray-900">{esp.nome}</h3>
-                      <span className="font-bold text-orange-600">R$ {esp.receitaGerada.toFixed(2)}</span>
+                      <span className="font-bold text-orange-600">
+                        R$ {esp.receitaGerada.toFixed(2)}
+                      </span>
                     </div>
                     <div className="text-sm text-gray-600 space-y-1">
                       <p>Vendidas: {esp.quantidadeVendida} unidades</p>
                       <p>Preço unitário: R$ {esp.precoVenda.toFixed(2)}</p>
-                      {esp.observacao && (
-                        <p className="italic">"{esp.observacao}"</p>
-                      )}
+                      {esp.observacao && <p className="italic">"{esp.observacao}"</p>}
                     </div>
                   </div>
                 ))}
@@ -218,7 +238,7 @@ export function VisualizarOperacao({ operacao, onVoltar }: VisualizarOperacaoPro
           {operacao.resumoClientes && operacao.resumoClientes.length > 0 && (
             <div className="bg-white rounded-xl border border-gray-200 p-6">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Vendas por Cliente</h2>
-              
+
               <div className="space-y-3">
                 {operacao.resumoClientes.map((cliente, index) => (
                   <div key={index} className="bg-gray-50 rounded-lg p-4">
@@ -229,10 +249,15 @@ export function VisualizarOperacao({ operacao, onVoltar }: VisualizarOperacaoPro
                           <p className="text-sm text-gray-600">{cliente.telefone}</p>
                         )}
                       </div>
-                      <span className="font-bold text-blue-600">R$ {cliente.totalGasto.toFixed(2)}</span>
+                      <span className="font-bold text-blue-600">
+                        R$ {cliente.totalGasto.toFixed(2)}
+                      </span>
                     </div>
                     <div className="text-sm text-gray-600">
-                      <p>{cliente.quantidadePedidos} {cliente.quantidadePedidos === 1 ? 'pedido' : 'pedidos'}</p>
+                      <p>
+                        {cliente.quantidadePedidos}{' '}
+                        {cliente.quantidadePedidos === 1 ? 'pedido' : 'pedidos'}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -244,16 +269,23 @@ export function VisualizarOperacao({ operacao, onVoltar }: VisualizarOperacaoPro
           {operacao.resumoPagamentos && operacao.resumoPagamentos.length > 0 && (
             <div className="bg-white rounded-xl border border-gray-200 p-6">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Métodos de Pagamento</h2>
-              
+
               <div className="space-y-3">
                 {operacao.resumoPagamentos.map((pagamento, index) => (
                   <div key={index} className="bg-gray-50 rounded-lg p-4">
                     <div className="flex justify-between items-center">
                       <div>
-                        <h3 className="font-medium text-gray-900">{formataMetodoPagamento(pagamento.metodoPagamento)}</h3>
-                        <p className="text-sm text-gray-600">{pagamento.quantidade} {pagamento.quantidade === 1 ? 'transação' : 'transações'}</p>
+                        <h3 className="font-medium text-gray-900">
+                          {formataMetodoPagamento(pagamento.metodoPagamento)}
+                        </h3>
+                        <p className="text-sm text-gray-600">
+                          {pagamento.quantidade}{' '}
+                          {pagamento.quantidade === 1 ? 'transação' : 'transações'}
+                        </p>
                       </div>
-                      <span className="font-bold text-purple-600">R$ {pagamento.valorTotal.toFixed(2)}</span>
+                      <span className="font-bold text-purple-600">
+                        R$ {pagamento.valorTotal.toFixed(2)}
+                      </span>
                     </div>
                   </div>
                 ))}
@@ -265,7 +297,8 @@ export function VisualizarOperacao({ operacao, onVoltar }: VisualizarOperacaoPro
           <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
             <p className="text-gray-600 text-sm text-center">
               📊 Este resumo apresenta os dados históricos completos da operação do dia selecionado.
-              Todas as informações foram capturadas no momento das transações, preservando o contexto histórico.
+              Todas as informações foram capturadas no momento das transações, preservando o
+              contexto histórico.
             </p>
           </div>
         </div>
@@ -273,4 +306,3 @@ export function VisualizarOperacao({ operacao, onVoltar }: VisualizarOperacaoPro
     </div>
   );
 }
-

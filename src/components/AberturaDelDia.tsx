@@ -1,17 +1,10 @@
-import { useState } from "react";
-import {
-  Plus,
-  Trash2,
-  DollarSign,
-  Settings,
-  Edit2,
-  ArrowLeft,
-} from "lucide-react";
-import { useScrollToTop } from "../hooks/useScrollToTop";
-import { formatarMoeda } from "../functions/formatar-moeda";
-import { Espetinho } from "../types/Espetinho";
-import { Cliente } from "../types/Cliente";
-import { TextField } from "./TextField";
+import { useState } from 'react';
+import { Plus, Trash2, DollarSign, Settings, Edit2, ArrowLeft } from 'lucide-react';
+import { useScrollToTop } from '../hooks/useScrollToTop';
+import { formatarMoeda } from '../functions/formatar-moeda';
+import { Espetinho } from '../types/Espetinho';
+import { Cliente } from '../types/Cliente';
+import { TextField } from './TextField';
 
 interface AberturaDoDiaProps {
   espetinhosPersistentes: Espetinho[];
@@ -21,22 +14,16 @@ interface AberturaDoDiaProps {
   onSalvarEspetinho: (
     espetinho: Omit<
       Espetinho,
-      | "id"
-      | "quantidadeDisponivel"
-      | "quantidadeEmPreparo"
-      | "quantidadeFinalizada"
-    >
+      'id' | 'quantidadeDisponivel' | 'quantidadeEmPreparo' | 'quantidadeFinalizada'
+    >,
   ) => void;
   onRemoverEspetinho: (id: string) => void;
   onEditarEspetinho: (
     id: string,
     dados: Omit<
       Espetinho,
-      | "id"
-      | "quantidadeDisponivel"
-      | "quantidadeEmPreparo"
-      | "quantidadeFinalizada"
-    >
+      'id' | 'quantidadeDisponivel' | 'quantidadeEmPreparo' | 'quantidadeFinalizada'
+    >,
   ) => void;
 }
 
@@ -58,16 +45,14 @@ export function AberturaDoDia({
 }: AberturaDoDiaProps) {
   useScrollToTop();
 
-  const [saldoInicial, setSaldoInicial] = useState("");
+  const [saldoInicial, setSaldoInicial] = useState('');
   const [novoEspetinho, setNovoEspetinho] = useState<NovoEspetinho>({
-    nome: "",
-    preco: "",
-    quantidade: "",
-    observacao: "",
+    nome: '',
+    preco: '',
+    quantidade: '',
+    observacao: '',
   });
-  const [quantidadesIniciais, setQuantidadesIniciais] = useState<
-    Record<string, string>
-  >({});
+  const [quantidadesIniciais, setQuantidadesIniciais] = useState<Record<string, string>>({});
   const [modalEditarProduto, setModalEditarProduto] = useState<{
     isOpen: boolean;
     produto: Espetinho | null;
@@ -76,10 +61,10 @@ export function AberturaDoDia({
     produto: null,
   });
   const [produtoEditando, setProdutoEditando] = useState({
-    nome: "",
-    preco: "",
-    quantidade: "",
-    observacao: "",
+    nome: '',
+    preco: '',
+    quantidade: '',
+    observacao: '',
   });
 
   function adicionarEspetinho() {
@@ -90,30 +75,26 @@ export function AberturaDoDia({
         quantidadeInicial: parseInt(novoEspetinho.quantidade) || 0,
         observacao: novoEspetinho.observacao || undefined,
       });
-      setNovoEspetinho({ nome: "", preco: "", quantidade: "", observacao: "" });
+      setNovoEspetinho({ nome: '', preco: '', quantidade: '', observacao: '' });
     }
-  };
+  }
 
   function removerEspetinhoPersistente(id: string) {
     onRemoverEspetinho(id);
-  };
+  }
 
   function abrirEdicaoProduto(produto: Espetinho) {
     setProdutoEditando({
       nome: produto.nome,
       preco: produto.preco.toString(),
       quantidade: (produto.quantidadeInicial || 0).toString(),
-      observacao: produto.observacao || "",
+      observacao: produto.observacao || '',
     });
     setModalEditarProduto({ isOpen: true, produto });
-  };
+  }
 
   function salvarEdicaoProduto() {
-    if (
-      modalEditarProduto.produto &&
-      produtoEditando.nome &&
-      produtoEditando.preco
-    ) {
+    if (modalEditarProduto.produto && produtoEditando.nome && produtoEditando.preco) {
       onEditarEspetinho(modalEditarProduto.produto.id, {
         nome: produtoEditando.nome,
         preco: parseFloat(produtoEditando.preco),
@@ -122,44 +103,38 @@ export function AberturaDoDia({
       });
       setModalEditarProduto({ isOpen: false, produto: null });
       setProdutoEditando({
-        nome: "",
-        preco: "",
-        quantidade: "",
-        observacao: "",
+        nome: '',
+        preco: '',
+        quantidade: '',
+        observacao: '',
       });
     }
-  };
+  }
 
   function iniciarDia() {
-    if (
-      (saldoInicial || permitirIniciarSemSaldo) &&
-      espetinhosPersistentes.length > 0
-    ) {
-      const espetinhosFormatados: Espetinho[] = espetinhosPersistentes.map(
-        (esp) => ({
-          ...esp,
-          quantidadeDisponivel: quantidadesIniciais[esp.id]
-            ? parseInt(quantidadesIniciais[esp.id])
-            : esp.quantidadeInicial || 0,
-          quantidadeEmPreparo: 0,
-          quantidadeFinalizada: 0,
-        })
-      );
+    if ((saldoInicial || permitirIniciarSemSaldo) && espetinhosPersistentes.length > 0) {
+      const espetinhosFormatados: Espetinho[] = espetinhosPersistentes.map((esp) => ({
+        ...esp,
+        quantidadeDisponivel: quantidadesIniciais[esp.id]
+          ? parseInt(quantidadesIniciais[esp.id])
+          : esp.quantidadeInicial || 0,
+        quantidadeEmPreparo: 0,
+        quantidadeFinalizada: 0,
+      }));
 
       onIniciarDia(parseFloat(saldoInicial) || 0, espetinhosFormatados);
     }
-  };
+  }
 
   function updateQuantidadeInicial(espetinhoId: string, quantidade: string) {
     setQuantidadesIniciais((prev) => ({
       ...prev,
       [espetinhoId]: quantidade,
     }));
-  };
+  }
 
   const podeIniciar =
-    (saldoInicial || permitirIniciarSemSaldo) &&
-    espetinhosPersistentes.length > 0;
+    (saldoInicial || permitirIniciarSemSaldo) && espetinhosPersistentes.length > 0;
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -174,9 +149,7 @@ export function AberturaDoDia({
               <ArrowLeft size={20} className="text-gray-600" />
             </button>
             <div>
-              <h1 className="text-xl font-bold text-gray-900">
-                Configuração do Dia
-              </h1>
+              <h1 className="text-xl font-bold text-gray-900">Configuração do Dia</h1>
               <p className="text-sm text-gray-600">
                 Configure seu caixa e produtos para iniciar as operações
               </p>
@@ -200,12 +173,8 @@ export function AberturaDoDia({
                   <DollarSign className="text-orange-600" size={20} />
                 </div>
                 <div>
-                  <h2 className="text-lg font-semibold text-gray-900">
-                    Saldo Inicial
-                  </h2>
-                  <p className="text-sm text-gray-600">
-                    Valor em caixa para iniciar o dia
-                  </p>
+                  <h2 className="text-lg font-semibold text-gray-900">Saldo Inicial</h2>
+                  <p className="text-sm text-gray-600">Valor em caixa para iniciar o dia</p>
                 </div>
               </div>
               <TextField
@@ -225,12 +194,8 @@ export function AberturaDoDia({
                   <DollarSign className="text-green-600" size={20} />
                 </div>
                 <div>
-                  <h2 className="text-lg font-semibold text-green-900">
-                    Modo Sem Saldo Inicial
-                  </h2>
-                  <p className="text-sm text-green-700">
-                    O dia será iniciado com saldo R$ 0,00
-                  </p>
+                  <h2 className="text-lg font-semibold text-green-900">Modo Sem Saldo Inicial</h2>
+                  <p className="text-sm text-green-700">O dia será iniciado com saldo R$ 0,00</p>
                 </div>
               </div>
               <p className="text-xs text-green-600">
@@ -241,9 +206,7 @@ export function AberturaDoDia({
 
           {/* Dados Persistentes */}
           <div className="bg-white rounded-xl border border-gray-200 p-6">
-            <h3 className="font-semibold text-gray-900 mb-4">
-              Dados Cadastrados
-            </h3>
+            <h3 className="font-semibold text-gray-900 mb-4">Dados Cadastrados</h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-gray-50 rounded-lg p-4 text-center">
                 <div className="text-2xl font-bold text-gray-900">
@@ -263,27 +226,16 @@ export function AberturaDoDia({
           {/* Espetinhos Cadastrados */}
           {espetinhosPersistentes.length > 0 && (
             <div className="bg-white rounded-xl border border-gray-200 p-6">
-              <h3 className="font-semibold text-gray-900 mb-4">
-                Produtos Cadastrados
-              </h3>
+              <h3 className="font-semibold text-gray-900 mb-4">Produtos Cadastrados</h3>
               <div className="space-y-4">
                 {espetinhosPersistentes.map((esp) => (
-                  <div
-                    key={esp.id}
-                    className="border border-gray-200 rounded-lg p-4"
-                  >
+                  <div key={esp.id} className="border border-gray-200 rounded-lg p-4">
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex-1">
-                        <h4 className="font-medium text-gray-900">
-                          {esp.nome}
-                        </h4>
-                        <p className="text-sm text-gray-600">
-                          {formatarMoeda(esp.preco)}
-                        </p>
+                        <h4 className="font-medium text-gray-900">{esp.nome}</h4>
+                        <p className="text-sm text-gray-600">{formatarMoeda(esp.preco)}</p>
                         {esp.observacao && (
-                          <p className="text-xs text-gray-500 mt-1">
-                            {esp.observacao}
-                          </p>
+                          <p className="text-xs text-gray-500 mt-1">{esp.observacao}</p>
                         )}
                       </div>
                       <div className="flex gap-2">
@@ -311,18 +263,15 @@ export function AberturaDoDia({
                         value={
                           quantidadesIniciais[esp.id] !== undefined
                             ? quantidadesIniciais[esp.id]
-                            : esp.quantidadeInicial || ""
+                            : esp.quantidadeInicial || ''
                         }
-                        onChange={(e) =>
-                          updateQuantidadeInicial(esp.id, e.target.value)
-                        }
+                        onChange={(e) => updateQuantidadeInicial(esp.id, e.target.value)}
                         placeholder="0 (deixe 0 se não tiver hoje)"
                       />
-                      {quantidadesIniciais[esp.id] === "0" && (
+                      {quantidadesIniciais[esp.id] === '0' && (
                         <p className="text-xs text-amber-600 mt-1 flex items-center gap-1">
                           <span>⚠️</span>
-                          Este produto não aparecerá na lista de disponíveis
-                          hoje
+                          Este produto não aparecerá na lista de disponíveis hoje
                         </p>
                       )}
                     </div>
@@ -334,17 +283,13 @@ export function AberturaDoDia({
 
           {/* Cadastrar Novo Espetinho */}
           <div className="bg-white rounded-xl border border-gray-200 p-6">
-            <h3 className="font-semibold text-gray-900 mb-4">
-              Cadastrar Novo Produto
-            </h3>
+            <h3 className="font-semibold text-gray-900 mb-4">Cadastrar Novo Produto</h3>
 
             <div className="space-y-4">
               <input
                 type="text"
                 value={novoEspetinho.nome}
-                onChange={(e) =>
-                  setNovoEspetinho({ ...novoEspetinho, nome: e.target.value })
-                }
+                onChange={(e) => setNovoEspetinho({ ...novoEspetinho, nome: e.target.value })}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 placeholder="Nome do produto"
               />
@@ -353,9 +298,7 @@ export function AberturaDoDia({
                 type="number"
                 step="0.01"
                 value={novoEspetinho.preco}
-                onChange={(e) =>
-                  setNovoEspetinho({ ...novoEspetinho, preco: e.target.value })
-                }
+                onChange={(e) => setNovoEspetinho({ ...novoEspetinho, preco: e.target.value })}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 placeholder="Preço unitário (R$)"
               />
@@ -404,8 +347,8 @@ export function AberturaDoDia({
               disabled={!podeIniciar}
               className={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all ${
                 podeIniciar
-                  ? "bg-orange-500 text-white hover:bg-orange-600 shadow-lg hover:shadow-xl"
-                  : "bg-gray-200 text-gray-500 cursor-not-allowed"
+                  ? 'bg-orange-500 text-white hover:bg-orange-600 shadow-lg hover:shadow-xl'
+                  : 'bg-gray-200 text-gray-500 cursor-not-allowed'
               }`}
             >
               Iniciar Operações
@@ -419,13 +362,9 @@ export function AberturaDoDia({
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl w-full max-w-md max-h-[90vh] overflow-y-auto shadow-2xl">
             <div className="flex items-center justify-between p-6 border-b border-gray-200">
-              <h2 className="text-lg font-semibold text-gray-900">
-                Editar Produto
-              </h2>
+              <h2 className="text-lg font-semibold text-gray-900">Editar Produto</h2>
               <button
-                onClick={() =>
-                  setModalEditarProduto({ isOpen: false, produto: null })
-                }
+                onClick={() => setModalEditarProduto({ isOpen: false, produto: null })}
                 className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
               >
                 <span className="sr-only">Fechar</span>✕
@@ -509,9 +448,7 @@ export function AberturaDoDia({
 
                 <div className="flex gap-3 pt-4">
                   <button
-                    onClick={() =>
-                      setModalEditarProduto({ isOpen: false, produto: null })
-                    }
+                    onClick={() => setModalEditarProduto({ isOpen: false, produto: null })}
                     className="flex-1 py-3 px-4 border border-gray-300 rounded-lg text-gray-700 font-semibold hover:bg-gray-50 transition-colors"
                   >
                     Cancelar

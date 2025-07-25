@@ -19,7 +19,7 @@ export function ConfirmModal({
   message,
   confirmText = 'Confirmar',
   cancelText = 'Cancelar',
-  type = 'warning'
+  type = 'warning',
 }: ConfirmModalProps) {
   if (!isOpen) return null;
 
@@ -30,31 +30,31 @@ export function ConfirmModal({
           icon: 'text-red-600',
           button: 'bg-red-500 hover:bg-red-600',
           border: 'border-red-200',
-          bg: 'bg-red-50'
+          bg: 'bg-red-50',
         };
       case 'warning':
         return {
           icon: 'text-yellow-600',
           button: 'bg-yellow-500 hover:bg-yellow-600',
           border: 'border-yellow-200',
-          bg: 'bg-yellow-50'
+          bg: 'bg-yellow-50',
         };
       case 'info':
         return {
           icon: 'text-blue-600',
           button: 'bg-blue-500 hover:bg-blue-600',
           border: 'border-blue-200',
-          bg: 'bg-blue-50'
+          bg: 'bg-blue-50',
         };
       default:
         return {
           icon: 'text-yellow-600',
           button: 'bg-yellow-500 hover:bg-yellow-600',
           border: 'border-yellow-200',
-          bg: 'bg-yellow-50'
+          bg: 'bg-yellow-50',
         };
     }
-  };
+  }
 
   const styles = getTypeStyles();
 
@@ -63,14 +63,11 @@ export function ConfirmModal({
       <div className="bg-white rounded-xl w-full max-w-md shadow-2xl">
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
-          <button
-            onClick={onClose}
-            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-          >
+          <button onClick={onClose} className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
             <X size={20} className="text-gray-600" />
           </button>
         </div>
-        
+
         <div className="p-6">
           <div className={`${styles.bg} ${styles.border} border rounded-lg p-4 mb-6`}>
             <div className="flex items-start gap-3">
@@ -80,7 +77,7 @@ export function ConfirmModal({
               </div>
             </div>
           </div>
-          
+
           <div className="flex gap-3">
             <button
               onClick={onClose}

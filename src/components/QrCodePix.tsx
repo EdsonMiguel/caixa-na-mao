@@ -19,7 +19,7 @@ export function QrCodePix({ value, ...rest }: QrCodePixProps) {
     async function generateQrCodePix() {
       setIsLoading(true);
       try {
-        alert('a')
+        alert('a');
         const qrCodePix = QrCodePixPromise({
           ...rest,
           version: '01',
@@ -34,8 +34,8 @@ export function QrCodePix({ value, ...rest }: QrCodePixProps) {
           value,
         });
 
-        const qrCodeBase64 =  await qrCodePix.base64();
-        console.log(qrCodeBase64)
+        const qrCodeBase64 = await qrCodePix.base64();
+        console.log(qrCodeBase64);
         setBase64(qrCodeBase64);
       } catch (error) {
         console.error('Erro ao gerar QR Code Pix:', error);
@@ -52,11 +52,7 @@ export function QrCodePix({ value, ...rest }: QrCodePixProps) {
   }, [value, rest]);
 
   if (isLoading) {
-    return (
-      <div className="text-center py-4 text-gray-600">
-        Gerando QR Code PIX...
-      </div>
-    );
+    return <div className="text-center py-4 text-gray-600">Gerando QR Code PIX...</div>;
   }
 
   if (base64) {

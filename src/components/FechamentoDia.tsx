@@ -3,7 +3,7 @@ import { useScrollToTop } from '../hooks/useScrollToTop';
 import { Venda } from '../types/Venda';
 import { Espetinho } from '../types/Espetinho';
 import { Pagamento } from '../types/Pagamento';
-import _ from 'lodash'
+import _ from 'lodash';
 import { useNavigation } from '../hooks/useNavigation';
 
 interface FechamentoDiaProps {
@@ -15,18 +15,18 @@ interface FechamentoDiaProps {
   onConfirmarFechamento: () => void;
 }
 
-export function FechamentoDia({ 
-  saldoInicial, 
-  saldoAtual, 
-  vendas, 
+export function FechamentoDia({
+  saldoInicial,
+  saldoAtual,
+  vendas,
 
-  onConfirmarFechamento 
+  onConfirmarFechamento,
 }: FechamentoDiaProps) {
   useScrollToTop();
-  const { navigate } = useNavigation()
+  const { navigate } = useNavigation();
 
-  const totalVendido = _.sumBy(vendas, v => v?.valorTotal || 0);
-  const totalUnidadesVendidas = _.sumBy(vendas, v => v?.quantidade || 0);
+  const totalVendido = _.sumBy(vendas, (v) => v?.valorTotal || 0);
+  const totalUnidadesVendidas = _.sumBy(vendas, (v) => v?.quantidade || 0);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -55,22 +55,26 @@ export function FechamentoDia({
               <DollarSign size={20} className="text-orange-600" />
               Resumo Financeiro
             </h2>
-            
+
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Saldo Inicial:</span>
-                <span className="font-semibold text-gray-900">R$ {(saldoInicial || 0).toFixed(2)}</span>
+                <span className="font-semibold text-gray-900">
+                  R$ {(saldoInicial || 0).toFixed(2)}
+                </span>
               </div>
-              
+
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Total Vendido:</span>
                 <span className="font-semibold text-orange-600">R$ {totalVendido.toFixed(2)}</span>
               </div>
-              
+
               <div className="border-t border-gray-200 pt-4">
                 <div className="flex justify-between items-center">
                   <span className="text-lg font-medium text-gray-900">Saldo Final:</span>
-                  <span className="text-xl font-bold text-orange-600">R$ {(saldoAtual || 0).toFixed(2)}</span>
+                  <span className="text-xl font-bold text-orange-600">
+                    R$ {(saldoAtual || 0).toFixed(2)}
+                  </span>
                 </div>
               </div>
             </div>
@@ -82,14 +86,14 @@ export function FechamentoDia({
               <TrendingUp size={20} className="text-orange-600" />
               Resumo de Vendas
             </h2>
-            
+
             <div className="grid grid-cols-2 gap-4 mb-4">
               <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 text-center">
                 <ShoppingBag className="text-orange-600 mx-auto mb-2" size={24} />
                 <p className="text-sm text-orange-600 font-medium">Total de Vendas</p>
                 <p className="text-xl font-bold text-orange-800">{vendas.length}</p>
               </div>
-              
+
               <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 text-center">
                 <ShoppingBag className="text-orange-600 mx-auto mb-2" size={24} />
                 <p className="text-sm text-orange-600 font-medium">Unidades Vendidas</p>
@@ -102,10 +106,11 @@ export function FechamentoDia({
           <div className="bg-white rounded-xl border border-gray-200 p-6">
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
               <p className="text-yellow-800 text-sm">
-                ⚠️ Ao confirmar o fechamento, todos os dados do dia serão salvos e você retornará à tela inicial.
+                ⚠️ Ao confirmar o fechamento, todos os dados do dia serão salvos e você retornará à
+                tela inicial.
               </p>
             </div>
-            
+
             <div className="flex gap-3">
               <button
                 onClick={() => navigate('painel')}
