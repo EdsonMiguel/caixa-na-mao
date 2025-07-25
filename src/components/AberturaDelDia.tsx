@@ -82,7 +82,7 @@ export function AberturaDoDia({
     observacao: "",
   });
 
-  const adicionarEspetinho = () => {
+  function adicionarEspetinho() {
     if (novoEspetinho.nome && novoEspetinho.preco) {
       onSalvarEspetinho({
         nome: novoEspetinho.nome,
@@ -94,11 +94,11 @@ export function AberturaDoDia({
     }
   };
 
-  const removerEspetinhoPersistente = (id: string) => {
+  function removerEspetinhoPersistente(id: string) {
     onRemoverEspetinho(id);
   };
 
-  const abrirEdicaoProduto = (produto: Espetinho) => {
+  function abrirEdicaoProduto(produto: Espetinho) {
     setProdutoEditando({
       nome: produto.nome,
       preco: produto.preco.toString(),
@@ -108,7 +108,7 @@ export function AberturaDoDia({
     setModalEditarProduto({ isOpen: true, produto });
   };
 
-  const salvarEdicaoProduto = () => {
+  function salvarEdicaoProduto() {
     if (
       modalEditarProduto.produto &&
       produtoEditando.nome &&
@@ -130,7 +130,7 @@ export function AberturaDoDia({
     }
   };
 
-  const iniciarDia = () => {
+  function iniciarDia() {
     if (
       (saldoInicial || permitirIniciarSemSaldo) &&
       espetinhosPersistentes.length > 0
@@ -150,7 +150,7 @@ export function AberturaDoDia({
     }
   };
 
-  const updateQuantidadeInicial = (espetinhoId: string, quantidade: string) => {
+  function updateQuantidadeInicial(espetinhoId: string, quantidade: string) {
     setQuantidadesIniciais((prev) => ({
       ...prev,
       [espetinhoId]: quantidade,

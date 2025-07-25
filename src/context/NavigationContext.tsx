@@ -9,7 +9,7 @@ interface NavigationContextType {
 
 export const NavigationContext = createContext<NavigationContextType | undefined>(undefined);
 
-export const NavigationProvider = ({ children }: { children: ReactNode }) => {
+export function NavigationProvider({ children }: { children: ReactNode }) {
   const [telaAtual, setTelaAtual] = useState<TelasApp>('home');
   const navigate = (tela: TelasApp) => setTelaAtual(tela);
 

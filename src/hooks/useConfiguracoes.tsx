@@ -13,7 +13,7 @@ export function useConfiguracoes() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const loadConfiguracoes = async () => {
+    async function loadConfiguracoes() {
       try {
         const savedConfiguracoes = await configuracoesManager.get();
         setConfiguracoes(savedConfiguracoes);
@@ -27,7 +27,7 @@ export function useConfiguracoes() {
     loadConfiguracoes();
   }, []);
 
-  const updateConfiguracoes = async (novasConfiguracoes: Configuracoes) => {
+  async function updateConfiguracoes(novasConfiguracoes: Configuracoes) {
     try {
       await configuracoesManager.set(novasConfiguracoes);
       setConfiguracoes(novasConfiguracoes);

@@ -7,7 +7,7 @@ export function useEstadoDia(initialValue: EstadoDia) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const loadEstado = async () => {
+    async function loadEstado() {
       try {
         const savedEstado = await estadoDiaManager.get();
         if (savedEstado) {
@@ -33,7 +33,7 @@ export function useEstadoDia(initialValue: EstadoDia) {
     }
   };
 
-  const clearEstado = async () => {
+  async function clearEstado() {
     try {
       await estadoDiaManager.clear();
       setEstado(initialValue);

@@ -17,13 +17,13 @@ interface ConfirmModalContextType {
 
 const ConfirmModalContext = createContext<ConfirmModalContextType | undefined>(undefined);
 
-export const useConfirm = () => {
+export function useConfirm() {
   const ctx = useContext(ConfirmModalContext);
   if (!ctx) throw new Error('useConfirm deve estar dentro do ConfirmModalProvider');
   return ctx;
 };
 
-export const ConfirmModalProvider = ({ children }: { children: ReactNode }) => {
+export function ConfirmModalProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
@@ -38,11 +38,11 @@ export const ConfirmModalProvider = ({ children }: { children: ReactNode }) => {
     setIsOpen(true);
   };
 
-  const handleClose = () => {
+  function handleClose() {
     setIsOpen(false);
   };
 
-  const handleConfirm = () => {
+  function handleConfirm() {
     onConfirm();
     handleClose();
   };

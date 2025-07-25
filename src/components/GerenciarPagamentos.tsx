@@ -37,7 +37,7 @@ export function GerenciarPagamentos({
  
 
 
-  const agruparPedidosPorCliente = () => {
+  function agruparPedidosPorCliente() {
     const grupos: { [key: string]: Pedido[] } = {};
     
     pedidosEntregues.forEach(pedido => {
@@ -51,13 +51,13 @@ export function GerenciarPagamentos({
     return grupos;
   };
 
-  const abrirModalPagamento = (clienteId: string | null, pedidosDoCliente: Pedido[]) => {
+  function abrirModalPagamento(clienteId: string | null, pedidosDoCliente: Pedido[]) {
     setClienteSelecionado(clienteId);
     setPedidosSelecionados(pedidosDoCliente.map(p => p.id));
     setModalPagamento(true);
   };
 
-  const togglePedidoSelecionado = (pedidoId: string) => {
+  function togglePedidoSelecionado(pedidoId: string) {
     setPedidosSelecionados(prev => 
       prev.includes(pedidoId) 
         ? prev.filter(id => id !== pedidoId)
@@ -65,13 +65,13 @@ export function GerenciarPagamentos({
     );
   };
 
-  const calcularTotalSelecionado = () => {
+  function calcularTotalSelecionado() {
     return pedidosEntregues
       .filter(p => pedidosSelecionados.includes(p.id))
       .reduce((total, pedido) => total + pedido.valorTotal, 0);
   };
 
-  const processarPagamento = () => {
+  function processarPagamento() {
     if (pedidosSelecionados.length > 0) {
       onProcessarPagamento(pedidosSelecionados, metodoPagamento);
       setModalPagamento(false);
@@ -83,7 +83,7 @@ export function GerenciarPagamentos({
   const grupos = agruparPedidosPorCliente();
   const totalPendente = pedidosEntregues.reduce((total, pedido) => total + pedido.valorTotal, 0);
 
-  const getIconeMetodoPagamento = (metodo: string) => {
+  function getIconeMetodoPagamento(metodo: string) {
     switch (metodo) {
       case 'dinheiro': return <Banknote size={16} className="text-green-600" />;
       case 'pix': return <Smartphone size={16} className="text-blue-600" />;

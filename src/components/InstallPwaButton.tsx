@@ -13,7 +13,7 @@ export function BotaoInstalarPWA() {
   const [podeInstalar, setPodeInstalar] = useState(false);
 
   useEffect(() => {
-    const handleBeforeInstallPrompt = (e: Event) => {
+    function handleBeforeInstallPrompt(e: Event) {
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);
       setPodeInstalar(true);
@@ -26,7 +26,7 @@ export function BotaoInstalarPWA() {
     };
   }, []);
 
-  const instalarPWA = async () => {
+  async function instalarPWA() {
     if (!deferredPrompt) return;
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;

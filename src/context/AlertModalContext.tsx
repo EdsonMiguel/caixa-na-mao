@@ -23,7 +23,7 @@ useAlert = (): AlertModalContextType => {
   return ctx;
 };
 
-export const AlertModalProvider = ({ children }: { children: ReactNode }) => {
+export function AlertModalProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
@@ -36,7 +36,7 @@ export const AlertModalProvider = ({ children }: { children: ReactNode }) => {
     setIsOpen(true);
   };
 
-  const handleClose = () => {
+  function handleClose() {
     setIsOpen(false);
   };
 

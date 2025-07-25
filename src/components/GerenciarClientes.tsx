@@ -56,7 +56,7 @@ export function GerenciarClientes({
 
   const { navigate } = useNavigation();
 
-  const adicionarCliente = () => {
+  function adicionarCliente() {
     if (nomeCliente.trim()) {
       onAdicionarCliente(
         nomeCliente.trim(),
@@ -68,11 +68,11 @@ export function GerenciarClientes({
     }
   };
 
-  const verDetalhesCliente = (cliente: Cliente) => {
+  function verDetalhesCliente(cliente: Cliente) {
     setModalDetalhesCliente({ isOpen: true, cliente });
   };
 
-  const abrirEdicaoCliente = (cliente: Cliente) => {
+  function abrirEdicaoCliente(cliente: Cliente) {
     setClienteEditando({
       nome: cliente.nome,
       telefone: cliente.telefone || "",
@@ -80,7 +80,7 @@ export function GerenciarClientes({
     setModalEditarCliente({ isOpen: true, cliente });
   };
 
-  const salvarEdicaoCliente = () => {
+  function salvarEdicaoCliente() {
     if (modalEditarCliente.cliente && clienteEditando.nome.trim()) {
       onEditarCliente(
         modalEditarCliente.cliente.id,
@@ -92,7 +92,7 @@ export function GerenciarClientes({
     }
   };
 
-  const getVendasCliente = (clienteId: string) => {
+  function getVendasCliente(clienteId: string) {
     return vendas.filter((venda) => venda.clienteId === clienteId);
   };
 

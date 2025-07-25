@@ -89,7 +89,7 @@ function App() {
   // Definir tela inicial baseada no estado
   // Remover redirecionamento automático para permitir navegação manual
 
-  const iniciarDia = (saldoInicial: number, espetinhos: Espetinho[]) => {
+  function iniciarDia(saldoInicial: number, espetinhos: Espetinho[]) {
     const dataOperacao = new Date().toISOString();
     const novoEstado: EstadoDia = {
       ...estadoDia,
@@ -126,7 +126,7 @@ function App() {
     await addEspetinho(espetinho);
   };
 
-  const removerEspetinho = async (id: string) => {
+  async function removerEspetinho(id: string) {
     await removeEspetinho(id);
   };
 
@@ -218,7 +218,7 @@ function App() {
     });
   };
 
-  const cancelarPedidoAguardando = async (pedidoId: string) => {
+  async function cancelarPedidoAguardando(pedidoId: string) {
     const pedido = estadoDia.pedidos.find((p) => p.id === pedidoId);
     if (!pedido || pedido.status !== "aguardando-preparo") return;
 
@@ -287,7 +287,7 @@ function App() {
     });
   };
 
-  const entregarPedido = (pedidoId: string) => {
+  function entregarPedido(pedidoId: string) {
     const pedido = estadoDia.pedidos.find((p) => p.id === pedidoId);
     if (!pedido || pedido.status !== "em-preparo") return;
 
@@ -367,7 +367,7 @@ function App() {
     });
   };
 
-  const adicionarCliente = async (nome: string, telefone?: string) => {
+  async function adicionarCliente(nome: string, telefone?: string) {
     const novoCliente: Cliente = {
       id: uuid(),
       nome,
@@ -379,14 +379,14 @@ function App() {
     await addClientePersistente(novoCliente);
   };
 
-  const editarCliente = async (id: string, nome: string, telefone?: string) => {
+  async function editarCliente(id: string, nome: string, telefone?: string) {
     await updateClientePersistente(id, { nome, telefone });
   };
 
-  const removerCliente = async (id: string) => {
+  async function removerCliente(id: string) {
     await removeClientePersistente(id);
   };
-  const adicionarMaisEspetinhos = (espetinhoId: string, quantidade: number) => {
+  function adicionarMaisEspetinhos(espetinhoId: string, quantidade: number) {
     const espetinhosAtualizados = estadoDia.espetinhos.map((esp) =>
       esp.id === espetinhoId
         ? {
@@ -402,7 +402,7 @@ function App() {
     });
   };
 
-  const iniciarPreparo = (pedidoId: string) => {
+  function iniciarPreparo(pedidoId: string) {
     const pedido = estadoDia.pedidos.find((p) => p.id === pedidoId);
     if (!pedido || pedido.status !== "aguardando-preparo") return;
 
@@ -422,14 +422,14 @@ function App() {
     });
   };
 
-  const visualizarOperacao = (operacaoId: string) => {
+  function visualizarOperacao(operacaoId: string) {
     const operacao = operacoesAnteriores.find((op) => op.id === operacaoId);
     if (operacao) {
       navigate("visualizar-operacao");
     }
   };
 
-  const confirmarFechamento = async () => {
+  async function confirmarFechamento() {
     const pedidosNaoPagos = estadoDia.pedidos.filter(
       (p) => p.status !== "pago"
     );
@@ -556,7 +556,7 @@ function App() {
     navigate("home");
   };
 
-  const limparTodosDados = async () => {
+  async function limparTodosDados() {
     try {
       // Limpar estado do dia atual
       await limparEstadoDia();

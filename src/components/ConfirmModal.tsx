@@ -23,7 +23,7 @@ export function ConfirmModal({
 }: ConfirmModalProps) {
   if (!isOpen) return null;
 
-  const getTypeStyles = () => {
+  function getTypeStyles() {
     switch (type) {
       case 'danger':
         return {

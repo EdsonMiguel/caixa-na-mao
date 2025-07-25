@@ -7,7 +7,7 @@ export function useEspetinhos() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const loadEspetinhos = async () => {
+    async function loadEspetinhos() {
       try {
         const savedEspetinhos = await espetinhosManager.getAll();
         setEspetinhos(savedEspetinhos);
@@ -21,7 +21,7 @@ export function useEspetinhos() {
     loadEspetinhos();
   }, []);
 
-  const addEspetinho = async (espetinho: Espetinho) => {
+  async function addEspetinho(espetinho: Espetinho) {
     try {
       await espetinhosManager.add(espetinho);
       setEspetinhos(prev => [...prev, espetinho]);
@@ -30,7 +30,7 @@ export function useEspetinhos() {
     }
   };
 
-  const updateEspetinho = async (id: string, dados: Partial<Espetinho>) => {
+  async function updateEspetinho(id: string, dados: Partial<Espetinho>) {
     try {
       await espetinhosManager.update(id, dados);
       setEspetinhos(prev => prev.map(esp => esp.id === id ? { ...esp, ...dados } : esp));
@@ -39,7 +39,7 @@ export function useEspetinhos() {
     }
   };
 
-  const removeEspetinho = async (id: string) => {
+  async function removeEspetinho(id: string) {
     try {
       await espetinhosManager.remove(id);
       setEspetinhos(prev => prev.filter(esp => esp.id !== id));
@@ -48,7 +48,7 @@ export function useEspetinhos() {
     }
   };
 
-  const setAllEspetinhos = async (novosEspetinhos: Espetinho[]) => {
+  async function setAllEspetinhos(novosEspetinhos: Espetinho[]) {
     try {
       await espetinhosManager.setAll(novosEspetinhos);
       setEspetinhos(novosEspetinhos);

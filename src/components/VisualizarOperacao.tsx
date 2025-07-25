@@ -18,7 +18,7 @@ export function VisualizarOperacao({ operacao, onVoltar }: VisualizarOperacaoPro
 
 
 
-  const gerarPDF = async () => {
+  async function gerarPDF() {
     setIsGenerating(true);
     try {
       const textoRelatorio = gerarTextoRelatorio(operacao);

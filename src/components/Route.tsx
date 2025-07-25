@@ -7,7 +7,7 @@ interface RouteProps {
   children: ReactNode;
 }
 
-export const Route = ({ tela, children }: RouteProps) => {
+export function Route({ tela, children }: RouteProps) {
   const { telaAtual } = useNavigation();
   return telaAtual === tela ? <>{children}</> : null;
 };

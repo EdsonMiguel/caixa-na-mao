@@ -19,7 +19,7 @@ export function AlertModal({
 }: AlertModalProps) {
   if (!isOpen) return null;
 
-  const getTypeStyles = () => {
+  function getTypeStyles() {
     switch (type) {
       case 'success':
         return {

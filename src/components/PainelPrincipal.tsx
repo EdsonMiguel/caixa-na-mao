@@ -109,13 +109,13 @@ export function PainelPrincipal({
 
   const { navigate } = useNavigation();
 
-  const abrirModalNovoPedido = () => {
+  function abrirModalNovoPedido() {
     setModalNovoPedido(true);
     setClienteSelecionado("");
     setQuantidadesPedido({});
   };
 
-  const alterarQuantidade = (espetinhoId: string, delta: number) => {
+  function alterarQuantidade(espetinhoId: string, delta: number) {
     const espetinho = espetinhos.find((e) => e.id === espetinhoId);
     if (!espetinho) return;
 
@@ -134,7 +134,7 @@ export function PainelPrincipal({
     }));
   };
 
-  const adicionarItensPedido = () => {
+  function adicionarItensPedido() {
     // Criar novo pedido com todos os itens
     Object.entries(quantidadesPedido).forEach(([espetinhoId, quantidade]) => {
       if (quantidade > 0) {
@@ -152,7 +152,7 @@ export function PainelPrincipal({
     setObservacaoPedido("");
   };
 
-  const calcularTotalPedido = () => {
+  function calcularTotalPedido() {
     return Object.entries(quantidadesPedido).reduce(
       (total, [espetinhoId, quantidade]) => {
         const espetinho = espetinhos.find((e) => e.id === espetinhoId);
@@ -164,7 +164,7 @@ export function PainelPrincipal({
 
   const temItensNoPedido = Object.values(quantidadesPedido).some((q) => q > 0);
 
-  const alterarQuantidadeAdicionar = (espetinhoId: string, delta: number) => {
+  function alterarQuantidadeAdicionar(espetinhoId: string, delta: number) {
     const quantidadeAtual = quantidadesAdicionar[espetinhoId] || 0;
     const novaQuantidade = Math.max(0, quantidadeAtual + delta);
 
@@ -174,7 +174,7 @@ export function PainelPrincipal({
     }));
   };
 
-  const adicionarMaisEspetinhos = () => {
+  function adicionarMaisEspetinhos() {
     Object.entries(quantidadesAdicionar).forEach(
       ([espetinhoId, quantidade]) => {
         if (quantidade > 0) {
@@ -186,14 +186,14 @@ export function PainelPrincipal({
     setQuantidadesAdicionar({});
   };
 
-  const adicionarClienteRapido = () => {
+  function adicionarClienteRapido() {
     if (novoClienteNome.trim()) {
       onAdicionarCliente(novoClienteNome.trim());
       setNovoClienteNome("");
     }
   };
 
-  const adicionarNovoCliente = () => {
+  function adicionarNovoCliente() {
     if (novoClienteForm.nome.trim()) {
       onAdicionarCliente(
         novoClienteForm.nome.trim(),
@@ -204,7 +204,7 @@ export function PainelPrincipal({
     }
   };
 
-  const adicionarNovoProduto = () => {
+  function adicionarNovoProduto() {
     if (novoProdutoForm.nome && novoProdutoForm.preco) {
       const preco = parseFloat(novoProdutoForm.preco);
       const quantidade = parseInt(novoProdutoForm.quantidade) || 0;

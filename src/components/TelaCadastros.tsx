@@ -68,7 +68,7 @@ export function TelaCadastros({
   const { navigate } = useNavigation()
 
   // Funções para Cliente
-  const adicionarNovoCliente = () => {
+  function adicionarNovoCliente() {
     if (novoClienteForm.nome.trim()) {
       onAdicionarCliente(novoClienteForm.nome.trim(), novoClienteForm.telefone || undefined);
       setNovoClienteForm({ nome: '', telefone: '' });
@@ -76,12 +76,12 @@ export function TelaCadastros({
     }
   };
 
-  const abrirEdicaoCliente = (cliente: Cliente) => {
+  function abrirEdicaoCliente(cliente: Cliente) {
     setClienteEditando({ nome: cliente.nome, telefone: cliente.telefone || '' });
     setModalEditarCliente({ isOpen: true, cliente });
   };
 
-  const salvarEdicaoCliente = () => {
+  function salvarEdicaoCliente() {
     if (modalEditarCliente.cliente && clienteEditando.nome.trim()) {
       onEditarCliente(
         modalEditarCliente.cliente.id,
@@ -93,15 +93,15 @@ export function TelaCadastros({
     }
   };
 
-  const verDetalhesCliente = (cliente: Cliente) => {
+  function verDetalhesCliente(cliente: Cliente) {
     setModalDetalhesCliente({ isOpen: true, cliente });
   };
 
-  const getVendasCliente = (clienteId: string) => {
+  function getVendasCliente(clienteId: string) {
     return vendas.filter(venda => venda.clienteId === clienteId);
   };
 
-  const confirmarRemocaoCliente = (cliente: Cliente) => {
+  function confirmarRemocaoCliente(cliente: Cliente) {
     const vendasCliente = getVendasCliente(cliente.id);
     if (vendasCliente.length > 0) {
       alert(`Não é possível remover este cliente pois ele possui ${vendasCliente.length} compra(s) registrada(s).`);
@@ -110,14 +110,14 @@ export function TelaCadastros({
     setConfirmRemoveClient({ isOpen: true, cliente });
   };
 
-  const removerCliente = () => {
+  function removerCliente() {
     if (confirmRemoveClient.cliente) {
       onRemoverCliente(confirmRemoveClient.cliente.id);
       setConfirmRemoveClient({ isOpen: false, cliente: null });
     }
   };
   // Funções para Produto
-  const adicionarNovoProduto = () => {
+  function adicionarNovoProduto() {
     if (novoProdutoForm.nome && novoProdutoForm.preco) {
       onSalvarEspetinho({
         nome: novoProdutoForm.nome,
@@ -130,7 +130,7 @@ export function TelaCadastros({
     }
   };
 
-  const abrirEdicaoProduto = (produto: Espetinho) => {
+  function abrirEdicaoProduto(produto: Espetinho) {
     setProdutoEditando({
       nome: produto.nome,
       preco: produto.preco.toString(),
@@ -140,7 +140,7 @@ export function TelaCadastros({
     setModalEditarProduto({ isOpen: true, produto });
   };
 
-  const salvarEdicaoProduto = () => {
+  function salvarEdicaoProduto() {
     if (modalEditarProduto.produto && produtoEditando.nome && produtoEditando.preco) {
       onEditarEspetinho(modalEditarProduto.produto.id, {
         nome: produtoEditando.nome,

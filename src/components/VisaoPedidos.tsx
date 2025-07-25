@@ -17,7 +17,7 @@ export function VisaoPedidos({ pedidos }: VisaoPedidosProps) {
   const pedidosOrdenados = _.orderBy(pedidos, [p => new Date(p.dataHora)], ['desc']);
 
 
-  const getStatusColor = (status: string) => {
+  function getStatusColor(status: string) {
     switch (status) {
       case 'pago': return 'bg-green-500';
       case 'entregue': return 'bg-blue-500';
@@ -29,7 +29,7 @@ export function VisaoPedidos({ pedidos }: VisaoPedidosProps) {
 
 
 
-  const getStatusTextColor = (status: string) => {
+  function getStatusTextColor(status: string) {
     switch (status) {
       case 'pago': return 'text-green-600';
       case 'entregue': return 'text-blue-600';
@@ -175,7 +175,7 @@ export function VisaoPedidos({ pedidos }: VisaoPedidosProps) {
   );
 }
 
-const getNomeMetodoPagamento = (metodo: string) => {
+function getNomeMetodoPagamento(metodo: string) {
   switch (metodo) {
     case 'dinheiro': return 'Dinheiro';
     case 'pix': return 'PIX';

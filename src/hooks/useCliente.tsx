@@ -7,7 +7,7 @@ export function useClientes() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const loadClientes = async () => {
+    async function loadClientes() {
       try {
         const savedClientes = await clientesManager.getAll();
         setClientes(savedClientes);
@@ -21,7 +21,7 @@ export function useClientes() {
     loadClientes();
   }, []);
 
-  const addCliente = async (cliente: Cliente) => {
+  async function addCliente(cliente: Cliente) {
     try {
       await clientesManager.add(cliente);
       setClientes(prev => [...prev, cliente]);
@@ -30,7 +30,7 @@ export function useClientes() {
     }
   };
 
-  const updateCliente = async (id: string, dados: Partial<Cliente>) => {
+  async function updateCliente(id: string, dados: Partial<Cliente>) {
     try {
       await clientesManager.update(id, dados);
       setClientes(prev => prev.map(cli => cli.id === id ? { ...cli, ...dados } : cli));
@@ -39,7 +39,7 @@ export function useClientes() {
     }
   };
 
-  const removeCliente = async (id: string) => {
+  async function removeCliente(id: string) {
     try {
       await clientesManager.remove(id);
       setClientes(prev => prev.filter(cli => cli.id !== id));
@@ -48,7 +48,7 @@ export function useClientes() {
     }
   };
 
-  const setAllClientes = async (novosClientes: Cliente[]) => {
+  async function setAllClientes(novosClientes: Cliente[]) {
     try {
       await clientesManager.setAll(novosClientes);
       setClientes(novosClientes);

@@ -24,21 +24,21 @@ export function TelaConfiguracoes({
   const { showConfirm } = useConfirm()
   const { navigate } = useNavigation()
 
-  const togglePermitirIniciarSemSaldo = () => {
+  function togglePermitirIniciarSemSaldo() {
     setConfigLocal(prev => ({
       ...prev,
       permitirIniciarSemSaldo: !prev.permitirIniciarSemSaldo
     }));
   };
 
-  const toggleControlarEstoque = () => {
+  function toggleControlarEstoque() {
     setConfigLocal(prev => ({
       ...prev,
       controlarEstoque: !prev.controlarEstoque
     }));
   };
 
-  const salvarConfiguracoes = () => {
+  function salvarConfiguracoes() {
     onSalvarConfiguracoes(configLocal);
     showAlert({
       title: 'Configurações Salvas',
@@ -47,7 +47,7 @@ export function TelaConfiguracoes({
     });
   };
 
-  const confirmarLimpezaDados = () => {
+  function confirmarLimpezaDados() {
     showConfirm({
       title: 'ATENÇÃO: Limpar Todos os Dados',
       message: `Esta ação irá APAGAR PERMANENTEMENTE todos os dados do sistema:
@@ -73,7 +73,7 @@ Tem certeza que deseja continuar?`,
     configLocal.nomeEmpresa !== configuracoes.nomeEmpresa ||
     configLocal.chavePix !== configuracoes.chavePix;
 
-  const formatarData = (dataISO: string) => {
+  function formatarData(dataISO: string) {
     const data = new Date(dataISO);
     return data.toLocaleString('pt-BR', {
       day: '2-digit',

@@ -7,7 +7,7 @@ export function useOperacoes() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const loadOperacoes = async () => {
+    async function loadOperacoes() {
       try {
         const savedOperacoes = await operacoesManager.getAll();
         setOperacoes(savedOperacoes);
@@ -21,7 +21,7 @@ export function useOperacoes() {
     loadOperacoes();
   }, []);
 
-  const addOperacao = async (operacao: ResumoOperacao) => {
+  async function addOperacao(operacao: ResumoOperacao) {
     try {
       await operacoesManager.add(operacao);
       setOperacoes(prev => [operacao, ...prev]);
@@ -30,7 +30,7 @@ export function useOperacoes() {
     }
   };
 
-  const removeOperacao = async (id: string) => {
+  async function removeOperacao(id: string) {
     try {
       await operacoesManager.remove(id);
       setOperacoes(prev => prev.filter(op => op.id !== id));
@@ -39,7 +39,7 @@ export function useOperacoes() {
     }
   };
 
-  const clearOperacoes = async () => {
+  async function clearOperacoes() {
     try {
       await operacoesManager.clear();
       setOperacoes([]);
