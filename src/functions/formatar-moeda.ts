@@ -1,5 +1,5 @@
 export function formatarMoeda(valorMonetario: number) {
-  return new Intl.NumberFormat('pt-Br', {
+  return new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',
   }).format(valorMonetario);
