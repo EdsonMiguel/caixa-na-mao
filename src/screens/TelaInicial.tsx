@@ -4,7 +4,7 @@ import { useScrollToTop } from '../hooks/useScrollToTop';
 import { formatarDiaSemana } from '../functions/formatar-dia-semana';
 import { useNavigation } from '../hooks/useNavigation';
 import { formatarData } from '../functions/formatar-data';
-import { BotaoInstalarPWA } from './InstallPwaButton';
+import { BotaoInstalarPWA } from '../components/InstallPwaButton';
 
 interface TelaInicialProps {
   operacoes: ResumoOperacao[];

@@ -9,13 +9,13 @@ import {
   ShoppingBag,
   Edit2,
 } from 'lucide-react';
-import { Modal } from './Modal';
+import { Modal } from '../components/Modal';
 import { useScrollToTop } from '../hooks/useScrollToTop';
 import { Cliente } from '../types/Cliente';
 import { Venda } from '../types/Venda';
 import { formatarDataHora } from '../functions/formatar-data-hora';
 import { useNavigation } from '../hooks/useNavigation';
-import { TextField } from './TextField';
+import { TextField } from '../components/TextField';
 
 interface GerenciarClientesProps {
   clientes: Cliente[];

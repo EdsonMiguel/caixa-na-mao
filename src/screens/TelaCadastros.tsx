@@ -12,7 +12,7 @@ import {
   ShoppingBag,
 } from 'lucide-react';
 
-import { Modal } from './Modal';
+import { Modal } from '../components/Modal';
 import { useScrollToTop } from '../hooks/useScrollToTop';
 import { Cliente } from '../types/Cliente';
 import { Espetinho } from '../types/Espetinho';

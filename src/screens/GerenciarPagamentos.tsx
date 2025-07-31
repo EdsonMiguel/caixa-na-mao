@@ -9,7 +9,7 @@ import {
   Clock,
   CheckCircle,
 } from 'lucide-react';
-import { Modal } from './Modal';
+import { Modal } from '../components/Modal';
 import { useScrollToTop } from '../hooks/useScrollToTop';
 import { Pedido } from '../types/Pedido';
 import { Pagamento } from '../types/Pagamento';
@@ -17,7 +17,7 @@ import { Configuracoes } from '../types/Configuracoes';
 import { formatarDataHora } from '../functions/formatar-data-hora';
 import { useNavigation } from '../hooks/useNavigation';
 import { formataMetodoPagamento } from '../functions/formatar-metodo-pagamento';
-import { QrCodePix } from './QrCodePix';
+import { QrCodePix } from '../components/QrCodePix';
 
 interface GerenciarPagamentosProps {
   pedidos: Pedido[];

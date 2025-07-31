@@ -4,7 +4,7 @@ import { useScrollToTop } from '../hooks/useScrollToTop';
 import { formatarMoeda } from '../functions/formatar-moeda';
 import { Espetinho } from '../types/Espetinho';
 import { Cliente } from '../types/Cliente';
-import { TextField } from './TextField';
+import { TextField } from '../components/TextField';
 
 interface AberturaDoDiaProps {
   espetinhosPersistentes: Espetinho[];

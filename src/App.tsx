@@ -1,5 +1,5 @@
 import { limparTodosSistema } from './db/database';
-import { TelaInicial } from './components/TelaInicial';
+import { TelaInicial } from './screens/TelaInicial';
 
 import { useEstadoDia } from './hooks/useEstadoDia';
 import { useEspetinhos } from './hooks/useEspetinho';
@@ -22,14 +22,14 @@ import { useAlert } from './context/AlertModalContext';
 import { useConfirm } from './context/ConfirmModalContext';
 import _ from 'lodash';
 import { Loading } from './components/Loading';
-import { AberturaDoDia } from './components/AberturaDelDia';
-import { PainelPrincipal } from './components/PainelPrincipal';
-import { HistoricoVendas } from './components/HistoricoVendas';
-import { FechamentoDia } from './components/FechamentoDia';
-import { VisaoPedidos } from './components/VisaoPedidos';
-import { GerenciarPagamentos } from './components/GerenciarPagamentos';
-import { TelaCadastros } from './components/TelaCadastros';
-import { TelaConfiguracoes } from './components/TelaConfiguracoes';
+import { AberturaDoDia } from './screens/AberturaDelDia';
+import { PainelPrincipal } from './screens/PainelPrincipal';
+import { HistoricoVendas } from './screens/HistoricoVendas';
+import { FechamentoDia } from './screens/FechamentoDia';
+import { VisaoPedidos } from './screens/VisaoPedidos';
+import { GerenciarPagamentos } from './screens/GerenciarPagamentos';
+import { TelaCadastros } from './screens/TelaCadastros';
+import { TelaConfiguracoes } from './screens/TelaConfiguracoes';
 
 const estadoInicialDia: EstadoDia = {
   saldoInicial: 0,
