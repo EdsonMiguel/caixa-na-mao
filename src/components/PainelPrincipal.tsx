@@ -19,6 +19,7 @@ import { Pedido } from '../types/Pedido';
 import { formatarDataHora } from '../functions/formatar-data-hora';
 import { useNavigation } from '../hooks/useNavigation';
 import _ from 'lodash';
+import { formatarMoeda } from '../functions/formatar-moeda';
 
 interface PainelPrincipalProps {
   saldoAtual: number;
@@ -232,7 +233,7 @@ export function PainelPrincipal({
               <DollarSign size={24} />
               <div>
                 <p className="text-orange-100 text-sm font-medium">Saldo em Caixa</p>
-                <p className="text-2xl font-bold">R$ {saldoAtual.toFixed(2)}</p>
+                <p className="text-2xl font-bold">{formatarMoeda(saldoAtual)}</p>
               </div>
             </div>
           </div>
@@ -402,7 +403,7 @@ export function PainelPrincipal({
                                         {item.quantidade}x {item.nomeEspetinho}
                                       </span>
                                       <span className="font-medium text-gray-900">
-                                        R$ {item.valorTotal.toFixed(2)}
+                                        {formatarMoeda(item.valorTotal)}
                                       </span>
                                     </div>
                                   ))}
@@ -415,7 +416,7 @@ export function PainelPrincipal({
                                   itens
                                 </span>
                                 <span className="font-bold text-gray-900">
-                                  Total: R$ {pedido.valorTotal.toFixed(2)}
+                                  Total: {formatarMoeda(pedido.valorTotal)}
                                 </span>
                               </div>
                             </div>
@@ -493,7 +494,7 @@ export function PainelPrincipal({
                                         {item.quantidade}x {item.nomeEspetinho}
                                       </span>
                                       <span className="font-medium text-gray-900">
-                                        R$ {item.valorTotal.toFixed(2)}
+                                        {formatarMoeda(item.valorTotal)}
                                       </span>
                                     </div>
                                   ))}
@@ -506,7 +507,7 @@ export function PainelPrincipal({
                                   itens
                                 </span>
                                 <span className="font-bold text-gray-900">
-                                  Total: R$ {pedido.valorTotal.toFixed(2)}
+                                  Total: {formatarMoeda(pedido.valorTotal)}
                                 </span>
                               </div>
                             </div>
@@ -560,7 +561,7 @@ export function PainelPrincipal({
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="font-bold text-red-600">R$ {pedido.valorTotal.toFixed(2)}</p>
+                      <p className="font-bold text-red-600">{formatarMoeda(pedido.valorTotal)}</p>
                       <p className="text-xs text-red-500">Pendente</p>
                     </div>
                   </div>
@@ -633,7 +634,7 @@ export function PainelPrincipal({
                         <div className="flex-1">
                           <h4 className="font-medium text-gray-900">{espetinho.nome}</h4>
                           <p className="text-sm text-gray-600">
-                            R$ {espetinho.preco.toFixed(2)} cada
+                            {formatarMoeda(espetinho.preco)} cada
                           </p>
                           {espetinho.observacao && (
                             <p className="text-xs text-gray-500 mt-1">{espetinho.observacao}</p>
@@ -673,7 +674,7 @@ export function PainelPrincipal({
                       {quantidade > 0 && (
                         <div className="text-right">
                           <p className="text-sm font-semibold text-orange-600">
-                            Subtotal: R$ {subtotal.toFixed(2)}
+                            Subtotal: {formatarMoeda(subtotal)}
                           </p>
                         </div>
                       )}
@@ -703,7 +704,7 @@ export function PainelPrincipal({
               <div className="flex justify-between items-center">
                 <span className="font-semibold text-gray-900">Total do Pedido:</span>
                 <span className="text-xl font-bold text-orange-600">
-                  R$ {calcularTotalPedido().toFixed(2)}
+                  {formatarMoeda(calcularTotalPedido())}
                 </span>
               </div>
               {clienteSelecionado && (
@@ -902,7 +903,7 @@ export function PainelPrincipal({
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex-1">
                       <h4 className="font-medium text-gray-900">{espetinho.nome}</h4>
-                      <p className="text-sm text-gray-600">R$ {espetinho.preco.toFixed(2)} cada</p>
+                      <p className="text-sm text-gray-600">{formatarMoeda(espetinho.preco)} cada</p>
                       {espetinho.observacao && (
                         <p className="text-xs text-gray-500 mt-1">{espetinho.observacao}</p>
                       )}

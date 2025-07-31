@@ -19,6 +19,7 @@ import { Espetinho } from '../types/Espetinho';
 import { Venda } from '../types/Venda';
 import { formatarDataHora } from '../functions/formatar-data-hora';
 import { useNavigation } from '../hooks/useNavigation';
+import { formatarMoeda } from '../functions/formatar-moeda';
 
 interface TelaCadastrosProps {
   clientes: Cliente[];
@@ -325,7 +326,7 @@ export function TelaCadastros({
                           </div>
                           <div className="text-right">
                             <p className="text-lg font-bold text-blue-600">
-                              R$ {totalGasto.toFixed(2)}
+                              {formatarMoeda(totalGasto)}
                             </p>
                             <p className="text-xs text-gray-500">total gasto</p>
                           </div>
@@ -382,7 +383,7 @@ export function TelaCadastros({
                           <h3 className="font-semibold text-gray-900 mb-2">{produto.nome}</h3>
                           <div className="flex items-center gap-4 text-sm text-gray-600 mb-2">
                             <span className="font-medium text-green-600">
-                              R$ {produto.preco.toFixed(2)}
+                              {formatarMoeda(produto.preco)}
                             </span>
                             <span>Padrão: {produto.quantidadeInicial || 0} unidades</span>
                           </div>
@@ -392,7 +393,7 @@ export function TelaCadastros({
                         </div>
                         <div className="text-right">
                           <p className="text-lg font-bold text-green-600">
-                            R$ {produto.preco.toFixed(2)}
+                            {formatarMoeda(produto.preco)}
                           </p>
                           <p className="text-xs text-gray-500">preço unitário</p>
                         </div>
@@ -555,7 +556,7 @@ export function TelaCadastros({
                 <div className="flex items-center gap-2">
                   <DollarSign size={16} />
                   <span>
-                    Total gasto: R$ {modalDetalhesCliente.cliente.totalCompras.toFixed(2)}
+                    Total gasto: {formatarMoeda(modalDetalhesCliente.cliente.totalCompras)}
                   </span>
                 </div>
               </div>
@@ -585,7 +586,7 @@ export function TelaCadastros({
                             </p>
                           </div>
                           <p className="font-bold text-blue-600">
-                            R$ {venda.valorTotal.toFixed(2)}
+                            {formatarMoeda(venda.valorTotal)}
                           </p>
                         </div>
                       </div>

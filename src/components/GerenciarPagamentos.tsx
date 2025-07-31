@@ -18,6 +18,7 @@ import { formatarDataHora } from '../functions/formatar-data-hora';
 import { useNavigation } from '../hooks/useNavigation';
 import { formataMetodoPagamento } from '../functions/formatar-metodo-pagamento';
 import { QrCodePix } from './QrCodePix';
+import { formatarMoeda } from '../functions/formatar-moeda';
 
 interface GerenciarPagamentosProps {
   pedidos: Pedido[];
@@ -129,7 +130,7 @@ export function GerenciarPagamentos({
               <DollarSign size={24} />
               <div>
                 <p className="text-red-100 text-sm font-medium">Total Pendente</p>
-                <p className="text-2xl font-bold">R$ {totalPendente.toFixed(2)}</p>
+                <p className="text-2xl font-bold">{formatarMoeda(totalPendente)}</p>
               </div>
             </div>
           </div>
@@ -199,7 +200,7 @@ export function GerenciarPagamentos({
                                 </div>
                                 <div className="text-right">
                                   <p className="font-semibold text-gray-900">
-                                    R$ {pedido.valorTotal.toFixed(2)}
+                                    {formatarMoeda(pedido.valorTotal)}
                                   </p>
                                 </div>
                               </div>
@@ -212,7 +213,7 @@ export function GerenciarPagamentos({
                     <div className="flex justify-between items-center pt-4 border-t border-gray-200">
                       <div>
                         <p className="text-lg font-bold text-red-600">
-                          Total: R$ {totalCliente.toFixed(2)}
+                          Total: {formatarMoeda(totalCliente)}
                         </p>
                         <p className="text-sm text-gray-600">
                           {pedidosDoCliente.length}{' '}
@@ -272,7 +273,7 @@ export function GerenciarPagamentos({
                       </div>
                       <div className="text-right">
                         <p className="text-lg font-bold text-green-600">
-                          R$ {pagamento.valorTotal.toFixed(2)}
+                          {formatarMoeda(pagamento.valorTotal)}
                         </p>
                         <p className="text-xs text-green-500">Pago</p>
                       </div>
@@ -333,7 +334,7 @@ export function GerenciarPagamentos({
                             </div>
                           </div>
                           <p className="font-semibold text-gray-900">
-                            R$ {pedido.valorTotal.toFixed(2)}
+                            {formatarMoeda(pedido.valorTotal)}
                           </p>
                         </div>
                       </div>
@@ -412,7 +413,7 @@ export function GerenciarPagamentos({
               <div className="flex justify-between items-center">
                 <span className="font-semibold text-gray-900">Total a Receber:</span>
                 <span className="text-xl font-bold text-green-600">
-                  R$ {calcularTotalSelecionado().toFixed(2)}
+                  {formatarMoeda(calcularTotalSelecionado())}
                 </span>
               </div>
               <p className="text-sm text-gray-600 mt-1">

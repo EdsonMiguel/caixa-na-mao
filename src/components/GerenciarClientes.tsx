@@ -16,6 +16,7 @@ import { Venda } from '../types/Venda';
 import { formatarDataHora } from '../functions/formatar-data-hora';
 import { useNavigation } from '../hooks/useNavigation';
 import { TextField } from './TextField';
+import { formatarMoeda } from '../functions/formatar-moeda';
 
 interface GerenciarClientesProps {
   clientes: Cliente[];
@@ -159,7 +160,7 @@ export function GerenciarClientes({
                       </div>
                       <div className="text-right">
                         <p className="text-lg font-bold text-orange-600">
-                          R$ {totalGasto.toFixed(2)}
+                          {formatarMoeda(totalGasto)}
                         </p>
                         <p className="text-xs text-gray-500">total gasto</p>
                       </div>
@@ -270,7 +271,7 @@ export function GerenciarClientes({
                 <div className="flex items-center gap-2">
                   <DollarSign size={16} />
                   <span>
-                    Total gasto: R$ {modalDetalhesCliente.cliente.totalCompras.toFixed(2)}
+                    Total gasto: {formatarMoeda(modalDetalhesCliente.cliente.totalCompras)}
                   </span>
                 </div>
               </div>
@@ -300,7 +301,7 @@ export function GerenciarClientes({
                             </p>
                           </div>
                           <p className="font-bold text-orange-600">
-                            R$ {venda.valorTotal.toFixed(2)}
+                            {formatarMoeda(venda.valorTotal)}
                           </p>
                         </div>
                       </div>
