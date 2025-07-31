@@ -14,6 +14,7 @@ import { copiarParaAreaDeTransferencia } from '../functions/copiar-area-transfer
 import { formataMetodoPagamento } from '../functions/formatar-metodo-pagamento';
 import { gerarTextoRelatorio } from '../functions/gerar-texto-relatorio';
 import { formatarData } from '../functions/formatar-data';
+import { formatarMoeda } from '../functions/formatar-moeda';
 
 interface VisualizarOperacaoProps {
   operacao: ResumoOperacao;
@@ -112,14 +113,14 @@ export function VisualizarOperacao({ operacao, onVoltar }: VisualizarOperacaoPro
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Saldo Inicial:</span>
                 <span className="font-semibold text-gray-900">
-                  R$ {operacao.saldoInicial?.toFixed(2) || '0,00'}
+                  {formatarMoeda(operacao.saldoInicial || 0)}
                 </span>
               </div>
 
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Total de Receita:</span>
                 <span className="font-semibold text-green-600">
-                  R$ {operacao.totalReceita?.toFixed(2) || '0,00'}
+                  {formatarMoeda(operacao.totalReceita || 0)}
                 </span>
               </div>
 
@@ -127,7 +128,7 @@ export function VisualizarOperacao({ operacao, onVoltar }: VisualizarOperacaoPro
                 <div className="flex justify-between items-center">
                   <span className="text-lg font-medium text-gray-900">Saldo Final:</span>
                   <span className="text-xl font-bold text-green-600">
-                    R$ {operacao.saldoFinal.toFixed(2)}
+                    {formatarMoeda(operacao.saldoFinal)}
                   </span>
                 </div>
               </div>
@@ -199,10 +200,11 @@ export function VisualizarOperacao({ operacao, onVoltar }: VisualizarOperacaoPro
               <div className="text-center">
                 <p className="text-sm text-blue-600 font-medium mb-1">Ticket Médio por Venda</p>
                 <p className="text-2xl font-bold text-blue-800">
-                  R${' '}
-                  {operacao.totalVendas > 0
-                    ? ((operacao.totalReceita || 0) / operacao.totalVendas).toFixed(2)
-                    : '0,00'}
+                  {formatarMoeda(
+                    operacao.totalVendas > 0
+                      ? (operacao.totalReceita || 0) / operacao.totalVendas
+                      : 0,
+                  )}
                 </p>
                 <p className="text-xs text-blue-600 mt-1">Valor médio por transação realizada</p>
               </div>
@@ -220,12 +222,12 @@ export function VisualizarOperacao({ operacao, onVoltar }: VisualizarOperacaoPro
                     <div className="flex justify-between items-start mb-2">
                       <h3 className="font-medium text-gray-900">{esp.nome}</h3>
                       <span className="font-bold text-orange-600">
-                        R$ {esp.receitaGerada.toFixed(2)}
+                        {formatarMoeda(esp.receitaGerada)}
                       </span>
                     </div>
                     <div className="text-sm text-gray-600 space-y-1">
                       <p>Vendidas: {esp.quantidadeVendida} unidades</p>
-                      <p>Preço unitário: R$ {esp.precoVenda.toFixed(2)}</p>
+                      <p>Preço unitário: {formatarMoeda(esp.precoVenda)}</p>
                       {esp.observacao && <p className="italic">"{esp.observacao}"</p>}
                     </div>
                   </div>
@@ -250,7 +252,7 @@ export function VisualizarOperacao({ operacao, onVoltar }: VisualizarOperacaoPro
                         )}
                       </div>
                       <span className="font-bold text-blue-600">
-                        R$ {cliente.totalGasto.toFixed(2)}
+                        {formatarMoeda(cliente.totalGasto)}
                       </span>
                     </div>
                     <div className="text-sm text-gray-600">
@@ -284,7 +286,7 @@ export function VisualizarOperacao({ operacao, onVoltar }: VisualizarOperacaoPro
                         </p>
                       </div>
                       <span className="font-bold text-purple-600">
-                        R$ {pagamento.valorTotal.toFixed(2)}
+                        {formatarMoeda(pagamento.valorTotal)}
                       </span>
                     </div>
                   </div>

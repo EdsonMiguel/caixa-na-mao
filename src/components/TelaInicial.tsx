@@ -5,6 +5,7 @@ import { formatarDiaSemana } from '../functions/formatar-dia-semana';
 import { useNavigation } from '../hooks/useNavigation';
 import { formatarData } from '../functions/formatar-data';
 import { BotaoInstalarPWA } from './InstallPwaButton';
+import { formatarMoeda } from '../functions/formatar-moeda';
 
 interface TelaInicialProps {
   operacoes: ResumoOperacao[];
@@ -142,7 +143,7 @@ export function TelaInicial({
                               </span>
                             </div>
                             <p className="text-lg font-bold text-green-900">
-                              R$ {operacao.saldoFinal.toFixed(2)}
+                              {formatarMoeda(operacao.saldoFinal)}
                             </p>
                           </div>
 

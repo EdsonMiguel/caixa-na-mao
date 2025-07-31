@@ -4,6 +4,7 @@ import { useScrollToTop } from '../hooks/useScrollToTop';
 import { formatarDataHora } from '../functions/formatar-data-hora';
 import { useNavigation } from '../hooks/useNavigation';
 import _ from 'lodash';
+import { formatarMoeda } from '../functions/formatar-moeda';
 
 interface HistoricoVendasProps {
   vendas: Venda[];
@@ -46,7 +47,7 @@ export function HistoricoVendas({ vendas }: HistoricoVendasProps) {
                 <DollarSign size={24} />
                 <div>
                   <p className="text-orange-100 text-sm font-medium">Total Vendido</p>
-                  <p className="text-2xl font-bold">R$ {totalVendido.toFixed(2)}</p>
+                  <p className="text-2xl font-bold">{formatarMoeda(totalVendido)}</p>
                 </div>
               </div>
             </div>
@@ -102,10 +103,10 @@ export function HistoricoVendas({ vendas }: HistoricoVendasProps) {
                           </h3>
                           <div className="text-right ml-3">
                             <p className="text-xl font-bold text-orange-600">
-                              R$ {venda.valorTotal.toFixed(2)}
+                              {formatarMoeda(venda.valorTotal)}
                             </p>
                             <p className="text-xs text-gray-500">
-                              {venda.quantidade} unidades • R$ {venda.precoUnitario.toFixed(2)} cada
+                              {venda.quantidade} unidades • {formatarMoeda(venda.precoUnitario)} cada
                               • {formatarDataHora(venda.dataHora)}
                             </p>
                             {venda.observacaoEspetinho && (

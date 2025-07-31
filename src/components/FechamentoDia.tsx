@@ -5,6 +5,7 @@ import { Espetinho } from '../types/Espetinho';
 import { Pagamento } from '../types/Pagamento';
 import _ from 'lodash';
 import { useNavigation } from '../hooks/useNavigation';
+import { formatarMoeda } from '../functions/formatar-moeda';
 
 interface FechamentoDiaProps {
   saldoInicial: number;
@@ -60,20 +61,20 @@ export function FechamentoDia({
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Saldo Inicial:</span>
                 <span className="font-semibold text-gray-900">
-                  R$ {(saldoInicial || 0).toFixed(2)}
+                  {formatarMoeda(saldoInicial || 0)}
                 </span>
               </div>
 
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Total Vendido:</span>
-                <span className="font-semibold text-orange-600">R$ {totalVendido.toFixed(2)}</span>
+                <span className="font-semibold text-orange-600">{formatarMoeda(totalVendido)}</span>
               </div>
 
               <div className="border-t border-gray-200 pt-4">
                 <div className="flex justify-between items-center">
                   <span className="text-lg font-medium text-gray-900">Saldo Final:</span>
                   <span className="text-xl font-bold text-orange-600">
-                    R$ {(saldoAtual || 0).toFixed(2)}
+                    {formatarMoeda(saldoAtual || 0)}
                   </span>
                 </div>
               </div>

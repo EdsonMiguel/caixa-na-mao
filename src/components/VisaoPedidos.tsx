@@ -5,6 +5,7 @@ import { formatarDataHora } from '../functions/formatar-data-hora';
 import _ from 'lodash';
 import { useNavigation } from '../hooks/useNavigation';
 import { formatarStatusPedido } from '../functions/formatar-status-pedido';
+import { formatarMoeda } from '../functions/formatar-moeda';
 
 interface VisaoPedidosProps {
   pedidos: Pedido[];
@@ -115,7 +116,7 @@ export function VisaoPedidos({ pedidos }: VisaoPedidosProps) {
                     </div>
                     <div className="text-right">
                       <p className="text-lg font-bold text-orange-600">
-                        R$ {pedido.valorTotal.toFixed(2)}
+                        {formatarMoeda(pedido.valorTotal)}
                       </p>
                       <p className="text-xs text-gray-500">total</p>
                     </div>
@@ -137,7 +138,7 @@ export function VisaoPedidos({ pedidos }: VisaoPedidosProps) {
                             <h4 className="font-medium text-gray-900">{item.nomeEspetinho}</h4>
                             <div className="text-sm text-gray-600 mt-1">
                               <span>
-                                {item.quantidade}x unidades • R$ {item.precoUnitario.toFixed(2)}{' '}
+                                {item.quantidade}x unidades • {formatarMoeda(item.precoUnitario)}{' '}
                                 cada
                               </span>
                             </div>
@@ -149,7 +150,7 @@ export function VisaoPedidos({ pedidos }: VisaoPedidosProps) {
                           </div>
                           <div className="text-right">
                             <p className="font-semibold text-gray-900">
-                              R$ {item.valorTotal.toFixed(2)}
+                              {formatarMoeda(item.valorTotal)}
                             </p>
                           </div>
                         </div>
